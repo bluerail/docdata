@@ -1,6 +1,6 @@
-# Docdata
+# DocData
 
-TODO: Write a gem description
+DocData is a Ruby binder for DocData payments. Current status: in progress, not stable.
 
 ## Installation
 
