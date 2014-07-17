@@ -1,0 +1,119 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://test.docdatapayments.com/ps/services/paymentservice/1_1?wsdl
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      accept:
+      - '*/*'
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Thu, 17 Jul 2014 14:39:21 GMT
+      server:
+      - Apache
+      set-cookie:
+      - JSESSIONID=A58B2CC11E3BB597A78D337FEF694CE7.smf; Path=/ps; Secure
+      p3p:
+      - policyref="http://secure.docdatapayments.com/w3c/docdatapayments.com.xml",
+        CP="NON DSP COR CUR ADM DEV OUR IND STA"
+      transfer-encoding:
+      - chunked
+      content-type:
+      - text/xml;charset=utf-8
+    body:
+      encoding: UTF-8
+      string: "<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at
+        http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.1-b01-. --><definitions
+        xmlns=\"http://schemas.xmlsoap.org/wsdl/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"
+        xmlns:soap=\"http://schemas.xmlsoap.org/wsdl/soap/\" xmlns:ddp=\"http://www.docdatapayments.com/services/paymentservice/1_1/\"
+        xmlns:tns=\"http://www.docdatapayments.com/services/paymentservice/1_1/paymentservice.wsdl\"
+        name=\"paymentService\" targetNamespace=\"http://www.docdatapayments.com/services/paymentservice/1_1/paymentservice.wsdl\">\n\t<documentation>The
+        SOAP payment service provides operations for dealing\n\t\twith the live transactional
+        system of DocData.</documentation>\n\n\t<types>\n\t\t<xsd:schema>\n\t\t\t<xsd:import
+        schemaLocation=\"https://test.docdatapayments.com:443/ps/services/paymentservice/1_1?xsd=1\"
+        namespace=\"http://www.docdatapayments.com/services/paymentservice/1_1/\"
+        />\n\t\t</xsd:schema>\n\t</types>\n\n\t<message name=\"createRequest\">\n\t\t<documentation>Parameters
+        to the \"create\" operation.</documentation>\n\t\t<part name=\"parameters\"
+        element=\"ddp:createRequest\" />\n\t</message>\n\t<message name=\"createResponse\">\n\t\t<documentation>Response
+        to the \"create\" operation.</documentation>\n\t\t<part name=\"parameters\"
+        element=\"ddp:createResponse\" />\n\t</message>\n\t<message name=\"refundRequest\">\n\t\t<part
+        name=\"parameters\" element=\"ddp:refundRequest\" />\n\t</message>\n\t<message
+        name=\"refundResponse\">\n\t\t<part name=\"parameters\" element=\"ddp:refundResponse\"
+        />\n\t</message>\n\t<message name=\"cancelRequest\">\n\t\t<part name=\"parameters\"
+        element=\"ddp:cancelRequest\" />\n\t</message>\n\t<message name=\"cancelResponse\">\n\t\t<part
+        name=\"parameters\" element=\"ddp:cancelResponse\" />\n\t</message>\n\t<message
+        name=\"startRequest\">\n\t\t<part name=\"parameters\" element=\"ddp:startRequest\"
+        />\n\t</message>\n\t<message name=\"startResponse\">\n\t\t<part name=\"parameters\"
+        element=\"ddp:startResponse\" />\n\t</message>\n\t<message name=\"captureRequest\">\n\t\t<part
+        name=\"parameters\" element=\"ddp:captureRequest\" />\n\t</message>\n\t<message
+        name=\"captureResponse\">\n\t\t<part name=\"parameters\" element=\"ddp:captureResponse\"
+        />\n\t</message>\n\t<message name=\"statusRequest\">\n\t\t<part name=\"parameters\"
+        element=\"ddp:statusRequest\" />\n\t</message>\n\t<message name=\"statusResponse\">\n\t\t<part
+        name=\"parameters\" element=\"ddp:statusResponse\" />\n\t</message>\n\t<message
+        name=\"extendedStatusRequest\">\n\t\t<part name=\"parameters\" element=\"ddp:extendedStatusRequest\"
+        />\n\t</message>\n\t<message name=\"extendedStatusResponse\">\n\t\t<part name=\"parameters\"
+        element=\"ddp:extendedStatusResponse\" />\n\t</message>\n\n\t<portType name=\"PaymentServiceSOAP\">\n\t\t<operation
+        name=\"create\">\n\t\t\t<documentation>Creates a payment order in the DocData
+        system, so it\n\t\t\t\tmay be processed later.</documentation>\n\t\t\t<input
+        message=\"tns:createRequest\" />\n\t\t\t<output message=\"tns:createResponse\"
+        />\n\t\t</operation>\n\t\t<operation name=\"start\">\n\t\t\t<documentation>Starts
+        processing of a payment order in the DocData\n\t\t\t\tsystem. This is an alternative
+        to using the web menu hosted payment\n\t\t\t\tpages.\n\t\t\t\tWhen an initial
+        (previous) payment order is specified, the\n\t\t\t\tdetails will be reused
+        from that payment order.\n\t\t\t</documentation>\n\t\t\t<input message=\"tns:startRequest\"
+        />\n\t\t\t<output message=\"tns:startResponse\" />\n\t\t</operation>\n\t\t<operation
+        name=\"cancel\">\n\t\t\t<documentation>Cancels an authorized payment order,
+        voiding the\n\t\t\t\torder. Only possible if not yet captured, and only for
+        the full\n\t\t\t\tamount.</documentation>\n\t\t\t<input message=\"tns:cancelRequest\"
+        />\n\t\t\t<output message=\"tns:cancelResponse\" />\n\t\t</operation>\n\t\t<operation
+        name=\"capture\">\n\t\t\t<documentation>Creates a capture request in the DocData
+        system for\n\t\t\t\t(part of) a payment order, so it may be processed later.\n\t\t\t</documentation>\n\t\t\t<input
+        message=\"tns:captureRequest\" />\n\t\t\t<output message=\"tns:captureResponse\"
+        />\n\t\t</operation>\n\t\t<operation name=\"refund\">\n\t\t\t<documentation>Creates
+        a refund request in the DocData system to\n\t\t\t\t(partially) undo a captured
+        amount, so it may be processed later.\n\t\t\t</documentation>\n\t\t\t<input
+        message=\"tns:refundRequest\" />\n\t\t\t<output message=\"tns:refundResponse\"
+        />\n\t\t</operation>\n\t\t<operation name=\"status\">\n\t\t\t<documentation>Retrieves
+        a report that describes the state of a\n\t\t\t\tspecified payment order.</documentation>\n\t\t\t<input
+        message=\"tns:statusRequest\" />\n\t\t\t<output message=\"tns:statusResponse\"
+        />\n\t\t</operation>\n\t\t<operation name=\"statusExtended\">\n\t\t\t<documentation>Retrieves
+        an extended report that describes the state of a\n\t\t\t\tspecified payment
+        order.</documentation>\n\t\t\t<input message=\"tns:extendedStatusRequest\"
+        />\n\t\t\t<output message=\"tns:extendedStatusResponse\" />\n\t\t</operation>\n\t</portType>\n\n\t<binding
+        name=\"PaymentServiceBinding\" type=\"tns:PaymentServiceSOAP\">\n\t\t<soap:binding
+        style=\"document\" transport=\"http://schemas.xmlsoap.org/soap/http\" />\n\n\t\t<operation
+        name=\"create\">\n\t\t\t<soap:operation soapAction=\"create\" />\n\t\t\t<input>\n\t\t\t\t<soap:body
+        use=\"literal\" />\n\t\t\t</input>\n\t\t\t<output>\n\t\t\t\t<soap:body use=\"literal\"
+        />\n\t\t\t</output>\n\t\t</operation>\n\t\t<operation name=\"refund\">\n\t\t\t<soap:operation
+        soapAction=\"refund\" />\n\t\t\t<input>\n\t\t\t\t<soap:body use=\"literal\"
+        />\n\t\t\t</input>\n\t\t\t<output>\n\t\t\t\t<soap:body use=\"literal\" />\n\t\t\t</output>\n\t\t</operation>\n\t\t<operation
+        name=\"cancel\">\n\t\t\t<soap:operation soapAction=\"cancel\" />\n\t\t\t<input>\n\t\t\t\t<soap:body
+        use=\"literal\" />\n\t\t\t</input>\n\t\t\t<output>\n\t\t\t\t<soap:body use=\"literal\"
+        />\n\t\t\t</output>\n\t\t</operation>\n\t\t<operation name=\"start\">\n\t\t\t<soap:operation
+        soapAction=\"start\" />\n\t\t\t<input>\n\t\t\t\t<soap:body use=\"literal\"
+        />\n\t\t\t</input>\n\t\t\t<output>\n\t\t\t\t<soap:body use=\"literal\" />\n\t\t\t</output>\n\t\t</operation>\n\t\t<operation
+        name=\"capture\">\n\t\t\t<soap:operation soapAction=\"capture\" />\n\t\t\t<input>\n\t\t\t\t<soap:body
+        use=\"literal\" />\n\t\t\t</input>\n\t\t\t<output>\n\t\t\t\t<soap:body use=\"literal\"
+        />\n\t\t\t</output>\n\t\t</operation>\n\t\t<operation name=\"status\">\n\t\t\t<soap:operation
+        soapAction=\"status\" />\n\t\t\t<input>\n\t\t\t\t<soap:body use=\"literal\"
+        />\n\t\t\t</input>\n\t\t\t<output>\n\t\t\t\t<soap:body use=\"literal\" />\n\t\t\t</output>\n\t\t</operation>\n\t\t<operation
+        name=\"statusExtended\">\n\t\t\t<soap:operation soapAction=\"statusExtended\"
+        />\n\t\t\t<input>\n\t\t\t\t<soap:body use=\"literal\" />\n\t\t\t</input>\n\t\t\t<output>\n\t\t\t\t<soap:body
+        use=\"literal\" />\n\t\t\t</output>\n\t\t</operation>\n\t</binding>\n\n\t<service
+        name=\"paymentService\">\n\t\t<port binding=\"tns:PaymentServiceBinding\"
+        name=\"PaymentServiceSOAP\">\n\t\t\t<soap:address location=\"https://test.docdatapayments.com:443/ps/services/paymentservice/1_1\"
+        />\n\t\t</port>\n\t</service>\n\n</definitions>"
+    http_version: '1.1'
+  recorded_at: Thu, 17 Jul 2014 14:39:23 GMT
+recorded_with: VCR 2.9.2

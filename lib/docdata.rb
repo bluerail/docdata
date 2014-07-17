@@ -1,5 +1,12 @@
+#  Files
 require "docdata/version"
+require "docdata/config"
+require "docdata/wsdl"
 
+# 
+# Docdata Module
+# 
 module Docdata
-  # Your code goes here...
+  API_VERSION = 1
+
 end
