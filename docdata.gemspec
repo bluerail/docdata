@@ -6,12 +6,19 @@ require 'docdata/version'
 Gem::Specification.new do |spec|
   spec.name          = "docdata"
   spec.version       = Docdata::VERSION
-  spec.authors       = ["Henk Meijer"]
+  spec.authors       = ["Henk Meijer", "Eskes Media"]
   spec.email         = ["meijerhenk@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{A ruby binder for the DocData payment gateway.}
+  spec.summary       = %q{This gem provides a ruby API for the DocData payment gateway.}
   spec.homepage      = ""
   spec.license       = "MIT"
+
+  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "vcr"
+  spec.add_development_dependency "fakeweb"
+  spec.add_development_dependency "coveralls"
+  spec.add_development_dependency "simplecov"
+  spec.add_development_dependency "yard"
 
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
