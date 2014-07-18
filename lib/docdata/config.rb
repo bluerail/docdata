@@ -20,8 +20,8 @@ module Docdata::Config
       @defaults = {
         :@username => nil,
         :@password => nil,
-        :@wsdl     => nil,
-        :@test_mode => false
+        :@wsdl     => "https://test.docdatapayments.com/ps/services/paymentservice/1_1?wsdl",
+        :@test_mode => true
       }
     end
 

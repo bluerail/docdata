@@ -27,5 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "simplecov"
   spec.add_development_dependency "yard"
 
-  spec.add_runtime_dependency 'savon', '~> 2.0'
+  spec.add_runtime_dependency 'savon', "1.2" #'~> 2.0'
+  spec.add_runtime_dependency 'veto'
+  
 end

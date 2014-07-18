@@ -19,11 +19,11 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Thu, 17 Jul 2014 14:43:28 GMT
+      - Fri, 18 Jul 2014 12:10:15 GMT
       server:
       - Apache
       set-cookie:
-      - JSESSIONID=68DEE8C36AA05029B60512F1EB6AE4FE.smf; Path=/ps; Secure
+      - JSESSIONID=BE5AE87E631528A2ED5452701699D938.smf; Path=/ps; Secure
       p3p:
       - policyref="http://secure.docdatapayments.com/w3c/docdatapayments.com.xml",
         CP="NON DSP COR CUR ADM DEV OUR IND STA"
@@ -115,5 +115,55 @@ http_interactions:
         name=\"PaymentServiceSOAP\">\n\t\t\t<soap:address location=\"https://test.docdatapayments.com:443/ps/services/paymentservice/1_1\"
         />\n\t\t</port>\n\t</service>\n\n</definitions>"
     http_version: '1.1'
-  recorded_at: Thu, 17 Jul 2014 14:43:28 GMT
+  recorded_at: Fri, 18 Jul 2014 12:10:17 GMT
+- request:
+    method: post
+    uri: https://test.docdatapayments.com/ps/services/paymentservice/1_1
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddp="http://www.docdatapayments.com/services/paymentservice/1_1/"
+        xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"><env:Body><ddp:createRequest
+        merchant="{:name=&gt;&quot;Name&quot;, :password=&gt;&quot;Passw0rd&quot;}"></ddp:createRequest></env:Body></env:Envelope>
+    headers:
+      soapaction:
+      - '"create"'
+      content-type:
+      - text/xml;charset=UTF-8
+      content-length:
+      - '428'
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      accept:
+      - '*/*'
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Fri, 18 Jul 2014 12:10:16 GMT
+      server:
+      - Apache
+      set-cookie:
+      - JSESSIONID=8583D818178D8DAD271AC08204F6F16E.smf; Path=/ps; Secure
+      content-length:
+      - '529'
+      p3p:
+      - policyref="http://secure.docdatapayments.com/w3c/docdatapayments.com.xml",
+        CP="NON DSP COR CUR ADM DEV OUR IND STA"
+      content-type:
+      - text/xml;charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '<?xml version=''1.0'' encoding=''UTF-8''?><S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/"><S:Body><createResponse
+        xmlns="http://www.docdatapayments.com/services/paymentservice/1_1/"><createError><error
+        code="REQUEST_DATA_INCORRECT">XML request does not match XSD. The data is:
+        cvc-complex-type.2.4.b: The content of element ''ddp:createRequest'' is not
+        complete. One of ''{"http://www.docdatapayments.com/services/paymentservice/1_1/":merchant}''
+        is expected..</error></createError></createResponse></S:Body></S:Envelope>'
+    http_version: '1.1'
+  recorded_at: Fri, 18 Jul 2014 12:10:17 GMT
 recorded_with: VCR 2.9.2

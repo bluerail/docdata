@@ -11,7 +11,7 @@ describe Docdata::Config do
   describe "#reset!" do
     it "should reset the values" do
       @config.reset!
-      expect(@config.test_mode).to be_falsey
+      expect(@config.test_mode).to be_truthy
       expect(@config.username).to be_nil
       expect(@config.password).to be_nil
     end

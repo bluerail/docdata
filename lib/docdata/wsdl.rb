@@ -26,7 +26,7 @@ module Docdata
     end
 
     def client
-      ::Savon.client(wsdl: @url)
+      ::Savon::Client.new(@url)
     end
 
   end

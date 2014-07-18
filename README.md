@@ -1,6 +1,6 @@
-# DocData
+# Docdata
 
-DocData is a Ruby binder for DocData payments. Current status: in progress, not stable.
+Docdata is a Ruby binder for Docdata payments. Current status: in progress, not stable.
 
 ## Installation
 
