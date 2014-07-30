@@ -8,8 +8,6 @@ module Docdata::Config
     attr_accessor :username
     # @return [String] Your DocData password
     attr_accessor :password
-    # @return [String] URL to the WSDL
-    attr_accessor :wsdl
     # @return [Boolean] Test mode switch
     attr_accessor :test_mode
 
@@ -20,7 +18,6 @@ module Docdata::Config
       @defaults = {
         :@username => nil,
         :@password => nil,
-        :@wsdl     => "https://test.docdatapayments.com/ps/services/paymentservice/1_1?wsdl",
         :@test_mode => true
       }
     end

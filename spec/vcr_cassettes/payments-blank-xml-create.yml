@@ -19,11 +19,11 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Thu, 24 Jul 2014 15:10:05 GMT
+      - Thu, 24 Jul 2014 15:17:29 GMT
       server:
       - Apache
       set-cookie:
-      - JSESSIONID=78D3940A1F69D2D0426C588AE522FB85.smf; Path=/ps; Secure
+      - JSESSIONID=7B4B3012A7CED5FC12E92837D5E704F5.smf; Path=/ps; Secure
       p3p:
       - policyref="http://secure.docdatapayments.com/w3c/docdatapayments.com.xml",
         CP="NON DSP COR CUR ADM DEV OUR IND STA"
@@ -115,7 +115,7 @@ http_interactions:
         name=\"PaymentServiceSOAP\">\n\t\t\t<soap:address location=\"https://test.docdatapayments.com:443/ps/services/paymentservice/1_1\"
         />\n\t\t</port>\n\t</service>\n\n</definitions>"
     http_version: '1.1'
-  recorded_at: Thu, 24 Jul 2014 15:10:06 GMT
+  recorded_at: Thu, 24 Jul 2014 15:17:30 GMT
 - request:
     method: post
     uri: https://test.docdatapayments.com/ps/services/paymentservice/1_1
@@ -281,11 +281,11 @@ http_interactions:
       message: Internal Server Error
     headers:
       date:
-      - Thu, 24 Jul 2014 15:10:05 GMT
+      - Thu, 24 Jul 2014 15:17:29 GMT
       server:
       - Apache
       set-cookie:
-      - JSESSIONID=CBB9414A5B010E3573CA7FB0E994307C.smf; Path=/ps; Secure
+      - JSESSIONID=9B9F4D9213DDB04BF9382FF9DBC56809.smf; Path=/ps; Secure
       content-length:
       - '276'
       p3p:
@@ -301,5 +301,5 @@ http_interactions:
         xmlns:ns4="http://www.w3.org/2003/05/soap-envelope"><faultcode>S:Server</faultcode><faultstring>Not
         a number: ?</faultstring></S:Fault></S:Body></S:Envelope>'
     http_version: '1.1'
-  recorded_at: Thu, 24 Jul 2014 15:10:06 GMT
+  recorded_at: Thu, 24 Jul 2014 15:17:30 GMT
 recorded_with: VCR 2.9.2

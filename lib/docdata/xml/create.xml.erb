@@ -1,0 +1,140 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:_1="http://www.docdatapayments.com/services/paymentservice/1_1/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <_1:createRequest version="1.1">
+         <_1:merchant name="Henk" password="asdfasdf"/>
+         <_1:merchantOrderReference>asdf</_1:merchantOrderReference>
+         <_1:paymentPreferences>
+            <_1:profile>?</_1:profile>
+            <_1:numberOfDaysToPay>?</_1:numberOfDaysToPay>
+            <!--Optional:-->
+            <_1:exhortation>
+               <_1:period1 numberOfDays="?" profile="?"/>
+               <!--Optional:-->
+               <_1:period2 numberOfDays="?" profile="?"/>
+            </_1:exhortation>
+         </_1:paymentPreferences>
+         <!--Optional:-->
+         <_1:menuPreferences>
+            <!--Optional:-->
+            <_1:css id="?"/>
+         </_1:menuPreferences>
+         <_1:shopper id="?">
+            <_1:name>
+               <!--Optional:-->
+               <_1:prefix>?</_1:prefix>
+               <!--Optional:-->
+               <_1:initials>?</_1:initials>
+               <_1:first>?</_1:first>
+               <!--Optional:-->
+               <_1:middle>?</_1:middle>
+               <_1:last>?</_1:last>
+               <!--Optional:-->
+               <_1:suffix>?</_1:suffix>
+            </_1:name>
+            <_1:email>?</_1:email>
+            <_1:language code="?"/>
+            <_1:gender>?</_1:gender>
+            <!--Optional:-->
+            <_1:dateOfBirth>?</_1:dateOfBirth>
+            <!--Optional:-->
+            <_1:phoneNumber>?</_1:phoneNumber>
+            <!--Optional:-->
+            <_1:mobilePhoneNumber>?</_1:mobilePhoneNumber>
+         </_1:shopper>
+         <_1:totalGrossAmount currency="?">?</_1:totalGrossAmount>
+         <_1:billTo>
+            <_1:name>
+               <!--Optional:-->
+               <_1:prefix>?</_1:prefix>
+               <!--Optional:-->
+               <_1:initials>?</_1:initials>
+               <_1:first>?</_1:first>
+               <!--Optional:-->
+               <_1:middle>?</_1:middle>
+               <_1:last>?</_1:last>
+               <!--Optional:-->
+               <_1:suffix>?</_1:suffix>
+            </_1:name>
+            <_1:address>
+               <!--Optional:-->
+               <_1:company>?</_1:company>
+               <_1:street>?</_1:street>
+               <_1:houseNumber>?</_1:houseNumber>
+               <!--Optional:-->
+               <_1:houseNumberAddition>?</_1:houseNumberAddition>
+               <_1:postalCode>?</_1:postalCode>
+               <_1:city>?</_1:city>
+               <_1:country code="?"/>
+            </_1:address>
+         </_1:billTo>
+         <!--Optional:-->
+         <_1:description>?</_1:description>
+         <!--Optional:-->
+         <_1:receiptText>?</_1:receiptText>
+         <!--Optional:-->
+         <_1:includeCosts>false</_1:includeCosts>
+         <!--Optional:-->
+         <_1:paymentRequest>
+            <_1:initialPaymentReference>
+               <!--You have a CHOICE of the next 3 items at this level-->
+               <_1:linkId>?</_1:linkId>
+               <_1:paymentId>?</_1:paymentId>
+               <_1:merchantReference>?</_1:merchantReference>
+            </_1:initialPaymentReference>
+         </_1:paymentRequest>
+         <!--Optional:-->
+         <_1:invoice>
+            <_1:totalNetAmount currency="?">?</_1:totalNetAmount>
+            <!--1 to 1000 repetitions:-->
+            <_1:totalVatAmount currency="?" rate="?">?</_1:totalVatAmount>
+            <!--1 to 1000 repetitions:-->
+            <_1:item number="?">
+               <_1:name>?</_1:name>
+               <_1:code>?</_1:code>
+               <_1:quantity unitOfMeasure="?">?</_1:quantity>
+               <_1:description>?</_1:description>
+               <!--Optional:-->
+               <_1:image>?</_1:image>
+               <_1:netAmount currency="?">?</_1:netAmount>
+               <_1:grossAmount currency="?">?</_1:grossAmount>
+               <_1:vat rate="?">
+                  <_1:amount currency="?">?</_1:amount>
+               </_1:vat>
+               <_1:totalNetAmount currency="?">?</_1:totalNetAmount>
+               <_1:totalGrossAmount currency="?">?</_1:totalGrossAmount>
+               <_1:totalVat rate="?">
+                  <_1:amount currency="?">?</_1:amount>
+               </_1:totalVat>
+            </_1:item>
+            <_1:shipTo>
+               <_1:name>
+                  <!--Optional:-->
+                  <_1:prefix>?</_1:prefix>
+                  <!--Optional:-->
+                  <_1:initials>?</_1:initials>
+                  <_1:first>?</_1:first>
+                  <!--Optional:-->
+                  <_1:middle>?</_1:middle>
+                  <_1:last>?</_1:last>
+                  <!--Optional:-->
+                  <_1:suffix>?</_1:suffix>
+               </_1:name>
+               <_1:address>
+                  <!--Optional:-->
+                  <_1:company>?</_1:company>
+                  <_1:street>?</_1:street>
+                  <_1:houseNumber>?</_1:houseNumber>
+                  <!--Optional:-->
+                  <_1:houseNumberAddition>?</_1:houseNumberAddition>
+                  <_1:postalCode>?</_1:postalCode>
+                  <_1:city>?</_1:city>
+                  <_1:country code="?"/>
+               </_1:address>
+            </_1:shipTo>
+            <!--Optional:-->
+            <_1:additionalDescription>?</_1:additionalDescription>
+         </_1:invoice>
+      </_1:createRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

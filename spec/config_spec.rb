@@ -1,34 +1,53 @@
 require 'spec_helper'
 
-describe Docdata::Config do
+describe Docdata do
   before(:each) do
-    @config = Docdata::Config
-    @config.test_mode = true
-    @config.username = "abcdefg"
-    @config.password = "321zyx12"
+  	Docdata.test_mode = true
   end
 
-  describe "#reset!" do
-    it "should reset the values" do
-      @config.reset!
-      expect(@config.test_mode).to be_truthy
-      expect(@config.username).to be_nil
-      expect(@config.password).to be_nil
+  it "returns correct version number" do
+  	expect(Docdata.version).to eq(Docdata::VERSION)
+  end
+
+  context "settings" do
+	  it "is in test mode by default" do
+	  	expect(Docdata.test_mode).to eq(true)
+	  end
+	 
+	  it "should have the correct default values" do
+	    expect(Docdata.test_mode).to be_truthy
+	    expect(Docdata.username).to be_nil
+	    expect(Docdata.password).to be_nil
+	  end
+
+	  it "is able to update and set settings" do
+	    Docdata.test_mode = false
+	    Docdata.username = "abcd"
+	    Docdata.password = "321zyx12"
+
+	    expect(Docdata.test_mode).to be_falsey
+	    expect(Docdata.username).to match "abcd"
+	    expect(Docdata.password).to match "321zyx12"
+	  end
+	end
+
+	context "SOAP configuration" do
+
+    it "should have the proper test URL" do
+      expect(Docdata.test_mode).to eq(true)
+      expect(Docdata.url).to eq("https://test.docdatapayments.com/ps/services/paymentservice/1_1?wsdl")
     end
-  end
 
-  describe "#update!" do
-    it "should update" do
-      @config.reset!
-      @config.test_mode = false
-      @config.username = "abcd"
-      @config.password = "321zyx12"
-      @config.update!
-
-      config = Docdata::Config
-      expect(config.test_mode).to be_falsey
-      expect(config.username).to match "abcd"
-      expect(config.password).to match "321zyx12"
+    it "should return a response" do
+      VCR.use_cassette("wsdl-init") do
+        expect(Docdata.client.class.to_s).to eq("Savon::Client")
+      end
     end
-  end
+
+    it "has methods to create, cancel, start, etc." do
+      VCR.use_cassette("wsdl-client-methods") do
+        expect(Docdata.client.operations).to match_array([:create, :cancel, :start, :refund, :status, :capture, :status_extended])
+      end
+    end
+	end
 end

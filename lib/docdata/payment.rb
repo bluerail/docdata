@@ -21,6 +21,7 @@ module Docdata
   #     :order_reference => "TJ123"
   #   })
   class Payment
+
     # @return [Array] Errors
     attr_accessor :errors
     # @return [Integer] The total price in cents
@@ -35,10 +36,8 @@ module Docdata
     #
     # @param [Hash] values
     def initialize(values=nil)
-      @@wsdl = Docdata::WSDL.new
-      @@config = Docdata::Config
       # @config.wsdl = "https://test.docdatapayments.com/ps/services/paymentservice/1_1?wsdl"
-      @@wsdl.url = @@config.wsdl
+      
       return if values.nil?
       # @client = Docdata::WSDL.client
       # # @client.call(:create, message: { username: "luke", password: "secret" })
@@ -63,18 +62,18 @@ module Docdata
     end
 
     def create
-      puts "WSDL: #{@@wsdl.url}"
-      response = @@wsdl.client.request(:create, merchant: merchant)
+      xml = File.read("#{File.dirname(__FILE__)}/xml/create.xml.erb")
+      response = Docdata.client.call(:create, xml: xml)
       # :create_response=>{:
         # create_error=>{
           # :error=>"XML request does not match XSD. The data is: cvc-complex-type.2.4.b: The content of element 'ddp:createRequest' is not complete. One of '{\"http://www.docdatapayments.com/services/paymentservice/1_1/\":merchant}' is expected.."}, :@xmlns=>"http://www.docdatapayments.com/services/paymentservice/1_1/"}
-      if response && response[:create_response] && response[:create_response][:create_error]
-        raise DocdataError.new(response), response[:create_response][:create_error][:error]
+          puts "========================================="
+      puts response.body
+      if response && response.body[:create_response] && response.body[:create_response][:create_error]
+        raise DocdataError.new(response), response.body[:create_response][:create_error][:error]
       else
         return response.to_hash
       end
     end
-
   end
-
 end

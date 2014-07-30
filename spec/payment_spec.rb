@@ -29,7 +29,15 @@ describe Docdata::Payment do
   end
 
   describe "#create" do
-    it "communicates with the SOAP Api" do
+
+    it "raises error when blank xml is sent" do
+      VCR.use_cassette("payments-blank-xml-create") do
+        expect { Docdata::Payment.new.create }.to raise_error(Savon::SOAPFault, "(S:Server) Not a number: ?")
+      end
+    end
+
+
+    xit "communicates with the SOAP Api" do
       VCR.use_cassette("payments-create") do
         response = @payment.create
         expect(response.message).to eq("ok")
@@ -47,7 +55,7 @@ describe Docdata::Payment do
     end
 
     xit "returns error if not authenticated" do
-      puts @payment.inspect
+      # puts @payment.inspect
       expect(@payment).to eq("HOI")
     end
 
