@@ -5,6 +5,10 @@ describe Docdata::Payment do
     @payment = Docdata::Payment.new
     @payment.amount = 500
     @payment.currency = "EUR"
+    @shopper = Docdata::Shopper.new
+    @shopper.first_name = "John"
+    @shopper.last_name = "Doe"
+    @payment.shopper = @shopper
   end
 
   describe "validations" do
@@ -26,11 +30,24 @@ describe Docdata::Payment do
       expect(@payment).not_to be_valid
       expect(@payment.errors.full_messages).to include("currency is not valid")
     end
+
+    it "has a shopper" do
+      expect(@payment.shopper).to be_kind_of(Docdata::Shopper)
+      expect(@payment.shopper.first_name).to eq("John")
+    end
   end
 
   describe "#create" do
 
+    it "raises error when credentials are wrong" do
+      VCR.use_cassette("payments-xml-create-without-credentials") do
+        expect { Docdata::Payment.new.create }.to raise_error(DocdataError, "Login failed.")
+      end
+    end
+
+
     it "raises error when blank xml is sent" do
+      Docdata.set_credentials_from_environment
       VCR.use_cassette("payments-blank-xml-create") do
         expect { Docdata::Payment.new.create }.to raise_error(Savon::SOAPFault, "(S:Server) Not a number: ?")
       end
@@ -38,10 +55,10 @@ describe Docdata::Payment do
 
 
     xit "communicates with the SOAP Api" do
-      VCR.use_cassette("payments-create") do
+      # VCR.use_cassette("payments-create") do
         response = @payment.create
         expect(response.message).to eq("ok")
-      end
+      # end
     end
 
   end
@@ -49,9 +66,9 @@ describe Docdata::Payment do
   describe "#new" do
     
     it "returns a Payment object" do
-      VCR.use_cassette("new-payment-object") do
+      # VCR.use_cassette("new-payment-object") do
         expect(@payment).to be_kind_of(Docdata::Payment)
-      end
+      # end
     end
 
     xit "returns error if not authenticated" do

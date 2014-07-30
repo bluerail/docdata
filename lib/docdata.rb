@@ -1,11 +1,14 @@
-#  Files
+# Libraries
 require 'rails'
+require 'savon'
 require 'active_support/dependencies'
 require 'active_support'
+
+#  Files
 require "docdata/version"
 require "docdata/docdata_error"
 require "docdata/payment"
-require 'savon'
+require "docdata/shopper"
 
 include Savon
 # 
@@ -44,6 +47,14 @@ module Docdata
     else
       "https://www.docdatapayments.com/ps/services/paymentservice/1_1?wsdl"
     end
+  end
+
+  # For testing purpose only: set the username and password
+  # in environment variables to make the tests pass with your test
+  # credentials.
+  def self.set_credentials_from_environment
+    self.password = ENV["DOCDATA_PASSWORD"]
+    self.username = ENV["DOCDATA_USERNAME"]
   end
 
   def self.client
