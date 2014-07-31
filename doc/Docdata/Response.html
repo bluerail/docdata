@@ -126,10 +126,10 @@
   
     <dl class="constants">
       
-        <dt id="amount-classvariable" class="">@@amount =
+        <dt id="success-classvariable" class="">@@success =
           
         </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>?</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+        <dd><pre class="code"><span class='kw'>false</span></pre></dd>
       
     </dl>
   
@@ -139,58 +139,6 @@
 
   <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#amount-instance_method" title="#amount (instance method)">- (Boolean) <strong>amount</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#currency-instance_method" title="#currency (instance method)">- (String) <strong>currency</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>ISO currency code (USD, EUR, GBP, etc.).</p>
-</div></span>
-  
-</li>
-
     
       <li class="public ">
   <span class="summary_signature">
@@ -222,7 +170,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#order_reference-instance_method" title="#order_reference (instance method)">- (String) <strong>order_reference</strong> </a>
+      <a href="#message-instance_method" title="#message (instance method)">- (String) <strong>message</strong> </a>
     
 
     
@@ -240,7 +188,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A unique order reference.</p>
+<p>Response message from DocData.</p>
 </div></span>
   
 </li>
@@ -249,7 +197,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#profile_id-instance_method" title="#profile_id (instance method)">- (Integer) <strong>profile_id</strong> </a>
+      <a href="#success-instance_method" title="#success (instance method)">- (Boolean) <strong>success</strong> </a>
     
 
     
@@ -267,34 +215,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The DocData profile ID.</p>
-</div></span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#shopper-instance_method" title="#shopper (instance method)">- (Shopper) <strong>shopper</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>A shopper object (instance of Docdata::Shopper).</p>
+<p>True/false, depending of the API response.</p>
 </div></span>
   
 </li>
@@ -307,7 +228,7 @@
 
   
     <h2>
-      Instance Method Summary
+      Class Method Summary
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -316,7 +237,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create-instance_method" title="#create (instance method)">- (Object) <strong>create</strong> </a>
+      <a href="#parse-class_method" title="parse (class method)">+ (Object) <strong>parse</strong>(response) </a>
     
 
     
@@ -330,10 +251,22 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Parses the returned response hash and turns it into a new Docdata::Response
+object.</p>
+</div></span>
   
 </li>
 
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
       
         <li class="public ">
   <span class="summary_signature">
@@ -355,30 +288,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Initializer to transform a <code>Hash</code> into an Payment object.</p>
+<p>Initializer to transform a <code>Hash</code> into an Response object.</p>
 </div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#valid%3F-instance_method" title="#valid? (instance method)">- (Boolean) <strong>valid?</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -401,7 +312,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Initializer to transform a <code>Hash</code> into an Payment object</p>
+<p>Initializer to transform a <code>Hash</code> into an Response object</p>
 
 
   </div>
@@ -432,15 +343,15 @@
       <pre class="lines">
 
 
-35
-36
-37
-38
-39
-40</pre>
+27
+28
+29
+30
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata/response.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'lib/docdata/response.rb', line 27</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -459,124 +370,9 @@
     <h2>Instance Attribute Details</h2>
     
       
-      <span id="amount=-instance_method"></span>
-      <div class="method_details first">
-  <h3 class="signature first" id="amount-instance_method">
-  
-    - (<tt>Boolean</tt>) <strong>amount</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-17
-18
-19</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata/response.rb', line 17</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_amount'>amount</span>
-  <span class='ivar'>@amount</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      
-      <span id="currency=-instance_method"></span>
-      <div class="method_details ">
-  <h3 class="signature " id="currency-instance_method">
-  
-    - (<tt>String</tt>) <strong>currency</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Returns ISO currency code (USD, EUR, GBP, etc.)</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>ISO currency code (USD, EUR, GBP, etc.)</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-20
-21
-22</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata/response.rb', line 20</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_currency'>currency</span>
-  <span class='ivar'>@currency</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      
       <span id="key=-instance_method"></span>
-      <div class="method_details ">
-  <h3 class="signature " id="key-instance_method">
+      <div class="method_details first">
+  <h3 class="signature first" id="key-instance_method">
   
     - (<tt>String</tt>) <strong>key</strong> 
   
@@ -635,11 +431,11 @@
 </div>
     
       
-      <span id="order_reference=-instance_method"></span>
+      <span id="message=-instance_method"></span>
       <div class="method_details ">
-  <h3 class="signature " id="order_reference-instance_method">
+  <h3 class="signature " id="message-instance_method">
   
-    - (<tt>String</tt>) <strong>order_reference</strong> 
+    - (<tt>String</tt>) <strong>message</strong> 
   
 
   
@@ -648,7 +444,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns A unique order reference</p>
+<p>Returns Response message from DocData</p>
 
 
   </div>
@@ -667,7 +463,7 @@
       
         &mdash;
         <div class='inline'>
-<p>A unique order reference</p>
+<p>Response message from DocData</p>
 </div>
       
     </li>
@@ -680,15 +476,15 @@
       <pre class="lines">
 
 
+21
 22
-23
-24</pre>
+23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata/response.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'lib/docdata/response.rb', line 21</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_order_reference'>order_reference</span>
-  <span class='ivar'>@order_reference</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_message'>message</span>
+  <span class='ivar'>@message</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -696,11 +492,11 @@
 </div>
     
       
-      <span id="profile_id=-instance_method"></span>
+      <span id="success=-instance_method"></span>
       <div class="method_details ">
-  <h3 class="signature " id="profile_id-instance_method">
+  <h3 class="signature " id="success-instance_method">
   
-    - (<tt>Integer</tt>) <strong>profile_id</strong> 
+    - (<tt>Boolean</tt>) <strong>success</strong> 
   
 
   
@@ -709,183 +505,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The DocData profile ID</p>
+<p>Returns true/false, depending of the API response</p>
 
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>The DocData profile ID</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-24
-25
-26</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata/response.rb', line 24</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_profile_id'>profile_id</span>
-  <span class='ivar'>@profile_id</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      
-      <span id="shopper=-instance_method"></span>
-      <div class="method_details ">
-  <h3 class="signature " id="shopper-instance_method">
-  
-    - (<tt><span class='object_link'><a href="Shopper.html" title="Docdata::Shopper (class)">Shopper</a></span></tt>) <strong>shopper</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Returns A shopper object (instance of Docdata::Shopper)</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="Shopper.html" title="Docdata::Shopper (class)">Shopper</a></span></tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>A shopper object (instance of Docdata::Shopper)</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-26
-27
-28</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata/response.rb', line 26</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_shopper'>shopper</span>
-  <span class='ivar'>@shopper</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
-
-
-  <div id="instance_method_details" class="method_details_list">
-    <h2>Instance Method Details</h2>
-
-    
-      <div class="method_details first">
-  <h3 class="signature first" id="create-instance_method">
-  
-    - (<tt>Object</tt>) <strong>create</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata/response.rb', line 47</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
-
-  <span class='id identifier rubyid_xml_file'>xml_file</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>/xml/create.xml.erb</span><span class='tstring_end'>&quot;</span></span>
-  <span class='id identifier rubyid_template'>template</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_xml_file'>xml_file</span><span class='rparen'>)</span>      
-  <span class='id identifier rubyid_namespace'>namespace</span> <span class='op'>=</span> <span class='const'>OpenStruct</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>payment:</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='label'>shopper:</span> <span class='id identifier rubyid_shopper'>shopper</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_xml'>xml</span> <span class='op'>=</span> <span class='const'>ERB</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_template'>template</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_result'>result</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='period'>.</span><span class='id identifier rubyid_instance_eval'>instance_eval</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_binding'>binding</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='const'>Docdata</span><span class='period'>.</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='symbol'>:create</span><span class='comma'>,</span> <span class='label'>xml:</span> <span class='id identifier rubyid_xml'>xml</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_response'>response</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='lbracket'>[</span><span class='symbol'>:create_response</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='lbracket'>[</span><span class='symbol'>:create_response</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:create_error</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>DocdataError</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='lbracket'>[</span><span class='symbol'>:create_response</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:create_error</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:error</span><span class='rbracket'>]</span>
-  <span class='kw'>else</span>
-    <span class='kw'>return</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="valid?-instance_method">
-  
-    - (<tt>Boolean</tt>) <strong>valid?</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
 
   </div>
 </div>
@@ -901,6 +522,11 @@
       
       
       
+        &mdash;
+        <div class='inline'>
+<p>true/false, depending of the API response</p>
+</div>
+      
     </li>
   
 </ul>
@@ -911,17 +537,89 @@
       <pre class="lines">
 
 
+17
+18
+19</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/docdata/response.rb', line 17</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_success'>success</span>
+  <span class='ivar'>@success</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="parse-class_method">
+  
+    + (<tt>Object</tt>) <strong>parse</strong>(response) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Parses the returned response hash and turns it into a new Docdata::Response
+object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>response</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
 42
 43
 44
-45</pre>
+45
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata/response.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'lib/docdata/response.rb', line 40</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_valid?'>valid?</span>
-  <span class='id identifier rubyid_validator'>validator</span> <span class='op'>=</span> <span class='const'>PaymentValidator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-  <span class='id identifier rubyid_validator'>validator</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_response'>response</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='lbracket'>[</span><span class='symbol'>:create_response</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='lbracket'>[</span><span class='symbol'>:create_response</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:create_error</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>DocdataError</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='lbracket'>[</span><span class='symbol'>:create_response</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:create_error</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:error</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_m'>m</span> <span class='op'>=</span> <span class='id identifier rubyid_response'>response</span><span class='lbracket'>[</span><span class='symbol'>:create_success</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_r'>r</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>key:</span> <span class='id identifier rubyid_m'>m</span><span class='lbracket'>[</span><span class='symbol'>:key</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='id identifier rubyid_m'>m</span><span class='lbracket'>[</span><span class='symbol'>:success</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>success:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -933,7 +631,7 @@
 </div>
 
     <div id="footer">
-  Generated on Thu Jul 31 10:49:39 2014 by
+  Generated on Thu Jul 31 13:53:22 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.0.0).
 </div>

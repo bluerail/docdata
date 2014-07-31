@@ -51,6 +51,8 @@ module Docdata
     attr_accessor :email
     # @return [String] ISO country code (us, nl, de, uk)
     attr_accessor :country_code
+    # @return [String] ISO language code (en, nl, de)
+    attr_accessor :language_code
 
 
 

@@ -37,6 +37,8 @@ module Docdata
     attr_accessor :profile_id
     # @return [Shopper] A shopper object (instance of Docdata::Shopper)
     attr_accessor :shopper
+    # @retun [String] The Docdata Payment key returned after #create
+    attr_accessor :key
 
 
 
@@ -58,17 +60,21 @@ module Docdata
     end
 
     def create
-
       xml_file = "#{File.dirname(__FILE__)}/xml/create.xml.erb"
       template = File.read(xml_file)      
       namespace = OpenStruct.new(payment: self, shopper: shopper)
       xml = ERB.new(template).result(namespace.instance_eval { binding })
       response = Docdata.client.call(:create, xml: xml)
-      if response && response.body[:create_response] && response.body[:create_response][:create_error]
-        raise DocdataError.new(response), response.body[:create_response][:create_error][:error]
-      else
-        return response.to_hash
-      end
+      return Docdata::Response.parse(:create, response)
     end
+
+    def start
+      xml_file = "#{File.dirname(__FILE__)}/xml/start.xml.erb"
+      template = File.read(xml_file)      
+      namespace = OpenStruct.new(payment: self, shopper: shopper)
+      xml = ERB.new(template).result(namespace.instance_eval { binding })
+      response = Docdata.client.call(:create, xml: xml)
+      return Docdata::Response.parse(:create, response)
+    end    
   end
 end

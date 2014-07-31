@@ -63,7 +63,9 @@
 
     <div id="content"><div id='filecontents'><h1>Docdata</h1>
 
-<p>Docdata is a Ruby binder for Docdata payments. Current status: in progress, not stable.</p>
+<p>Docdata is a Ruby binder for Docdata Payments. Current status: <strong>in progress, not stable</strong>. </p>
+
+<p>This gem relies on the awesom Savon gem to communicate with Docdata Payments&#39; SOAP API.</p>
 
 <h2>Installation</h2>
 
@@ -82,9 +84,77 @@
 <pre class="code ruby"><code class="ruby">$ gem install docdata
 </code></pre>
 
-<h2>Usage</h2>
+<h2>Lay of the land</h2>
 
-<p>TODO: Write usage instructions here</p>
+<p>Each transaction consists of 2 parts:</p>
+
+<ul>
+<li>Shopper (details about the shopper: name, email, etc.)</li>
+<li>Payment (details about the payment: currency, gross amount, etc.) </li>
+</ul>
+
+<h3>Parameters</h3>
+
+<p>All the payment details that Docdata Payments requires, are - obviously - also required to make payments via this gem.</p>
+
+<h4>Shopper</h4>
+
+<p>| Name | Type | Required |
+|-----------|------------|---------|
+| id | String (ID for own reference) | Yes
+| first_name | String | Yes |
+|   last_name | String | Yes |
+| street | String | Yes |
+| house_number | String | Yes |
+| postal_code | String | Yes |
+| city | String | Yes |
+| country_code | String (ISO country code) | Yes |
+| email | String | Yes |</p>
+
+<h4>Payment</h4>
+
+<p>| Name | Type | Required |
+|-----------|------------|---------|
+| amount | Integer (amount in cents) | Yes |
+| currency | String (ISO currency code) | Yes |
+| order_reference | String (your own reference) | Yes |
+| profile_id | Integer (Docdata Payment profile)| Yes |
+| shopper | Docdata::Shopper | Yes |</p>
+
+<h2>Example in Rails application</h2>
+
+<p>The example below assumes you have your application set up with a Order model, which contains the information needed for this transaction (amount, name, etc.).
+```ruby</p>
+
+<h1>orders_controller.rb</h1>
+
+<p>def start_transaction
+    # find the order from your database
+    @order = Order.find(params[:id])</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># initialize a shopper, use details from your order
+</span><span class='id identifier rubyid_shopper'>shopper</span> <span class='op'>=</span> <span class='const'>Docdata</span><span class='op'>::</span><span class='const'>Shopper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>first_name:</span> <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='comma'>,</span> <span class='label'>last_name:</span> <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_last_name'>last_name</span><span class='rparen'>)</span>
+
+<span class='comment'># set up a payment
+</span><span class='ivar'>@payment</span> <span class='op'>=</span> <span class='const'>Docdata</span><span class='op'>::</span><span class='const'>Payment</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
+    <span class='label'>amount:</span> <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_total'>total</span><span class='comma'>,</span> 
+    <span class='label'>currency:</span> <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span><span class='comma'>,</span> 
+    <span class='label'>shopper:</span> <span class='id identifier rubyid_shopper'>shopper</span>
+<span class='rparen'>)</span>
+
+<span class='comment'># create the payment via the docdata api and collect the result
+</span><span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='ivar'>@payment</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span>
+
+<span class='kw'>if</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_success'>success</span>
+    <span class='comment'># Set the transaction key for future reference
+</span>    <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_update_column'>update_column</span> <span class='symbol'>:docdata_key</span><span class='comma'>,</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span>
+<span class='kw'>else</span>
+    <span class='comment'># TODO: Display the error and warn the user that something went wrong.
+</span><span class='kw'>end</span>
+</code></pre>
+
+<p>end
+```</p>
 
 <h2>Contributing</h2>
 
@@ -98,7 +168,7 @@
 </div></div>
 
     <div id="footer">
-  Generated on Thu Jul 31 10:49:35 2014 by
+  Generated on Thu Jul 31 13:53:19 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.0.0).
 </div>

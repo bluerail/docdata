@@ -3,7 +3,7 @@
    <soapenv:Body>
       <_1:createRequest version="1.1">
          <_1:merchant name="<%= Docdata.username %>" password="<%= Docdata.password %>"/>
-         <_1:merchantOrderReference><%= Time.now.to_i %></_1:merchantOrderReference>
+         <_1:merchantOrderReference><%= payment.order_reference %></_1:merchantOrderReference>
          <_1:paymentPreferences>
             <_1:profile><%= payment.profile_id %></_1:profile>
             <_1:numberOfDaysToPay>14</_1:numberOfDaysToPay>
@@ -15,7 +15,7 @@
                <_1:last><%= shopper.last_name %></_1:last>
             </_1:name>
             <_1:email><%= shopper.email %></_1:email>
-            <_1:language code="nl"/>
+            <_1:language code="<%= shopper.language_code %>"/>
             <_1:gender>M</_1:gender>
             
          </_1:shopper>
@@ -33,7 +33,6 @@
                <_1:country code="<%= shopper.country_code %>"/>
             </_1:address>
          </_1:billTo>
-         
       </_1:createRequest>
    </soapenv:Body>
 </soapenv:Envelope>

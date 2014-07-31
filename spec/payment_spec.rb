@@ -57,7 +57,8 @@ describe Docdata::Payment do
       Docdata.set_credentials_from_environment
       VCR.use_cassette("payments-successful-create") do
         response = @payment.create
-        expect(response).to match /[A-Z0-9]{32}/
+        expect(response).to be_kind_of(Docdata::Response)
+        expect(response.key).to match /[A-Z0-9]{32}/
         # expect { @payment.create }.to raise_error(Savon::SOAPFault, "(S:Server) Not a number: ?")
       end
     end
@@ -66,28 +67,25 @@ describe Docdata::Payment do
   end
 
   describe "#new" do
-    
     it "returns a Payment object" do
-      # VCR.use_cassette("new-payment-object") do
-        expect(@payment).to be_kind_of(Docdata::Payment)
-      # end
+      expect(@payment).to be_kind_of(Docdata::Payment)
     end
-
-    xit "returns error if not authenticated" do
-      # puts @payment.inspect
-      expect(@payment).to eq("HOI")
-    end
-
-    xit "is unvalid" do
-      expect(@payment).not_to be_valid
-    end
-
-    # it "returns an error if no price is specified" do
-    #   result = @payment
-    #   expect(@payment).to be_kind_of(Docdata::Payment)
-    # end
 
   end
 
 
+  describe "#start" do
+
+    before(:each) do
+      Docdata.set_credentials_from_environment
+    end
+    
+    it "returns an error message if no payment method is chosen" do
+      expect(@payment.start).to raise_error(DocdataError, "Invalid transaction")
+    end
+
+    it "is is unvalid without a valid payment object" do
+      
+    end
+  end
 end

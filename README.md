@@ -1,7 +1,8 @@
 # Docdata
 
-Docdata is a Ruby binder for Docdata Payments. Current status: in progress, not stable.
+Docdata is a Ruby binder for Docdata Payments. Current status: **in progress, not stable**. 
 
+This gem relies on the awesom Savon gem to communicate with Docdata Payments' SOAP API.
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -23,8 +24,8 @@ Each transaction consists of 2 parts:
 - Shopper (details about the shopper: name, email, etc.)
 - Payment (details about the payment: currency, gross amount, etc.) 
 
-### (Required) parameters
-All the payment details that Docdata Payments requires, is - obviously - also required to make payments via this gem.
+### Parameters
+All the payment details that Docdata Payments requires, are - obviously - also required to make payments via this gem.
 
 #### Shopper
 | Name | Type | Required |
@@ -37,6 +38,7 @@ All the payment details that Docdata Payments requires, is - obviously - also re
 | postal_code | String | Yes |
 | city | String | Yes |
 | country_code | String (ISO country code) | Yes |
+| language_code | String (ISO language code) | Yes |
 | email | String | Yes |
 
 #### Payment
@@ -47,7 +49,7 @@ All the payment details that Docdata Payments requires, is - obviously - also re
 | order_reference | String (your own reference) | Yes |
 | profile_id | Integer (Docdata Payment profile)| Yes |
 | shopper | Docdata::Shopper | Yes |
-
+| key | String (is availabel after successful 'create' action) | No (readonly)
 
 ## Example in Rails application
 The example below assumes you have your application set up with a Order model, which contains the information needed for this transaction (amount, name, etc.).
@@ -71,6 +73,7 @@ def start_transaction
 	result = @payment.create
 
 	if result.success
+		# Set the transaction key for future reference
 		@order.update_column :docdata_key, result.key
 	else
 		# TODO: Display the error and warn the user that something went wrong.

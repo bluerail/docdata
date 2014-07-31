@@ -1,0 +1,67 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:_1="http://www.docdatapayments.com/services/paymentservice/1_1/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <_1:startRequest version="1.1">
+         <_1:merchant name="<%= Docdata.username %>" password="<%= Docdata.password %>"/>
+         <_1:paymentOrderKey>?</_1:paymentOrderKey>
+         <!--You have a CHOICE of the next 2 items at this level-->
+         <!--Optional:-->
+         <_1:payment>
+            <_1:paymentMethod>?</_1:paymentMethod>
+            <!--Optional:-->
+            <_1:paymentAmount currency="?">?</_1:paymentAmount>
+            <!--You have a CHOICE of the next 6 items at this level-->
+            <!--Optional:-->
+            <_1:amexPaymentInput>
+               <_1:creditCardNumber>?</_1:creditCardNumber>
+               <_1:expiryDate>?</_1:expiryDate>
+               <_1:cid>?</_1:cid>
+               <_1:cardHolder>?</_1:cardHolder>
+               <_1:emailAddress>?</_1:emailAddress>
+            </_1:amexPaymentInput>
+            <!--Optional:-->
+            <_1:masterCardPaymentInput>
+               <_1:creditCardNumber>?</_1:creditCardNumber>
+               <_1:expiryDate>?</_1:expiryDate>
+               <_1:cvc2>?</_1:cvc2>
+               <_1:cardHolder>?</_1:cardHolder>
+               <_1:emailAddress>?</_1:emailAddress>
+            </_1:masterCardPaymentInput>
+            <!--Optional:-->
+            <_1:visaPaymentInput>
+               <_1:creditCardNumber>?</_1:creditCardNumber>
+               <_1:expiryDate>?</_1:expiryDate>
+               <_1:cvv2>?</_1:cvv2>
+               <_1:cardHolder>?</_1:cardHolder>
+               <_1:emailAddress>?</_1:emailAddress>
+            </_1:visaPaymentInput>
+            <!--Optional:-->
+            <_1:directDebitPaymentInput>
+               <_1:holderName>?</_1:holderName>
+               <_1:holderCity>?</_1:holderCity>
+               <_1:holderCountry code="?"/>
+               <_1:bic>?</_1:bic>
+               <_1:iban>?</_1:iban>
+            </_1:directDebitPaymentInput>
+            <!--Optional:-->
+            <_1:bankTransferPaymentInput>
+               <_1:emailAddress>?</_1:emailAddress>
+            </_1:bankTransferPaymentInput>
+            <!--Optional:-->
+            <_1:elvPaymentInput>
+               <_1:accountNumber>?</_1:accountNumber>
+               <_1:bankCode>?</_1:bankCode>
+            </_1:elvPaymentInput>
+         </_1:payment>
+         <!--Optional:-->
+         <_1:recurringPaymentRequest>
+            <_1:initialPaymentReference>
+               <!--You have a CHOICE of the next 3 items at this level-->
+               <_1:linkId>?</_1:linkId>
+               <_1:paymentId>?</_1:paymentId>
+               <_1:merchantReference>?</_1:merchantReference>
+            </_1:initialPaymentReference>
+         </_1:recurringPaymentRequest>
+      </_1:startRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

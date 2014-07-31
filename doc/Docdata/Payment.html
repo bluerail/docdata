@@ -858,11 +858,7 @@
 65
 66
 67
-68
-69
-70
-71
-72</pre>
+68</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 60</span>
@@ -874,11 +870,7 @@
   <span class='id identifier rubyid_namespace'>namespace</span> <span class='op'>=</span> <span class='const'>OpenStruct</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>payment:</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='label'>shopper:</span> <span class='id identifier rubyid_shopper'>shopper</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_xml'>xml</span> <span class='op'>=</span> <span class='const'>ERB</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_template'>template</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_result'>result</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='period'>.</span><span class='id identifier rubyid_instance_eval'>instance_eval</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_binding'>binding</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='const'>Docdata</span><span class='period'>.</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='symbol'>:create</span><span class='comma'>,</span> <span class='label'>xml:</span> <span class='id identifier rubyid_xml'>xml</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_response'>response</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='lbracket'>[</span><span class='symbol'>:create_response</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='lbracket'>[</span><span class='symbol'>:create_response</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:create_error</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>DocdataError</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='lbracket'>[</span><span class='symbol'>:create_response</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:create_error</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:error</span><span class='rbracket'>]</span>
-  <span class='kw'>else</span>
-    <span class='kw'>return</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span>
-  <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='const'>Docdata</span><span class='op'>::</span><span class='const'>Response</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -944,7 +936,7 @@
 </div>
 
     <div id="footer">
-  Generated on Thu Jul 31 10:49:39 2014 by
+  Generated on Thu Jul 31 13:53:21 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.0.0).
 </div>
