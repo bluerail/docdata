@@ -81,6 +81,11 @@ def start_transaction
 end
 ```
 
+## Ideal
+
+For transactions in the Netherlands, iDeal is the most common option. To redirect a user directly to the bank page (skipping the Docdata web menu page), you can ask your user to choose a bank from any of the banks listed in the `Docdata::Ideal.banks` method.
+In `Docdata::Payment` you can set `bank_id` to any value. If you do, the redirect URI will redirect your user directly to the bank page.
+
 ## Contributing
 
 1. Fork it
