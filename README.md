@@ -1,6 +1,6 @@
 # Docdata
 
-Docdata is a Ruby binder for Docdata payments. Current status: in progress, not stable.
+Docdata is a Ruby binder for Docdata Payments. Current status: in progress, not stable.
 
 ## Installation
 
@@ -23,7 +23,34 @@ Each transaction consists of 2 parts:
 - Shopper (details about the shopper: name, email, etc.)
 - Payment (details about the payment: currency, gross amount, etc.) 
 
+### (Required) parameters
+All the payment details that Docdata Payments requires, is - obviously - also required to make payments via this gem.
+
+#### Shopper
+| Name | Type | Required |
+|-----------|------------|---------|
+| id | String (ID for own reference) | Yes
+| first_name | String | Yes |
+|	last_name | String | Yes |
+| street | String | Yes |
+| house_number | String | Yes |
+| postal_code | String | Yes |
+| city | String | Yes |
+| country_code | String (ISO country code) | Yes |
+| email | String | Yes |
+
+#### Payment
+| Name | Type | Required |
+|-----------|------------|---------|
+| amount | Integer (amount in cents) | Yes |
+| currency | String (ISO currency code) | Yes |
+| order_reference | String (your own reference) | Yes |
+| profile_id | Integer (Docdata Payment profile)| Yes |
+| shopper | Docdata::Shopper | Yes |
+
+
 ## Example in Rails application
+The example below assumes you have your application set up with a Order model, which contains the information needed for this transaction (amount, name, etc.).
 ```ruby
 # orders_controller.rb
 def start_transaction

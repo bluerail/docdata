@@ -10,7 +10,7 @@ require "docdata/version"
 require "docdata/docdata_error"
 require "docdata/shopper"
 require "docdata/payment"
-
+require "docdata/response"
 
 include Savon
 # 
