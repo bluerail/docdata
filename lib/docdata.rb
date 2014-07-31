@@ -1,4 +1,5 @@
 # Libraries
+require 'ostruct'
 require 'rails'
 require 'savon'
 require 'active_support/dependencies'
@@ -7,8 +8,9 @@ require 'active_support'
 #  Files
 require "docdata/version"
 require "docdata/docdata_error"
-require "docdata/payment"
 require "docdata/shopper"
+require "docdata/payment"
+
 
 include Savon
 # 

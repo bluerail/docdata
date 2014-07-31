@@ -7,6 +7,15 @@ module Docdata
 
       # validates :amount, presence: true, integer: true
       # validates :currency, presence: true, format: /[A-Z]{3}/
+      validates :id, presence: true
+      validates :first_name, presence: true
+      validates :last_name, presence: true
+      validates :street, presence: true
+      validates :house_number, presence: true
+      validates :postal_code, presence: true
+      validates :city, presence: true
+      validates :email, presence: true
+      validates :country_code, presence: true, format: /[A-Z]{2}/
   end
 
 
@@ -40,6 +49,8 @@ module Docdata
     attr_accessor :city
     # @return [String] Shopper email
     attr_accessor :email
+    # @return [String] ISO country code (us, nl, de, uk)
+    attr_accessor :country_code
 
 
 
@@ -56,9 +67,27 @@ module Docdata
       "#{first_name} #{last_name}"
     end
 
+    # Returns true if this instanciated object is valid
     def valid?
       validator = ShopperValidator.new
       validator.valid?(self)
+    end
+
+    # This method will instanciate and return a new Shopper object
+    # with all the required properties set. Mostly for testing purpose,
+    # but maybe usefull in other scenarios as well.
+    def self.create_valid_shopper
+      shopper = self.new
+      shopper.id           = "789"
+      shopper.first_name   = "John"
+      shopper.last_name    = "Doe"
+      shopper.country_code = "NL"
+      shopper.email        = "test@example.org"
+      shopper.street       = "Main street"
+      shopper.house_number = "123"
+      shopper.postal_code  = "1122AB"
+      shopper.city         = "Test City"
+      return shopper
     end
 
   end

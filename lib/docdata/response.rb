@@ -1,32 +1,19 @@
 module Docdata
 
-  # Creates a validator
-  class PaymentValidator
-      require 'veto'
-      include Veto.validator
-
-      validates :amount, presence: true, integer: true
-      validates :profile_id, presence: true, integer: true
-      validates :currency, presence: true, format: /[A-Z]{3}/
-  end
-
-
 
   #
-  # Object representing a "WSDL" object with attributes provided by Docdata
+  # Object representing a "response" with attributes provided by Docdata
   #
   # @example
-  #   Payment.new({
-  #     :amount => 2500,
-  #     :currency => "EUR",
-  #     :order_reference => "TJ123"
-  #     :shopper => @shopper
-  #   })
-  class Payment
+  #   :create_success=>{
+  #     :success=>"Operation successful.", 
+  #     :key=>"A7B623A3A7DB5949316F82049450C3F3"
+  #   }
+  class Response
 
-    # @return [Array] Errors
-    attr_accessor :errors
-    # @return [Integer] The total price in cents
+    # @return [String] Payment key for future correspondence about this transaction
+    attr_accessor :key
+    # @return [Boolean] 
     attr_accessor :amount
     @@amount = "?"
     # @return [String] ISO currency code (USD, EUR, GBP, etc.)

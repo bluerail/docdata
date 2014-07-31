@@ -2,13 +2,20 @@ require 'spec_helper'
 
 describe Docdata::Payment do
   before(:each) do
+    @shopper = Docdata::Shopper.create_valid_shopper
     @payment = Docdata::Payment.new
     @payment.amount = 500
+    @payment.profile_id = "1234556"
     @payment.currency = "EUR"
-    @shopper = Docdata::Shopper.new
-    @shopper.first_name = "John"
-    @shopper.last_name = "Doe"
     @payment.shopper = @shopper
+  end
+
+  describe "initialisation" do
+
+    it "ititializes a new object through a hash" do
+      payment = Docdata::Payment.new(amount: 500)
+      expect(payment.amount).to eq(500)
+    end
   end
 
   describe "validations" do
@@ -41,25 +48,20 @@ describe Docdata::Payment do
 
     it "raises error when credentials are wrong" do
       VCR.use_cassette("payments-xml-create-without-credentials") do
-        expect { Docdata::Payment.new.create }.to raise_error(DocdataError, "Login failed.")
+        expect { @payment.create }.to raise_error(DocdataError, "Login failed.")
       end
     end
 
 
     it "raises error when blank xml is sent" do
       Docdata.set_credentials_from_environment
-      VCR.use_cassette("payments-blank-xml-create") do
-        expect { Docdata::Payment.new.create }.to raise_error(Savon::SOAPFault, "(S:Server) Not a number: ?")
+      VCR.use_cassette("payments-successful-create") do
+        response = @payment.create
+        expect(response).to match /[A-Z0-9]{32}/
+        # expect { @payment.create }.to raise_error(Savon::SOAPFault, "(S:Server) Not a number: ?")
       end
     end
 
-
-    xit "communicates with the SOAP Api" do
-      # VCR.use_cassette("payments-create") do
-        response = @payment.create
-        expect(response.message).to eq("ok")
-      # end
-    end
 
   end
 
