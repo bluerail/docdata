@@ -24,28 +24,32 @@ Each transaction consists of 2 parts:
 - Payment (details about the payment: currency, gross amount, etc.) 
 
 ## Example in Rails application
-```ruby
-# orders_controller.rb
-def start_transaction
-	# find the order from your database
-	@order = Order.find(params[:id])
-	
-	# initialize a shopper, use details from your order
-	shopper = Docdata::Shopper.new(first_name: @order.first_name, last_name: @order.last_name)
+		```ruby
+		# orders_controller.rb
+		def start_transaction
+			# find the order from your database
+			@order = Order.find(params[:id])
+			
+			# initialize a shopper, use details from your order
+			shopper = Docdata::Shopper.new(first_name: @order.first_name, last_name: @order.last_name)
 
-	# set up a payment
-	@payment = Docdata::Payment.new(amount: @order.total, currency: @order.currency, shopper: shopper)
+			# set up a payment
+			@payment = Docdata::Payment.new(
+				amount: @order.total, 
+				currency: @order.currency, 
+				shopper: shopper
+			)
 
-	# create the payment via the docdata api and collect the result
-	result = @payment.create
+			# create the payment via the docdata api and collect the result
+			result = @payment.create
 
-	if result.success
-		@order.update_column :docdata_key, result.key
-	else
-		# TODO: Display the error and warn the user that something went wrong.
-	end
-end
-```
+			if result.success
+				@order.update_column :docdata_key, result.key
+			else
+				# TODO: Display the error and warn the user that something went wrong.
+			end
+		end
+		```
 
 ## Contributing
 
