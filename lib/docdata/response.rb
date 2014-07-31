@@ -16,7 +16,8 @@ module Docdata
     # @return [Boolean] true/false, depending of the API response
     attr_accessor :success
     @@success = false
-
+    alias_method :success?, :success
+    
     # @return [String] Response message from DocData
     attr_accessor :message
 

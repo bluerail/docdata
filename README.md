@@ -27,7 +27,7 @@ Each transaction consists of 2 parts:
 ### Parameters
 All the payment details that Docdata Payments requires, are - obviously - also required to make payments via this gem.
 
-#### Shopper
+#### Shopper:
 | Name | Type | Required |
 |-----------|------------|---------|
 | id | String (ID for own reference) | Yes
@@ -41,17 +41,17 @@ All the payment details that Docdata Payments requires, are - obviously - also r
 | language_code | String (ISO language code) | Yes |
 | email | String | Yes |
 
-#### Payment
+#### Payment:
 | Name | Type | Required |
 |-----------|------------|---------|
 | amount | Integer (amount in cents) | Yes |
 | currency | String (ISO currency code) | Yes |
 | order_reference | String (your own reference) | Yes |
-| profile_id | Integer (Docdata Payment profile)| Yes |
+| profile | Integer (Docdata Payment profile)| Yes |
 | shopper | Docdata::Shopper | Yes |
 | key | String (is availabel after successful 'create' action) | No (readonly)
 
-## Example in Rails application
+## Example usage in Rails application
 The example below assumes you have your application set up with a Order model, which contains the information needed for this transaction (amount, name, etc.).
 ```ruby
 # orders_controller.rb

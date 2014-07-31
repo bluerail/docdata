@@ -5,7 +5,7 @@
          <_1:merchant name="<%= Docdata.username %>" password="<%= Docdata.password %>"/>
          <_1:merchantOrderReference><%= payment.order_reference %></_1:merchantOrderReference>
          <_1:paymentPreferences>
-            <_1:profile><%= payment.profile_id %></_1:profile>
+            <_1:profile><%= payment.profile %></_1:profile>
             <_1:numberOfDaysToPay>14</_1:numberOfDaysToPay>
          </_1:paymentPreferences>
          

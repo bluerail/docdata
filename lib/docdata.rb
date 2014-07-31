@@ -4,6 +4,8 @@ require 'rails'
 require 'savon'
 require 'active_support/dependencies'
 require 'active_support'
+require 'open-uri'
+require 'nokogiri'
 
 #  Files
 require "docdata/version"
@@ -11,6 +13,8 @@ require "docdata/docdata_error"
 require "docdata/shopper"
 require "docdata/payment"
 require "docdata/response"
+require "docdata/ideal"
+require "docdata/bank"
 
 include Savon
 # 
@@ -32,6 +36,9 @@ module Docdata
   mattr_accessor :test_mode
   @@test_mode = true
 
+  # @param [String] Set the url of your website where docdata can send messages to
+  mattr_accessor :return_url
+  @@return_url = nil
 
   # returns the version number
   def self.version
@@ -55,11 +62,13 @@ module Docdata
   # in environment variables to make the tests pass with your test
   # credentials.
   def self.set_credentials_from_environment
-    self.password = ENV["DOCDATA_PASSWORD"]
-    self.username = ENV["DOCDATA_USERNAME"]
+    self.password   = ENV["DOCDATA_PASSWORD"]
+    self.username   = ENV["DOCDATA_USERNAME"]
+    self.return_url = ENV["DOCDATA_RETURN_URL"]
   end
 
   def self.client
     Savon.client(wsdl: url)
   end
+
 end

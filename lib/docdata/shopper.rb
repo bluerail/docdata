@@ -16,6 +16,7 @@ module Docdata
       validates :city, presence: true
       validates :email, presence: true
       validates :country_code, presence: true, format: /[A-Z]{2}/
+      validates :language_code, presence: true, format: /[a-z]{2}/
   end
 
 
@@ -80,15 +81,16 @@ module Docdata
     # but maybe usefull in other scenarios as well.
     def self.create_valid_shopper
       shopper = self.new
-      shopper.id           = "789"
-      shopper.first_name   = "John"
-      shopper.last_name    = "Doe"
-      shopper.country_code = "NL"
-      shopper.email        = "test@example.org"
-      shopper.street       = "Main street"
-      shopper.house_number = "123"
-      shopper.postal_code  = "1122AB"
-      shopper.city         = "Test City"
+      shopper.id            = "789"
+      shopper.first_name    = "John"
+      shopper.last_name     = "Doe"
+      shopper.country_code  = "NL"
+      shopper.language_code = "nl"
+      shopper.email         = "test@example.org"
+      shopper.street        = "Main street"
+      shopper.house_number  = "123"
+      shopper.postal_code   = "1122AB"
+      shopper.city          = "Test City"
       return shopper
     end
 

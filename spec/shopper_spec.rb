@@ -11,7 +11,7 @@ describe Docdata::Shopper do
     it "validates attributes" do
       shopper = Docdata::Shopper.new
       expect(shopper).not_to be_valid
-      expect(shopper.errors.count).to eq(10)
+      expect(shopper.errors.count).to eq(12)
     end
 
     it "creates a valid shopper" do

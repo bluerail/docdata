@@ -6,8 +6,9 @@ module Docdata
       include Veto.validator
 
       validates :amount, presence: true, integer: true
-      validates :profile_id, presence: true, integer: true
+      validates :profile, presence: true
       validates :currency, presence: true, format: /[A-Z]{3}/
+      validates :order_reference, presence: true
   end
 
 
@@ -26,15 +27,15 @@ module Docdata
 
     # @return [Array] Errors
     attr_accessor :errors
-    # @return [Integer] The total price in cents
+    # @param [Integer] The total price in cents
     attr_accessor :amount
     @@amount = "?"
-    # @return [String] ISO currency code (USD, EUR, GBP, etc.)
+    # @param [String] ISO currency code (USD, EUR, GBP, etc.)
     attr_accessor :currency
-    # @return [String] A unique order reference
+    # @param [String] A unique order reference
     attr_accessor :order_reference
-    # @return [Integer] The DocData profile ID
-    attr_accessor :profile_id
+    # @param [String] The DocData payment profile (e.g. 'MyProfile')
+    attr_accessor :profile
     # @return [Shopper] A shopper object (instance of Docdata::Shopper)
     attr_accessor :shopper
     # @retun [String] The Docdata Payment key returned after #create
@@ -60,12 +61,16 @@ module Docdata
     end
 
     def create
-      xml_file = "#{File.dirname(__FILE__)}/xml/create.xml.erb"
-      template = File.read(xml_file)      
-      namespace = OpenStruct.new(payment: self, shopper: shopper)
-      xml = ERB.new(template).result(namespace.instance_eval { binding })
-      response = Docdata.client.call(:create, xml: xml)
-      return Docdata::Response.parse(:create, response)
+      xml_file        = "#{File.dirname(__FILE__)}/xml/create.xml.erb"
+      template        = File.read(xml_file)      
+      namespace       = OpenStruct.new(payment: self, shopper: shopper)
+      xml             = ERB.new(template).result(namespace.instance_eval { binding })
+      response        = Docdata.client.call(:create, xml: xml)
+      response_object = Docdata::Response.parse(:create, response)
+      if response_object.success?
+        self.key = response_object.key
+      end
+      return response_object
     end
 
     def start
@@ -73,8 +78,26 @@ module Docdata
       template = File.read(xml_file)      
       namespace = OpenStruct.new(payment: self, shopper: shopper)
       xml = ERB.new(template).result(namespace.instance_eval { binding })
-      response = Docdata.client.call(:create, xml: xml)
-      return Docdata::Response.parse(:create, response)
+      response = Docdata.client.call(:start, xml: xml)
+      return Docdata::Response.parse(:start, response)
     end    
+
+    def redirect_url
+      url = {}
+      
+      base_url = Docdata.return_url
+      redirect_base_url = 'https://test.docdatapayments.com/ps/menu'
+      url[:command]             = "show_payment_cluster"
+      url[:payment_cluster_key] = key
+      url[:merchant_name]       = Docdata.username
+      url[:return_url_success]  = "#{base_url}/success?key=#{url[:payment_cluster_key]}"
+      url[:return_url_pending]  = "#{base_url}/pending?key=#{url[:payment_cluster_key]}"
+      url[:return_url_canceled] = "#{base_url}/canceled?key=#{url[:payment_cluster_key]}"
+      url[:return_url_error]    = "#{base_url}/error?key=#{url[:payment_cluster_key]}"
+      url[:locale]              = ''
+      
+      params = URI.encode_www_form(url)
+      uri = "#{redirect_base_url}?#{params}"
+    end
   end
 end

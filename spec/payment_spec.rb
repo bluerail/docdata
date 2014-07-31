@@ -5,7 +5,8 @@ describe Docdata::Payment do
     @shopper = Docdata::Shopper.create_valid_shopper
     @payment = Docdata::Payment.new
     @payment.amount = 500
-    @payment.profile_id = "1234556"
+    @payment.profile = ENV["DOCDATA_PAYMENT_PROFILE"]
+    @payment.order_reference = rand(500)
     @payment.currency = "EUR"
     @payment.shopper = @shopper
   end
@@ -58,11 +59,23 @@ describe Docdata::Payment do
       VCR.use_cassette("payments-successful-create") do
         response = @payment.create
         expect(response).to be_kind_of(Docdata::Response)
+        expect(response).to be_success
         expect(response.key).to match /[A-Z0-9]{32}/
+        expect(@payment.key).to be_present
+        expect(@payment.key).to eq(response.key)
         # expect { @payment.create }.to raise_error(Savon::SOAPFault, "(S:Server) Not a number: ?")
       end
     end
 
+    it "has a redirect_url" do
+      Docdata.set_credentials_from_environment
+      VCR.use_cassette("payments-successful-create") do
+        @payment.create
+        puts @payment.redirect_url
+        expect(@payment.redirect_url).to include("https://test.docdatapayments.com/ps/menu?command=show_payment_cluster")
+
+      end
+    end
 
   end
 
@@ -71,21 +84,5 @@ describe Docdata::Payment do
       expect(@payment).to be_kind_of(Docdata::Payment)
     end
 
-  end
-
-
-  describe "#start" do
-
-    before(:each) do
-      Docdata.set_credentials_from_environment
-    end
-    
-    it "returns an error message if no payment method is chosen" do
-      expect(@payment.start).to raise_error(DocdataError, "Invalid transaction")
-    end
-
-    it "is is unvalid without a valid payment object" do
-      
-    end
   end
 end
