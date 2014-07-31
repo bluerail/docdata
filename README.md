@@ -16,9 +16,21 @@ Or install it yourself as:
 
     $ gem install docdata
 
-## Usage
+## Lay of the land
 
-TODO: Write usage instructions here
+Each transaction consists of 2 parts:
+
+- Shopper (details about the shopper: name, email, etc.)
+- Payment (details about the payment: currency, gross amount, etc.) 
+
+## Example in Rails application
+
+		# orders_controller.rb
+		def start_transaction
+			# find the order from your database
+			@order = Order.find(params[:id])
+		end
+
 
 ## Contributing
 
