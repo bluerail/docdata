@@ -11,7 +11,8 @@ describe Docdata::Shopper do
     it "validates attributes" do
       shopper = Docdata::Shopper.new
       expect(shopper).not_to be_valid
-      expect(shopper.errors.count).to eq(12)
+      expect(shopper.errors.count).to eq(1)
+      expect(shopper.errors.full_messages).to include("id is not present")
     end
 
     it "creates a valid shopper" do
@@ -19,12 +20,13 @@ describe Docdata::Shopper do
       expect(shopper).to be_valid
     end
 
-
-    # it "validates countrycode" do
-    #   shopper = Docdata::Shopper.new(country_code: "nl")
-    #   expect(shopper).not_to be_valid
-    #   expect(shopper.errors.count).to eq(9)
-    # end
+    it "sets up proper defaults" do
+      shopper = Docdata::Shopper.new
+      expect(shopper.first_name).to eq("First Name")
+      expect(shopper.last_name).to eq("Last Name")
+      expect(shopper.street).to eq("Main Street")
+      expect(shopper.house_number).to eq("123")
+    end
 
   end
 

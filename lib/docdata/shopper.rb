@@ -26,33 +26,33 @@ module Docdata
   #
   # @example
   #   Shopper.new({
-  #     :amount => 2500,
-  #     :currency => "EUR",
-  #     :order_reference => "TJ123"
+  #     :first_name => "Jack",
+  #     :last_name => "Sixpack"
+  #     :id => "MC123"
   #   })
   class Shopper
 
     # @return [Array] Errors
     attr_accessor :errors
-    # @return [Integer] The shopper ID
+    # @param [String] The shopper ID
     attr_accessor :id
-    # @return [String] Shopper first name
+    # @param [String] Shopper first name
     attr_accessor :first_name
-    # @return [String] Shopper last name
+    # @param [String] Shopper last name
     attr_accessor :last_name
-    # @return [String] Shopper street address
+    # @param [String] Shopper street address
     attr_accessor :street
-    # @return [String] Shopper house number
+    # @param [String] Shopper house number
     attr_accessor :house_number
-    # @return [String] Shopper postal code
+    # @param [String] Shopper postal code
     attr_accessor :postal_code
-    # @return [String] Shopper city
+    # @param [String] Shopper city
     attr_accessor :city
-    # @return [String] Shopper email
+    # @param [String] Shopper email
     attr_accessor :email
-    # @return [String] ISO country code (us, nl, de, uk)
+    # @param [String] ISO country code (us, nl, de, uk)
     attr_accessor :country_code
-    # @return [String] ISO language code (en, nl, de)
+    # @param [String] ISO language code (en, nl, de)
     attr_accessor :language_code
 
 
@@ -61,9 +61,14 @@ module Docdata
     #
     # Initializer to transform a +Hash+ into an Shopper object
     #
-    # @param [Hash] values
-    def initialize(values=nil)
-      return if values.nil?
+    # @param [Hash] args
+    def initialize(args=nil)
+      self.set_default_values
+      return if args.nil?
+      args.each do |k,v|
+        instance_variable_set("@#{k}", v) unless v.nil?
+      end
+
     end
 
     def name
@@ -74,6 +79,19 @@ module Docdata
     def valid?
       validator = ShopperValidator.new
       validator.valid?(self)
+    end
+
+    
+    def set_default_values
+      @first_name    = "First Name"
+      @last_name     = "Last Name"
+      @street        = "Main Street"
+      @house_number  = "123"
+      @postal_code   = "2244"
+      @city          = "City"
+      @country_code  = "NL"
+      @language_code = "nl"
+      @email         = "random@example.com"
     end
 
     # This method will instanciate and return a new Shopper object

@@ -17,6 +17,7 @@ describe Docdata::Payment do
       payment = Docdata::Payment.new(amount: 500)
       expect(payment.amount).to eq(500)
     end
+
   end
 
   describe "validations" do
@@ -82,7 +83,7 @@ describe Docdata::Payment do
       @payment.bank_id = "0031" # ABN AMRO
       VCR.use_cassette("payments-successful-create") do
         @payment.create
-        puts @payment.redirect_url
+        # puts @payment.redirect_url
         expect(@payment.redirect_url).to include("&default_act=true&ideal_issuer_id=0031&default_pm=IDEAL")
       end      
     end

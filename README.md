@@ -33,7 +33,7 @@ All the payment details that Docdata Payments requires, are - obviously - also r
 | id | String (ID for own reference) | Yes | |
 | first_name | String | Yes | First Name |
 |	last_name | String | Yes | Last Name |
-| street | String | Yes | Mainstreet |
+| street | String | Yes | Main Street |
 | house_number | String | Yes | 123 |
 | postal_code | String | Yes | 2244 |
 | city | String | Yes | City |
@@ -52,6 +52,11 @@ All the payment details that Docdata Payments requires, are - obviously - also r
 | bank_id | String | No |
 | prefered_payment_method | String | No |
 | key | String (is availabel after successful 'create' action) | No (readonly)
+
+## Default values
+A quick warning about the default values for the Shopper object: **For some payment methods, Docdata Payments needs the actual information in order for the payment to take place.**
+
+If you use GIROPAY this is the case. (Maybe also in other payment methods, please let me know!)
 
 ## Example usage in Rails application
 The example below assumes you have your application set up with a Order model, which contains the information needed for this transaction (amount, name, etc.).
@@ -142,6 +147,8 @@ end
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+3. Make changes and add tests (rspec)
+4. Run the entire test suite and make sure all tests pass
+5. Commit your changes (`git commit -am 'Add some feature'`)
+6. Push to the branch (`git push origin my-new-feature`)
+7. Create new Pull Request
