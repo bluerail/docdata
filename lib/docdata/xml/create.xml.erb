@@ -34,62 +34,62 @@
             </_1:address>
          </_1:billTo>
 
+         <% if payment.description.present? %>
+         <_1:description><%= payment.description %></_1:description>
+         <% end %>
+         <% if payment.receipt_text.present? %>
+         <_1:receiptText><%= payment.receipt_text %></_1:receiptText>
+         <% end %>
+
          <% if payment.line_items.any? %>
          <_1:invoice>
             <!-- TODO: include VAT options -->
-            <!-- <_1:totalNetAmount currency="?">?</_1:totalNetAmount> -->
+            <_1:totalNetAmount currency="<%= payment.currency %>"><%= payment.amount %></_1:totalNetAmount>
             <!--1 to 1000 repetitions:-->
-            <!-- <_1:totalVatAmount currency="?" rate="?">?</_1:totalVatAmount> -->
+            <% for vat_rate in payment.vat_rates %>
+            <% puts "Rate: #{vat_rate}" %>
+            
+            <_1:totalVatAmount currency="<%= payment.currency %>" rate="<%= vat_rate[:rate].to_s %>"><%= vat_rate[:total].to_i.to_s %></_1:totalVatAmount>
+            <% end %>
             <!--1 to 1000 repetitions:-->
             <% payment.line_items.each_with_index do |line_item, i| %>
-            <_1:item number="<%= i %>">
+            <_1:item number="<%= i+1 %>">
                <_1:name><%= line_item.name %></_1:name>
                <_1:code><%= line_item.code %></_1:code>
-               <_1:quantity unitOfMeasure="<%= line_item.unit_of_measure %>"><%= line_item.quatnity %></_1:quantity>
+               <_1:quantity unitOfMeasure="<%= line_item.unit_of_measure %>"><%= line_item.quantity %></_1:quantity>
                <_1:description><%= line_item.description %></_1:description>
-               <!--Optional:-->
-               <_1:image><%= line_item.image %></_1:image>
 
-               <_1:netAmount currency="<%= payment.currency %>">?</_1:netAmount>
-               <_1:grossAmount currency="<%= payment.currency %>">?</_1:grossAmount>
-               <_1:vat rate="?">
-                  <_1:amount currency="<%= payment.currency %>">?</_1:amount>
+               <% if line_item.image.present? %>
+               <_1:image><%= line_item.image %></_1:image>
+               <% end %>
+               <_1:netAmount currency="<%= payment.currency %>">20</_1:netAmount>
+               <_1:grossAmount currency="<%= payment.currency %>">20</_1:grossAmount>
+               <_1:vat rate="20">
+                  <_1:amount currency="<%= payment.currency %>">20</_1:amount>
                </_1:vat>
-               <_1:totalNetAmount currency="<%= payment.currency %>">?</_1:totalNetAmount>
-               <_1:totalGrossAmount currency="<%= payment.currency %>">?</_1:totalGrossAmount>
-               <_1:totalVat rate="?">
-                  <_1:amount currency="?">?</_1:amount>
+               <_1:totalNetAmount currency="<%= payment.currency %>">20</_1:totalNetAmount>
+               <_1:totalGrossAmount currency="<%= payment.currency %>">20</_1:totalGrossAmount>
+               <_1:totalVat rate="20">
+                  <_1:amount currency="20">20</_1:amount>
                </_1:totalVat>
 
             </_1:item>
             <% end %>
             <_1:shipTo>
                <_1:name>
-                  <!--Optional:-->
-                  <_1:prefix></_1:prefix>
-                  <!--Optional:-->
-                  <_1:initials></_1:initials>
                   <_1:first><%= shopper.first_name %></_1:first>
-                  <!--Optional:-->
-                  <_1:middle></_1:middle>
                   <_1:last><%= shopper.first_name %></_1:last>
-                  <!--Optional:-->
-                  <_1:suffix></_1:suffix>
                </_1:name>
                <_1:address>
-                  <!--Optional:-->
-                  <_1:company></_1:company>
                   <_1:street><%= shopper.street %></_1:street>
                   <_1:houseNumber><%= shopper.house_number %></_1:houseNumber>
-                  <!--Optional:-->
-                  <_1:houseNumberAddition></_1:houseNumberAddition>
                   <_1:postalCode><%= shopper.postal_code %></_1:postalCode>
                   <_1:city><%= shopper.city %></_1:city>
                   <_1:country code="<%= shopper.country_code %>"/>
                </_1:address>
             </_1:shipTo>
             <!--Optional:-->
-            <_1:additionalDescription></_1:additionalDescription>
+            <_1:additionalDescription>sdf</_1:additionalDescription>
          </_1:invoice>
          <% end %>
 

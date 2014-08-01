@@ -2,10 +2,11 @@ module Docdata
 
   # Creates a validator
   class PaymentValidator
-      validates :amount, presence: true, integer: true
-      validates :profile, presence: true
-      validates :currency, presence: true, format: /[A-Z]{3}/
-      validates :order_reference, presence: true
+    include Veto.validator
+    validates :amount, presence: true, integer: true
+    validates :profile, presence: true
+    validates :currency, presence: true, format: /[A-Z]{3}/
+    validates :order_reference, presence: true
   end
 
 
@@ -27,6 +28,8 @@ module Docdata
   # @param :currency [String] ISO currency code (USD, EUR, GBP, etc.)
   # @param :order_reference [String] A unique order reference
   # @param :profile [String] The DocData payment profile (e.g. 'MyProfile')
+  # @param :description [String] Description for this payment
+  # @param :receipt_text [String] A receipt text
   # @param :shopper [Docdata::Shopper] A shopper object (instance of Docdata::Shopper)
   # @param :bank_id [String] (optional) in case you want to redirect the consumer
   # directly to the bank page (iDeal), you can set the bank id ('0031' for ABN AMRO for example.)
@@ -38,6 +41,8 @@ module Docdata
     attr_accessor :errors
     attr_accessor :amount
     @@amount = "?"
+    attr_accessor :description
+    attr_accessor :receipt_text
     attr_accessor :currency
     attr_accessor :order_reference
     attr_accessor :profile
@@ -74,7 +79,6 @@ module Docdata
     # and performs a `create` action on Docdata Payments SOAP API. 
     # @return [Docdata::Response] response object with `key`, `message` and `success?` methods
     # 
-    # 
     def create
       # if there are any line items, they should all be valid.
       validate_line_items
@@ -92,6 +96,36 @@ module Docdata
         self.key = response_object.key
       end
       return response_object
+    end
+
+
+
+    # Initialize a Payment object with the key set
+    def self.find(api_key)
+      p = self.new(key: api_key)
+      if p.status.success
+        return p
+      else
+        raise DocdataError.new(p), p.status.message
+      end
+    end
+
+    # 
+    # This is one of the other native SOAP API methods.
+    # @return [Docdata::Response]
+    def status
+      # read the xml template
+      xml_file        = "#{File.dirname(__FILE__)}/xml/status.xml.erb"
+      template        = File.read(xml_file)      
+      namespace       = OpenStruct.new(payment: self)
+      xml             = ERB.new(template).result(namespace.instance_eval { binding })
+
+      # puts xml
+
+      response        = Docdata.client.call(:status, xml: xml)
+      response_object = Docdata::Response.parse(:status, response)
+
+      return response_object # Docdata::Response
     end
 
     # @return [String] The URI where the consumer can be redirected to in order to pay
@@ -121,6 +155,9 @@ module Docdata
       uri = "#{redirect_base_url}?#{params}"
     end
 
+
+    private
+
     # In case there are any line_items, validate them all and
     # raise an error for the first invalid LineItem
     def validate_line_items
@@ -134,5 +171,18 @@ module Docdata
         end
       end
     end
+
+    # @return [Hash] list of VAT-rates and there respective totals
+    def vat_rates
+      rates = {}
+      for item in @line_items
+        rates["vat_#{item.vat_rate.to_s}"] ||= {}
+        rates["vat_#{item.vat_rate.to_s}"][:rate] ||= item.vat_rate
+        rates["vat_#{item.vat_rate.to_s}"][:total] ||= 0
+        rates["vat_#{item.vat_rate.to_s}"][:total] += item.vat
+      end
+      return rates
+    end
+
   end
 end

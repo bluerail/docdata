@@ -20,7 +20,6 @@ require "docdata/ideal"
 require "docdata/bank"
 
 include Savon
-include Veto.validator
 
 # 
 # Docdata Module

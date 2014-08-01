@@ -4,11 +4,12 @@ describe Docdata::Payment do
   before(:each) do
     @shopper = Docdata::Shopper.create_valid_shopper
     @payment = Docdata::Payment.new
-    @payment.amount = 500
-    @payment.profile = ENV["DOCDATA_PAYMENT_PROFILE"]
+    @payment.amount          = 500
+    @payment.profile         = ENV["DOCDATA_PAYMENT_PROFILE"]
     @payment.order_reference = rand(500)
-    @payment.currency = "EUR"
-    @payment.shopper = @shopper
+    @payment.currency        = "EUR"
+    @payment.description     = "Description of my order"
+    @payment.shopper         = @shopper
   end
 
   describe "initialisation" do
@@ -98,6 +99,59 @@ describe Docdata::Payment do
     #   end
     # end
 
+  end
+
+  describe "#find" do
+    it "returns a Payment object if correct key is given" do
+      Docdata.set_credentials_from_environment
+      VCR.use_cassette("payments-successful-create") do
+        @payment.create
+      end
+      expect(@payment.key).to be_present
+      VCR.use_cassette("perform-valid-status-call") do
+        @new_payment = Docdata::Payment.find(@payment.key)
+      end
+      expect(@new_payment).to be_kind_of(Docdata::Payment)
+    end
+
+    it "raises error if order is not found" do
+      VCR.use_cassette("perform-invalid-status-call") do
+        expect { @new_payment = Docdata::Payment.find("THISWILLPRODUC3AN3RROR") }.
+          to raise_error(DocdataError, "Order could not be found with the given key.")
+      end
+    end
+  end
+
+  describe "#status" do
+    it "returns 'success'" do
+      Docdata.set_credentials_from_environment
+      VCR.use_cassette("payments-successful-create") do
+        @payment.create
+      end
+      VCR.use_cassette("perform-valid-status-call") do
+        @new_payment = Docdata::Payment.find(@payment.key)
+      end
+      VCR.use_cassette("status-call") do
+        @response = @new_payment.status
+      end
+      expect(@response).to be_kind_of(Docdata::Response)      
+      expect(@response).to be_success
+
+    end
+  end
+
+  it "returns paid == false by default" do
+      Docdata.set_credentials_from_environment
+      VCR.use_cassette("payments-successful-create") do
+        @payment.create
+      end
+      VCR.use_cassette("perform-valid-status-call") do
+        @new_payment = Docdata::Payment.find(@payment.key)
+      end
+      VCR.use_cassette("status-call") do
+        @response = @new_payment.status
+      end
+      expect(@response).not_to be_paid   
   end
 
   describe "#new" do

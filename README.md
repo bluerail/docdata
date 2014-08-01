@@ -23,7 +23,7 @@ Each transaction consists of 2 - optionally 3 - parts:
 
 - `Docdata::Shopper` (details about the shopper: name, email, etc.)
 - `Docdata::Payment` (details about the payment: currency, gross amount, etc.) 
-- `Docdata::LineItem` (optionally list the products of this payment)
+- `Docdata::LineItem` (optionally list the products of this payment) **currently not working!**
 
 
 The general workflow is as follows:

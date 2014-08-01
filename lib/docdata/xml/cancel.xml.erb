@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:_1="http://www.docdatapayments.com/services/paymentservice/1_1/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <_1:cancelRequest version="1.1">
+         <_1:merchant name="<%=Docdata.username%>" password="Docdata.password"/>
+         <_1:paymentOrderKey><%= payment.key %></_1:paymentOrderKey>
+      </_1:cancelRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

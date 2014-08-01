@@ -2,19 +2,17 @@ module Docdata
   
   # Creates a validator
   class ShopperValidator
-
-      # validates :amount, presence: true, integer: true
-      # validates :currency, presence: true, format: /[A-Z]{3}/
-      validates :id, presence: true
-      validates :first_name, presence: true
-      validates :last_name, presence: true
-      validates :street, presence: true
-      validates :house_number, presence: true
-      validates :postal_code, presence: true
-      validates :city, presence: true
-      validates :email, presence: true
-      validates :country_code, presence: true, format: /[A-Z]{2}/
-      validates :language_code, presence: true, format: /[a-z]{2}/
+    include Veto.validator
+    validates :id, presence: true
+    validates :first_name, presence: true
+    validates :last_name, presence: true
+    validates :street, presence: true
+    validates :house_number, presence: true
+    validates :postal_code, presence: true
+    validates :city, presence: true
+    validates :email, presence: true
+    validates :country_code, presence: true, format: /[A-Z]{2}/
+    validates :language_code, presence: true, format: /[a-z]{2}/
   end
 
 
