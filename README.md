@@ -18,7 +18,6 @@ Or install it yourself as:
 
     $ gem install docdata
 
-
 ## Workflow
 Each transaction consists of 2 - optionally 3 - parts:
 
@@ -82,33 +81,33 @@ If you use `GIROPAY`, `SEPA` and `AFTERPAY` this is the case. (Maybe also in oth
 ## Example usage in Rails application
 The example below assumes you have your application set up with a Order model, which contains the information needed for this transaction (amount, name, etc.).
 
-		# orders_controller.rb
-		def start_transaction
-			# find the order from your database
-			@order = Order.find(params[:id])
-			
-			# initialize a shopper, use details from your order
-			shopper = Docdata::Shopper.new(first_name: @order.first_name, last_name: @order.last_name)
+	# orders_controller.rb
+	def start_transaction
+		# find the order from your database
+		@order = Order.find(params[:id])
+		
+		# initialize a shopper, use details from your order
+		shopper = Docdata::Shopper.new(first_name: @order.first_name, last_name: @order.last_name)
 
-			# set up a payment
-			@payment = Docdata::Payment.new(
-				amount: @order.total, 
-				currency: @order.currency, 
-				shopper: shopper,
-				profile: "My Default Profile",
-				order_reference: "order ##{@order.id}"
-			)
-			
-			# create the payment via the docdata api and collect the result
-			result = @payment.create
+		# set up a payment
+		@payment = Docdata::Payment.new(
+			amount: @order.total, 
+			currency: @order.currency, 
+			shopper: shopper,
+			profile: "My Default Profile",
+			order_reference: "order ##{@order.id}"
+		)
+		
+		# create the payment via the docdata api and collect the result
+		result = @payment.create
 
-			if result.success?
-				# Set the transaction key for future reference
-				@order.update_column :docdata_key, result.key
-			else
-				# TODO: Display the error and warn the user that something went wrong.
-			end
+		if result.success?
+			# Set the transaction key for future reference
+			@order.update_column :docdata_key, result.key
+		else
+			# TODO: Display the error and warn the user that something went wrong.
 		end
+	end
 
 
 ## Ideal
@@ -119,51 +118,50 @@ In `Docdata::Payment` you can set `bank_id` to any value. If you do, the redirec
 
 Example code:
 
-		# orders_controller.rb
-		def ideal_checkout
-			@order = Order.find(params[:order_id])
-			@banks = Docdata::Ideal.banks
+	# orders_controller.rb
+	def ideal_checkout
+		@order = Order.find(params[:order_id])
+		@banks = Docdata::Ideal.banks
+	end
+
+	def start_ideal_transaction
+		@order = Order.find(params[:order_id])
+
+		# initialize a shopper, use details from your order
+		shopper = Docdata::Shopper.new(first_name: @order.first_name, last_name: @order.last_name)
+
+		# set up a payment
+		@payment = Docdata::Payment.new(
+			amount: @order.total, 
+			currency: @order.currency, 
+			shopper: shopper,
+			profile: "My Default Profile",
+			order_reference: "order ##{@order.id}",
+			bank_id: params[:bank_id]
+		)
+
+		# create the payment via the docdata api and collect the result
+		result = @payment.create
+
+		if result.success?
+			# Set the transaction key for future reference
+			@order.update_column :docdata_key, result.key
+			# redirect the user to the bank page
+			redirect_to @payment.redirect_url
+		else
+			# TODO: Display the error and warn the user that something went wrong.
 		end
-
-		def start_ideal_transaction
-			@order = Order.find(params[:order_id])
-
-			# initialize a shopper, use details from your order
-			shopper = Docdata::Shopper.new(first_name: @order.first_name, last_name: @order.last_name)
-
-			# set up a payment
-			@payment = Docdata::Payment.new(
-				amount: @order.total, 
-				currency: @order.currency, 
-				shopper: shopper,
-				profile: "My Default Profile",
-				order_reference: "order ##{@order.id}",
-				bank_id: params[:bank_id]
-			)
-
-			# create the payment via the docdata api and collect the result
-			result = @payment.create
-
-			if result.success?
-				# Set the transaction key for future reference
-				@order.update_column :docdata_key, result.key
-				# redirect the user to the bank page
-				redirect_to @payment.redirect_url
-			else
-				# TODO: Display the error and warn the user that something went wrong.
-			end
-		end
+	end
 
 
 View template (ideal_checkout.html.erb):
 
-		<h2>Choose your bank</h2>
-		<%= form_tag start_ideal_transaction_path, method: :post, target: "_blank" do %>
-		  <%= select_tag "bank_id", options_from_collection_for_select(@banks, "id", "name") %>
-			<%= hidden_field_tag :order_id, @order.id %>
-		  <%= submit_tag "Proceed to checkout" %>
-		<% end %>
-
+	<h2>Choose your bank</h2>
+	<%= form_tag start_ideal_transaction_path, method: :post, target: "_blank" do %>
+	  <%= select_tag "bank_id", options_from_collection_for_select(@banks, "id", "name") %>
+		<%= hidden_field_tag :order_id, @order.id %>
+	  <%= submit_tag "Proceed to checkout" %>
+	<% end %>
 
 ## Contributing
 
