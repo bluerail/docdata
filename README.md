@@ -128,7 +128,7 @@ end
 
 ```
 
-```html
+```erb
 <!-- ideal_checkout.html.erb -->
 <h2>Choose your bank</h2>
 <%= form_tag ideal_transaction_start_path, method: :post, target: "_blank" do %>
