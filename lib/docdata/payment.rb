@@ -65,16 +65,30 @@ module Docdata
       end
     end
 
+
+    # @return [Boolean] true/false, depending if this instanciated object is valid
     def valid?
       validator = PaymentValidator.new
       validator.valid?(self)
     end
 
+    # 
+    # This is the most importent method. It uses all the attributes
+    # and performs a `create` action on Docdata Payments SOAP API. 
+    # @return [Docdata::Response] response object with `key`, `message` and `success?` methods
+    # 
+    # 
     def create
+      # if there are any line items, they should all be valid.
+      validate_line_items
+
+      # read the xml template
       xml_file        = "#{File.dirname(__FILE__)}/xml/create.xml.erb"
       template        = File.read(xml_file)      
       namespace       = OpenStruct.new(payment: self, shopper: shopper)
       xml             = ERB.new(template).result(namespace.instance_eval { binding })
+
+      # make the SOAP API call
       response        = Docdata.client.call(:create, xml: xml)
       response_object = Docdata::Response.parse(:create, response)
       if response_object.success?
@@ -83,15 +97,7 @@ module Docdata
       return response_object
     end
 
-    def start
-      xml_file = "#{File.dirname(__FILE__)}/xml/start.xml.erb"
-      template = File.read(xml_file)      
-      namespace = OpenStruct.new(payment: self, shopper: shopper)
-      xml = ERB.new(template).result(namespace.instance_eval { binding })
-      response = Docdata.client.call(:start, xml: xml)
-      return Docdata::Response.parse(:start, response)
-    end    
-
+    # @return [String] The URI where the consumer can be redirected to in order to pay
     def redirect_url
       url = {}
       
@@ -116,6 +122,20 @@ module Docdata
       end
       params = URI.encode_www_form(url)
       uri = "#{redirect_base_url}?#{params}"
+    end
+
+    # In case there are any line_items, validate them all and
+    # raise an error for the first invalid LineItem
+    def validate_line_items
+      if @line_items.any?
+        for line_item in @line_items
+          if line_item.valid?
+            # do nothing, this line_item seems okay
+          else
+            raise DocdataError.new(line_item), line_item.error_message
+          end
+        end
+      end
     end
   end
 end

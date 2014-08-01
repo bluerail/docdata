@@ -41,24 +41,26 @@
             <!--1 to 1000 repetitions:-->
             <!-- <_1:totalVatAmount currency="?" rate="?">?</_1:totalVatAmount> -->
             <!--1 to 1000 repetitions:-->
-            <% for line_item in payment.line_items %>
-            <_1:item number="?">
-               <_1:name>?</_1:name>
-               <_1:code>?</_1:code>
-               <_1:quantity unitOfMeasure="?">?</_1:quantity>
-               <_1:description>?</_1:description>
+            <% payment.line_items.each_with_index do |line_item, i| %>
+            <_1:item number="<%= i %>">
+               <_1:name><%= line_item.name %></_1:name>
+               <_1:code><%= line_item.code %></_1:code>
+               <_1:quantity unitOfMeasure="<%= line_item.unit_of_measure %>"><%= line_item.quatnity %></_1:quantity>
+               <_1:description><%= line_item.description %></_1:description>
                <!--Optional:-->
-               <_1:image>?</_1:image>
-               <_1:netAmount currency="?">?</_1:netAmount>
-               <_1:grossAmount currency="?">?</_1:grossAmount>
+               <_1:image><%= line_item.image %></_1:image>
+
+               <_1:netAmount currency="<%= payment.currency %>">?</_1:netAmount>
+               <_1:grossAmount currency="<%= payment.currency %>">?</_1:grossAmount>
                <_1:vat rate="?">
-                  <_1:amount currency="?">?</_1:amount>
+                  <_1:amount currency="<%= payment.currency %>">?</_1:amount>
                </_1:vat>
-               <_1:totalNetAmount currency="?">?</_1:totalNetAmount>
-               <_1:totalGrossAmount currency="?">?</_1:totalGrossAmount>
+               <_1:totalNetAmount currency="<%= payment.currency %>">?</_1:totalNetAmount>
+               <_1:totalGrossAmount currency="<%= payment.currency %>">?</_1:totalGrossAmount>
                <_1:totalVat rate="?">
                   <_1:amount currency="?">?</_1:amount>
                </_1:totalVat>
+
             </_1:item>
             <% end %>
             <_1:shipTo>

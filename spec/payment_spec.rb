@@ -104,6 +104,5 @@ describe Docdata::Payment do
     it "returns a Payment object" do
       expect(@payment).to be_kind_of(Docdata::Payment)
     end
-
   end
 end

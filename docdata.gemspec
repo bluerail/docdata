@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["meijerhenk@gmail.com"]
   spec.description   = %q{A ruby binder for the Docdata Payment API.}
   spec.summary       = %q{This gem provides a ruby interface for the Docdata Payment API. You basically create a Payment object and receive a reirect_url back to take your users to the checkout page.}
-  spec.homepage      = ""
+  spec.homepage      = "http://rdoc.info/github/henkm/docdata/"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

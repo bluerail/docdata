@@ -18,21 +18,21 @@ Or install it yourself as:
 
     $ gem install docdata
 
-## Lay of the land
-
-Each transaction consists of 2 - optionally 3 - parts:
-
-- Shopper (details about the shopper: name, email, etc.)
-- Payment (details about the payment: currency, gross amount, etc.) 
-- LineItem (optionally list the products of this payment)
-
 
 ## Workflow
+Each transaction consists of 2 - optionally 3 - parts:
+
+- `Docdata::Shopper` (details about the shopper: name, email, etc.)
+- `Docdata::Payment` (details about the payment: currency, gross amount, etc.) 
+- `Docdata::LineItem` (optionally list the products of this payment)
+
+
 The general workflow is as follows:
 
-1. Setup a `Docdata::Payment` object with the details of your order: `@payment = Docdata::Payment.new`
-2. Call the `create` method (`@payment.create`)
-3. On success, store the payment key and use `@payment.redirect_url` to redirect the consumer to the transaction page.
+1. Set up a `Docdata::Shopper` object with the details of your shopper: `@shopper = Docdata::Shopper.new` 
+2. Set up a `Docdata::Payment` object with the details of your order: `@payment = Docdata::Payment.new(shopper: @shopper)`
+3. Call the `create` method (`@payment.create`)
+4. On success, store the payment key and use `@payment.redirect_url` to redirect the consumer to the transaction page.
 
 ## Parameters
 All the payment details that Docdata Payments requires, are - obviously - also required to make payments via this gem.
@@ -81,33 +81,35 @@ If you use `GIROPAY`, `SEPA` and `AFTERPAY` this is the case. (Maybe also in oth
 
 ## Example usage in Rails application
 The example below assumes you have your application set up with a Order model, which contains the information needed for this transaction (amount, name, etc.).
-```ruby
-# orders_controller.rb
-def start_transaction
-	# find the order from your database
-	@order = Order.find(params[:id])
-	
-	# initialize a shopper, use details from your order
-	shopper = Docdata::Shopper.new(first_name: @order.first_name, last_name: @order.last_name)
 
-	# set up a payment
-		amount: @order.total, 
-		currency: @order.currency, 
-		shopper: shopper,
-		profile: "My Default Profile",
-		order_reference: "order ##{@order.id}",
-	
-	# create the payment via the docdata api and collect the result
-	result = @payment.create
+		# orders_controller.rb
+		def start_transaction
+			# find the order from your database
+			@order = Order.find(params[:id])
+			
+			# initialize a shopper, use details from your order
+			shopper = Docdata::Shopper.new(first_name: @order.first_name, last_name: @order.last_name)
 
-	if result.success?
-		# Set the transaction key for future reference
-		@order.update_column :docdata_key, result.key
-	else
-		# TODO: Display the error and warn the user that something went wrong.
-	end
-end
-```
+			# set up a payment
+			@payment = Docdata::Payment.new(
+				amount: @order.total, 
+				currency: @order.currency, 
+				shopper: shopper,
+				profile: "My Default Profile",
+				order_reference: "order ##{@order.id}"
+			)
+			
+			# create the payment via the docdata api and collect the result
+			result = @payment.create
+
+			if result.success?
+				# Set the transaction key for future reference
+				@order.update_column :docdata_key, result.key
+			else
+				# TODO: Display the error and warn the user that something went wrong.
+			end
+		end
+
 
 ## Ideal
 
@@ -116,53 +118,52 @@ For transactions in the Netherlands, iDeal is the most common option. To redirec
 In `Docdata::Payment` you can set `bank_id` to any value. If you do, the redirect URI will redirect your user directly to the bank page.
 
 Example code:
-```ruby
-# orders_controller.rb
-def ideal_checkout
-	@order = Order.find(params[:order_id])
-	@banks = Docdata::Ideal.banks
-end
 
-def start_ideal_transaction
-	@order = Order.find(params[:order_id])
+		# orders_controller.rb
+		def ideal_checkout
+			@order = Order.find(params[:order_id])
+			@banks = Docdata::Ideal.banks
+		end
 
-	# initialize a shopper, use details from your order
-	shopper = Docdata::Shopper.new(first_name: @order.first_name, last_name: @order.last_name)
+		def start_ideal_transaction
+			@order = Order.find(params[:order_id])
 
-	# set up a payment
-	@payment = Docdata::Payment.new(
-		amount: @order.total, 
-		currency: @order.currency, 
-		shopper: shopper,
-		profile: "My Default Profile",
-		order_reference: "order ##{@order.id}",
-		bank_id: params[:bank_id]
-	)
+			# initialize a shopper, use details from your order
+			shopper = Docdata::Shopper.new(first_name: @order.first_name, last_name: @order.last_name)
 
-	# create the payment via the docdata api and collect the result
-	result = @payment.create
+			# set up a payment
+			@payment = Docdata::Payment.new(
+				amount: @order.total, 
+				currency: @order.currency, 
+				shopper: shopper,
+				profile: "My Default Profile",
+				order_reference: "order ##{@order.id}",
+				bank_id: params[:bank_id]
+			)
 
-	if result.success?
-		# Set the transaction key for future reference
-		@order.update_column :docdata_key, result.key
-		# redirect the user to the bank page
-		redirect_to @payment.redirect_url
-	else
-		# TODO: Display the error and warn the user that something went wrong.
-	end
-end
+			# create the payment via the docdata api and collect the result
+			result = @payment.create
 
-```
+			if result.success?
+				# Set the transaction key for future reference
+				@order.update_column :docdata_key, result.key
+				# redirect the user to the bank page
+				redirect_to @payment.redirect_url
+			else
+				# TODO: Display the error and warn the user that something went wrong.
+			end
+		end
 
-```erb
-# ideal_checkout.html.erb
-<h2>Choose your bank</h2>
-<%= form_tag start_ideal_transaction_path, method: :post, target: "_blank" do %>
-  <%= select_tag "bank_id", options_from_collection_for_select(@banks, "id", "name") %>
-	<%= hidden_field_tag :order_id, @order.id %>
-  <%= submit_tag "Proceed to checkout" %>
-<% end %>
-````
+
+View template (ideal_checkout.html.erb):
+
+		<h2>Choose your bank</h2>
+		<%= form_tag start_ideal_transaction_path, method: :post, target: "_blank" do %>
+		  <%= select_tag "bank_id", options_from_collection_for_select(@banks, "id", "name") %>
+			<%= hidden_field_tag :order_id, @order.id %>
+		  <%= submit_tag "Proceed to checkout" %>
+		<% end %>
+
 
 ## Contributing
 

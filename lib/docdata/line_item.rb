@@ -1,7 +1,23 @@
 module Docdata
   
+
+  # Creates a validator
+  class LineItemValidator
+      require 'veto'
+      include Veto.validator
+
+      
+      # validates :currency, presence: true, format: /[A-Z]{3}/
+      validates :name, presence: true
+      validates :quantity, presence: true, integer: true
+      validates :price_per_unit, presence: true, integer: true
+      validates :description, presence: true
+      validates :unit_of_measure, presence: true
+  end
+
+
   #
-  # Object representing a "Line item"
+  # Object representing a "LineItem"
   #
   # @example
   #   LineItem.new({
@@ -21,7 +37,7 @@ module Docdata
     # @params [Integer]
     attr_accessor :quantity
     # @params [String] ('Books', 'Tickets')
-    attr_accessor :unit_of_mesaure
+    attr_accessor :unit_of_measure
     # @params [String] 
     attr_accessor :description
     # @params [String] (URI to image)
@@ -38,6 +54,17 @@ module Docdata
       args.each do |k,v|
         instance_variable_set("@#{k}", v) unless v.nil?
       end
+    end
+
+    # @return [Boolean] true/false, depending if this instanciated object is valid
+    def valid?
+      validator = LineItemValidator.new
+      validator.valid?(self)
+    end
+
+    # @return [String] the string that contains all the errors for this line_item
+    def error_message
+      "One of your line_items is invalid. Error messages: #{errors.full_messages.join(', ')}"
     end
   end
 end
