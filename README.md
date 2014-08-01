@@ -49,6 +49,8 @@ All the payment details that Docdata Payments requires, are - obviously - also r
 | order_reference | String (your own reference) | Yes |
 | profile | Integer (Docdata Payment profile)| Yes |
 | shopper | Docdata::Shopper | Yes |
+| bank_id | String | No |
+| prefered_payment_method | String | No |
 | key | String (is availabel after successful 'create' action) | No (readonly)
 
 ## Example usage in Rails application
@@ -84,6 +86,7 @@ end
 ## Ideal
 
 For transactions in the Netherlands, iDeal is the most common option. To redirect a user directly to the bank page (skipping the Docdata web menu page), you can ask your user to choose a bank from any of the banks listed in the `Docdata::Ideal.banks` method.
+
 In `Docdata::Payment` you can set `bank_id` to any value. If you do, the redirect URI will redirect your user directly to the bank page.
 
 ## Contributing

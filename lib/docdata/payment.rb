@@ -21,6 +21,7 @@ module Docdata
   #     :amount => 2500,
   #     :currency => "EUR",
   #     :order_reference => "TJ123"
+  #     :profile => "MyProfile"
   #     :shopper => @shopper
   #   })
   class Payment
@@ -36,8 +37,14 @@ module Docdata
     attr_accessor :order_reference
     # @param [String] The DocData payment profile (e.g. 'MyProfile')
     attr_accessor :profile
-    # @return [Shopper] A shopper object (instance of Docdata::Shopper)
+    # @param [Shopper] A shopper object (instance of Docdata::Shopper)
     attr_accessor :shopper
+    # @param [String] (optional) in case you want to redirect the consumer
+    # directly to the bank page (iDeal), you can set the bank id ('0031' for ABN AMRO for example.)
+    attr_accessor :bank_id
+    # @param [String] (optional) set a prefered payment method.
+    # any of: [IDEAL, AMAX, VISA, etc.]
+    attr_accessor :prefered_payment_method
     # @retun [String] The Docdata Payment key returned after #create
     attr_accessor :key
 
@@ -86,7 +93,11 @@ module Docdata
       url = {}
       
       base_url = Docdata.return_url
-      redirect_base_url = 'https://test.docdatapayments.com/ps/menu'
+      if Docdata.test_mode
+        redirect_base_url = 'https://test.docdatapayments.com/ps/menu'
+      else
+        redirect_base_url = 'https://secure.docdatapayments.com/ps/menu'
+      end
       url[:command]             = "show_payment_cluster"
       url[:payment_cluster_key] = key
       url[:merchant_name]       = Docdata.username

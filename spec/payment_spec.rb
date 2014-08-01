@@ -77,6 +77,16 @@ describe Docdata::Payment do
       end
     end
 
+    # it "has a different redirect_url for production mode" do
+    #   Docdata.set_credentials_from_environment
+    #   Docdata.test_mode = false
+    #   VCR.use_cassette("payments-create-production-mode") do
+    #     @payment.create
+    #     puts @payment.redirect_url
+    #     expect(@payment.redirect_url).to include("https://secure.docdatapayments.com/ps/menu?command=show_payment_cluster")
+    #   end
+    # end
+
   end
 
   describe "#new" do
