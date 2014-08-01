@@ -29,7 +29,7 @@ All the payment details that Docdata Payments requires, are - obviously - also r
 
 #### Shopper:
 | Name | Type | Required | Defaults to |
-|-----------|------------|---------|
+|-----------|------------|---------|----|
 | id | String (ID for own reference) | Yes | |
 | first_name | String | Yes | First Name |
 |	last_name | String | Yes | Last Name |
@@ -39,7 +39,7 @@ All the payment details that Docdata Payments requires, are - obviously - also r
 | city | String | Yes | City |
 | country_code | String (ISO country code) | Yes | NL |
 | language_code | String (ISO language code) | Yes | nl |
-| email | String | Yes | random@example.com
+| email | String | Yes | random@example.com |
 
 #### Payment:
 | Name | Type | Required |
