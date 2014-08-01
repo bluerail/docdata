@@ -71,10 +71,20 @@ describe Docdata::Payment do
       Docdata.set_credentials_from_environment
       VCR.use_cassette("payments-successful-create") do
         @payment.create
-        puts @payment.redirect_url
+        # puts @payment.redirect_url
         expect(@payment.redirect_url).to include("https://test.docdatapayments.com/ps/menu?command=show_payment_cluster")
 
       end
+    end
+
+    it "redirect directly to the bank if bank_id is given" do
+      Docdata.set_credentials_from_environment
+      @payment.bank_id = "0031" # ABN AMRO
+      VCR.use_cassette("payments-successful-create") do
+        @payment.create
+        puts @payment.redirect_url
+        expect(@payment.redirect_url).to include("&default_act=true&ideal_issuer_id=0031&default_pm=IDEAL")
+      end      
     end
 
     # it "has a different redirect_url for production mode" do

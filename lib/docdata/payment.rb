@@ -105,8 +105,12 @@ module Docdata
       url[:return_url_pending]  = "#{base_url}/pending?key=#{url[:payment_cluster_key]}"
       url[:return_url_canceled] = "#{base_url}/canceled?key=#{url[:payment_cluster_key]}"
       url[:return_url_error]    = "#{base_url}/error?key=#{url[:payment_cluster_key]}"
-      url[:locale]              = ''
-      
+      url[:client_language]     = shopper.language_code
+      if bank_id.present?
+        url[:default_act]     = true
+        url[:ideal_issuer_id] = bank_id
+        url[:default_pm]      = "IDEAL"
+      end
       params = URI.encode_www_form(url)
       uri = "#{redirect_base_url}?#{params}"
     end

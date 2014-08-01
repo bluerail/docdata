@@ -17,7 +17,13 @@ module Docdata
     # 
     # @return [Array<Docdata::Ideal>] list of supported +Bank+'s.
     def self.banks
-      @source ||= open('https://secure.mollie.nl/xml/ideal?a=banklist')
+      begin
+        @source ||= open('https://secure.mollie.nl/xml/ideal?a=banklist')
+      rescue 
+        # in case the mollie API isn't available
+        # use the cached version (august 2014) of the XML file
+        @source = open("#{File.dirname(__FILE__)}/xml/bank-list.xml")
+      end
       @response ||= Nokogiri::XML(@source)
       @list = []
       @response.xpath("//bank").each do |b|
