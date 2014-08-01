@@ -3,6 +3,7 @@
 Docdata is a Ruby binder for Docdata Payments. Current status: **in progress, not stable**. 
 
 This gem relies on the awesom Savon gem to communicate with Docdata Payments' SOAP API.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -19,15 +20,24 @@ Or install it yourself as:
 
 ## Lay of the land
 
-Each transaction consists of 2 parts:
+Each transaction consists of 2 - optionally 3 - parts:
 
 - Shopper (details about the shopper: name, email, etc.)
 - Payment (details about the payment: currency, gross amount, etc.) 
+- LineItem (optionally list the products of this payment)
 
-### Parameters
+
+## Workflow
+The general workflow is as follows:
+
+1. Setup a `Docdata::Payment` object with the details of your order: `@payment = Docdata::Payment.new`
+2. Call the `create` method (`@payment.create`)
+3. On success, store the payment key and use `@payment.redirect_url` to redirect the consumer to the transaction page.
+
+## Parameters
 All the payment details that Docdata Payments requires, are - obviously - also required to make payments via this gem.
 
-#### Shopper:
+#### Docdata::Shopper:
 | Name | Type | Required | Defaults to |
 |-----------|------------|---------|----|
 | id | String (ID for own reference) | Yes | |
@@ -41,7 +51,7 @@ All the payment details that Docdata Payments requires, are - obviously - also r
 | language_code | String (ISO language code) | Yes | nl |
 | email | String | Yes | random@example.com |
 
-#### Payment:
+#### Docdata::Payment:
 | Name | Type | Required |
 |-----------|------------|---------|
 | amount | Integer (amount in cents) | Yes |
@@ -49,14 +59,25 @@ All the payment details that Docdata Payments requires, are - obviously - also r
 | order_reference | String (your own unique reference) | Yes |
 | profile | String (name of your Docdata Payment profile)| Yes |
 | shopper | Docdata::Shopper | Yes |
+| line_items | Array (of Docdata::LineItem objects) | No |
 | bank_id | String | No |
 | prefered_payment_method | String | No |
 | key | String (is availabel after successful 'create' action) | No (readonly)
 
+#### Docdata::LineItem (optional):
+| Name | Type | Required |
+|-----------|------------|---------|
+| name | String | Yes |
+| quantity | Integer | Yes |
+| unit_of_measure | String ('Books', 'Tickets') | Yes |
+| description | String | Yes |
+| image | String (URI to image) | No |
+| price_per_unit | Integer (price in cents) | Yes |
+
 ## Default values
 A quick warning about the default values for the Shopper object: **For some payment methods, Docdata Payments needs the actual information in order for the payment to take place.**
 
-If you use GIROPAY this is the case. (Maybe also in other payment methods, please let me know!)
+If you use `GIROPAY`, `SEPA` and `AFTERPAY` this is the case. (Maybe also in other payment methods, please let me know!)
 
 ## Example usage in Rails application
 The example below assumes you have your application set up with a Order model, which contains the information needed for this transaction (amount, name, etc.).
@@ -147,7 +168,7 @@ end
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Make changes and add tests (rspec)
+3. Make changes, document them and add tests (rspec)
 4. Run the entire test suite and make sure all tests pass
 5. Commit your changes (`git commit -am 'Add some feature'`)
 6. Push to the branch (`git push origin my-new-feature`)

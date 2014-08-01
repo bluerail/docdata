@@ -45,6 +45,8 @@ module Docdata
     # @param [String] (optional) set a prefered payment method.
     # any of: [IDEAL, AMAX, VISA, etc.]
     attr_accessor :prefered_payment_method
+    # @param [Array] (optional) Array of objects of type Docdata::LineItem
+    attr_accessor :line_items
     # @retun [String] The Docdata Payment key returned after #create
     attr_accessor :key
 
@@ -56,6 +58,7 @@ module Docdata
     #
     # @param [Hash] args
     def initialize(args=nil)
+      @line_items = []
       return if args.nil?
       args.each do |k,v|
         instance_variable_set("@#{k}", v) unless v.nil?
