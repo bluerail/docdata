@@ -126,15 +126,17 @@ def ideal_transaction_start
 	end
 end
 
-# ideal_checkout.html.erb
+```
+
+```html
+<!-- ideal_checkout.html.erb -->
 <h2>Choose your bank</h2>
 <%= form_tag ideal_transaction_start_path, method: :post, target: "_blank" do %>
   <%= select_tag "bank_id", options_from_collection_for_select(@banks, "id", "name") %>
 	<%= hidden_field_tag :order_id, @order.id %>
   <%= submit_tag "Proceed to checkout" %>
 <% end %>
-
-```
+````
 
 ## Contributing
 
