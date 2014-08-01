@@ -3,10 +3,6 @@ module Docdata
 
   # Creates a validator
   class LineItemValidator
-      require 'veto'
-      include Veto.validator
-
-      
       # validates :currency, presence: true, format: /[A-Z]{3}/
       validates :name, presence: true
       validates :quantity, presence: true, integer: true
@@ -29,20 +25,12 @@ module Docdata
   #     :price_per_unit => 1299
   #   })
   class LineItem
-
-    # @return [Array] Errors
     attr_accessor :errors
-    # @params [String]
     attr_accessor :name
-    # @params [Integer]
     attr_accessor :quantity
-    # @params [String] ('Books', 'Tickets')
     attr_accessor :unit_of_measure
-    # @params [String] 
     attr_accessor :description
-    # @params [String] (URI to image)
     attr_accessor :image
-    # @params [Integer] (price in cents) 
     attr_accessor :price_per_unit
 
     #

@@ -104,6 +104,9 @@
     
 <p>Object representing a “WSDL” object with attributes provided by Docdata</p>
 
+<p>directly to the bank page (iDeal), you can set the bank id (&#39;0031&#39;
+for ABN AMRO for example.) any of: [IDEAL, AMAX, VISA, etc.]</p>
+
 
   </div>
 </div>
@@ -117,11 +120,30 @@
   :amount =&gt; 2500,
   :currency =&gt; &quot;EUR&quot;,
   :order_reference =&gt; &quot;TJ123&quot;
+  :profile =&gt; &quot;MyProfile&quot;
   :shopper =&gt; @shopper
 })</code></pre>
     
   </div>
 
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Errors</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div>
   <h2>Constant Summary</h2>
@@ -145,7 +167,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#amount-instance_method" title="#amount (instance method)">- (Integer) <strong>amount</strong> </a>
+      <a href="#amount-instance_method" title="#amount (instance method)">- (Object) <strong>amount</strong> </a>
     
 
     
@@ -163,7 +185,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The total price in cents.</p>
+<p>Returns the value of attribute amount.</p>
 </div></span>
   
 </li>
@@ -172,7 +194,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#currency-instance_method" title="#currency (instance method)">- (String) <strong>currency</strong> </a>
+      <a href="#bank_id-instance_method" title="#bank_id (instance method)">- (Object) <strong>bank_id</strong> </a>
     
 
     
@@ -190,7 +212,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>ISO currency code (USD, EUR, GBP, etc.).</p>
+<p>Returns the value of attribute bank_id.</p>
 </div></span>
   
 </li>
@@ -199,7 +221,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#errors-instance_method" title="#errors (instance method)">- (Array) <strong>errors</strong> </a>
+      <a href="#currency-instance_method" title="#currency (instance method)">- (Object) <strong>currency</strong> </a>
     
 
     
@@ -217,7 +239,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Errors.</p>
+<p>Returns the value of attribute currency.</p>
 </div></span>
   
 </li>
@@ -226,7 +248,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#order_reference-instance_method" title="#order_reference (instance method)">- (String) <strong>order_reference</strong> </a>
+      <a href="#errors-instance_method" title="#errors (instance method)">- (Object) <strong>errors</strong> </a>
     
 
     
@@ -244,7 +266,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A unique order reference.</p>
+<p>Returns the value of attribute errors.</p>
 </div></span>
   
 </li>
@@ -253,7 +275,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#profile-instance_method" title="#profile (instance method)">- (Integer) <strong>profile</strong> </a>
+      <a href="#key-instance_method" title="#key (instance method)">- (Object) <strong>key</strong> </a>
     
 
     
@@ -271,7 +293,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The DocData profile ID.</p>
+<p>Returns the value of attribute key.</p>
 </div></span>
   
 </li>
@@ -280,7 +302,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#shopper-instance_method" title="#shopper (instance method)">- (Shopper) <strong>shopper</strong> </a>
+      <a href="#line_items-instance_method" title="#line_items (instance method)">- (Object) <strong>line_items</strong> </a>
     
 
     
@@ -298,7 +320,115 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A shopper object (instance of Docdata::Shopper).</p>
+<p>Returns the value of attribute line_items.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#order_reference-instance_method" title="#order_reference (instance method)">- (Object) <strong>order_reference</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute order_reference.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#prefered_payment_method-instance_method" title="#prefered_payment_method (instance method)">- (Object) <strong>prefered_payment_method</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute prefered_payment_method.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#profile-instance_method" title="#profile (instance method)">- (Object) <strong>profile</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute profile.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#shopper-instance_method" title="#shopper (instance method)">- (Object) <strong>shopper</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute shopper.</p>
 </div></span>
   
 </li>
@@ -320,7 +450,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create-instance_method" title="#create (instance method)">- (Object) <strong>create</strong> </a>
+      <a href="#create-instance_method" title="#create (instance method)">- (Docdata::Response) <strong>create</strong> </a>
     
 
     
@@ -334,7 +464,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>This is the most importent method.</p>
+</div></span>
   
 </li>
 
@@ -368,6 +500,30 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#redirect_url-instance_method" title="#redirect_url (instance method)">- (String) <strong>redirect_url</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The URI where the consumer can be redirected to in order to pay.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#valid%3F-instance_method" title="#valid? (instance method)">- (Boolean) <strong>valid?</strong> </a>
     
 
@@ -382,7 +538,34 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>True/false, depending if this instanciated object is valid.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validate_line_items-instance_method" title="#validate_line_items (instance method)">- (Object) <strong>validate_line_items</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>In case there are any line_items, validate them all and raise an error for
+the first invalid LineItem.</p>
+</div></span>
   
 </li>
 
@@ -436,17 +619,19 @@
       <pre class="lines">
 
 
-48
-49
-50
-51
-52
-53</pre>
+56
+57
+58
+59
+60
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='ivar'>@line_items</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
     <span class='id identifier rubyid_instance_variable_set'>instance_variable_set</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_k'>k</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -467,7 +652,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="amount-instance_method">
   
-    - (<tt>Integer</tt>) <strong>amount</strong> 
+    - (<tt>Object</tt>) <strong>amount</strong> 
   
 
   
@@ -476,31 +661,13 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The total price in cents</p>
+<p>Returns the value of attribute amount</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>The total price in cents</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -508,15 +675,58 @@
       <pre class="lines">
 
 
-30
-31
-32</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_amount'>amount</span>
   <span class='ivar'>@amount</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="bank_id=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="bank_id-instance_method">
+  
+    - (<tt>Object</tt>) <strong>bank_id</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute bank_id</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+44
+45
+46</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 44</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_bank_id'>bank_id</span>
+  <span class='ivar'>@bank_id</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -528,7 +738,7 @@
       <div class="method_details ">
   <h3 class="signature " id="currency-instance_method">
   
-    - (<tt>String</tt>) <strong>currency</strong> 
+    - (<tt>Object</tt>) <strong>currency</strong> 
   
 
   
@@ -537,31 +747,13 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns ISO currency code (USD, EUR, GBP, etc.)</p>
+<p>Returns the value of attribute currency</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>ISO currency code (USD, EUR, GBP, etc.)</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -569,12 +761,12 @@
       <pre class="lines">
 
 
-33
-34
-35</pre>
+40
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_currency'>currency</span>
   <span class='ivar'>@currency</span>
@@ -589,7 +781,7 @@
       <div class="method_details ">
   <h3 class="signature " id="errors-instance_method">
   
-    - (<tt>Array</tt>) <strong>errors</strong> 
+    - (<tt>Object</tt>) <strong>errors</strong> 
   
 
   
@@ -598,153 +790,13 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Errors</p>
+<p>Returns the value of attribute errors</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Array</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Errors</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-28
-29
-30</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 28</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_errors'>errors</span>
-  <span class='ivar'>@errors</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      
-      <span id="order_reference=-instance_method"></span>
-      <div class="method_details ">
-  <h3 class="signature " id="order_reference-instance_method">
-  
-    - (<tt>String</tt>) <strong>order_reference</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Returns A unique order reference</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>A unique order reference</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-35
-36
-37</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 35</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_order_reference'>order_reference</span>
-  <span class='ivar'>@order_reference</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      
-      <span id="profile=-instance_method"></span>
-      <div class="method_details ">
-  <h3 class="signature " id="profile-instance_method">
-  
-    - (<tt>Integer</tt>) <strong>profile</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Returns The DocData profile ID</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>The DocData profile ID</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -759,6 +811,221 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 37</span>
 
+<span class='kw'>def</span> <span class='id identifier rubyid_errors'>errors</span>
+  <span class='ivar'>@errors</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="key=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="key-instance_method">
+  
+    - (<tt>Object</tt>) <strong>key</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute key</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 47</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_key'>key</span>
+  <span class='ivar'>@key</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="line_items=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="line_items-instance_method">
+  
+    - (<tt>Object</tt>) <strong>line_items</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute line_items</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 46</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_line_items'>line_items</span>
+  <span class='ivar'>@line_items</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="order_reference=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="order_reference-instance_method">
+  
+    - (<tt>Object</tt>) <strong>order_reference</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute order_reference</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+41
+42
+43</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 41</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_order_reference'>order_reference</span>
+  <span class='ivar'>@order_reference</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="prefered_payment_method=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="prefered_payment_method-instance_method">
+  
+    - (<tt>Object</tt>) <strong>prefered_payment_method</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute prefered_payment_method</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 45</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_prefered_payment_method'>prefered_payment_method</span>
+  <span class='ivar'>@prefered_payment_method</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="profile=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="profile-instance_method">
+  
+    - (<tt>Object</tt>) <strong>profile</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute profile</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+42
+43
+44</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 42</span>
+
 <span class='kw'>def</span> <span class='id identifier rubyid_profile'>profile</span>
   <span class='ivar'>@profile</span>
 <span class='kw'>end</span></pre>
@@ -772,7 +1039,7 @@
       <div class="method_details ">
   <h3 class="signature " id="shopper-instance_method">
   
-    - (<tt><span class='object_link'><a href="Shopper.html" title="Docdata::Shopper (class)">Shopper</a></span></tt>) <strong>shopper</strong> 
+    - (<tt>Object</tt>) <strong>shopper</strong> 
   
 
   
@@ -781,31 +1048,13 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns A shopper object (instance of Docdata::Shopper)</p>
+<p>Returns the value of attribute shopper</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="Shopper.html" title="Docdata::Shopper (class)">Shopper</a></span></tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>A shopper object (instance of Docdata::Shopper)</p>
-</div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -813,12 +1062,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 43</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_shopper'>shopper</span>
   <span class='ivar'>@shopper</span>
@@ -838,39 +1087,190 @@
       <div class="method_details first">
   <h3 class="signature first" id="create-instance_method">
   
-    - (<tt>Object</tt>) <strong>create</strong> 
+    - (<tt><span class='object_link'><a href="Response.html" title="Docdata::Response (class)">Docdata::Response</a></span></tt>) <strong>create</strong> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>This is the most importent method. It uses all the attributes and performs
+a `create` action on Docdata Payments SOAP API.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Response.html" title="Docdata::Response (class)">Docdata::Response</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>response object with `key`, `message` and `success?` methods</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-60
-61
-62
-63
-64
-65
-66
-67
-68</pre>
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 77</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
+  <span class='comment'># if there are any line items, they should all be valid.
+</span>  <span class='id identifier rubyid_validate_line_items'>validate_line_items</span>
 
-  <span class='id identifier rubyid_xml_file'>xml_file</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>/xml/create.xml.erb</span><span class='tstring_end'>&quot;</span></span>
-  <span class='id identifier rubyid_template'>template</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_xml_file'>xml_file</span><span class='rparen'>)</span>      
-  <span class='id identifier rubyid_namespace'>namespace</span> <span class='op'>=</span> <span class='const'>OpenStruct</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>payment:</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='label'>shopper:</span> <span class='id identifier rubyid_shopper'>shopper</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_xml'>xml</span> <span class='op'>=</span> <span class='const'>ERB</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_template'>template</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_result'>result</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='period'>.</span><span class='id identifier rubyid_instance_eval'>instance_eval</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_binding'>binding</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='const'>Docdata</span><span class='period'>.</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='symbol'>:create</span><span class='comma'>,</span> <span class='label'>xml:</span> <span class='id identifier rubyid_xml'>xml</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='const'>Docdata</span><span class='op'>::</span><span class='const'>Response</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span>
+  <span class='comment'># read the xml template
+</span>  <span class='id identifier rubyid_xml_file'>xml_file</span>        <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>/xml/create.xml.erb</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_template'>template</span>        <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_xml_file'>xml_file</span><span class='rparen'>)</span>      
+  <span class='id identifier rubyid_namespace'>namespace</span>       <span class='op'>=</span> <span class='const'>OpenStruct</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>payment:</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='label'>shopper:</span> <span class='id identifier rubyid_shopper'>shopper</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_xml'>xml</span>             <span class='op'>=</span> <span class='const'>ERB</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_template'>template</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_result'>result</span><span class='lparen'>(</span><span class='id identifier rubyid_namespace'>namespace</span><span class='period'>.</span><span class='id identifier rubyid_instance_eval'>instance_eval</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_binding'>binding</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+
+  <span class='comment'># make the SOAP API call
+</span>  <span class='id identifier rubyid_response'>response</span>        <span class='op'>=</span> <span class='const'>Docdata</span><span class='period'>.</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='symbol'>:create</span><span class='comma'>,</span> <span class='label'>xml:</span> <span class='id identifier rubyid_xml'>xml</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_response_object'>response_object</span> <span class='op'>=</span> <span class='const'>Docdata</span><span class='op'>::</span><span class='const'>Response</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='symbol'>:create</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_response_object'>response_object</span><span class='period'>.</span><span class='id identifier rubyid_success?'>success?</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_response_object'>response_object</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span>
+  <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_response_object'>response_object</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="redirect_url-instance_method">
+  
+    - (<tt>String</tt>) <strong>redirect_url</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The URI where the consumer can be redirected to in order to pay</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The URI where the consumer can be redirected to in order to pay</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 97</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_redirect_url'>redirect_url</span>
+  <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  
+  <span class='id identifier rubyid_base_url'>base_url</span> <span class='op'>=</span> <span class='const'>Docdata</span><span class='period'>.</span><span class='id identifier rubyid_return_url'>return_url</span>
+  <span class='kw'>if</span> <span class='const'>Docdata</span><span class='period'>.</span><span class='id identifier rubyid_test_mode'>test_mode</span>
+    <span class='id identifier rubyid_redirect_base_url'>redirect_base_url</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://test.docdatapayments.com/ps/menu</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_redirect_base_url'>redirect_base_url</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://secure.docdatapayments.com/ps/menu</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_url'>url</span><span class='lbracket'>[</span><span class='symbol'>:command</span><span class='rbracket'>]</span>             <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>show_payment_cluster</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_url'>url</span><span class='lbracket'>[</span><span class='symbol'>:payment_cluster_key</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span>
+  <span class='id identifier rubyid_url'>url</span><span class='lbracket'>[</span><span class='symbol'>:merchant_name</span><span class='rbracket'>]</span>       <span class='op'>=</span> <span class='const'>Docdata</span><span class='period'>.</span><span class='id identifier rubyid_username'>username</span>
+  <span class='id identifier rubyid_url'>url</span><span class='lbracket'>[</span><span class='symbol'>:return_url_success</span><span class='rbracket'>]</span>  <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_base_url'>base_url</span><span class='embexpr_end'>}</span><span class='tstring_content'>/success?key=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_url'>url</span><span class='lbracket'>[</span><span class='symbol'>:payment_cluster_key</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_url'>url</span><span class='lbracket'>[</span><span class='symbol'>:return_url_pending</span><span class='rbracket'>]</span>  <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_base_url'>base_url</span><span class='embexpr_end'>}</span><span class='tstring_content'>/pending?key=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_url'>url</span><span class='lbracket'>[</span><span class='symbol'>:payment_cluster_key</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_url'>url</span><span class='lbracket'>[</span><span class='symbol'>:return_url_canceled</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_base_url'>base_url</span><span class='embexpr_end'>}</span><span class='tstring_content'>/canceled?key=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_url'>url</span><span class='lbracket'>[</span><span class='symbol'>:payment_cluster_key</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_url'>url</span><span class='lbracket'>[</span><span class='symbol'>:return_url_error</span><span class='rbracket'>]</span>    <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_base_url'>base_url</span><span class='embexpr_end'>}</span><span class='tstring_content'>/error?key=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_url'>url</span><span class='lbracket'>[</span><span class='symbol'>:payment_cluster_key</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_url'>url</span><span class='lbracket'>[</span><span class='symbol'>:client_language</span><span class='rbracket'>]</span>     <span class='op'>=</span> <span class='id identifier rubyid_shopper'>shopper</span><span class='period'>.</span><span class='id identifier rubyid_language_code'>language_code</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_bank_id'>bank_id</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
+    <span class='id identifier rubyid_url'>url</span><span class='lbracket'>[</span><span class='symbol'>:default_act</span><span class='rbracket'>]</span>     <span class='op'>=</span> <span class='kw'>true</span>
+    <span class='id identifier rubyid_url'>url</span><span class='lbracket'>[</span><span class='symbol'>:ideal_issuer_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_bank_id'>bank_id</span>
+    <span class='id identifier rubyid_url'>url</span><span class='lbracket'>[</span><span class='symbol'>:default_pm</span><span class='rbracket'>]</span>      <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>IDEAL</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_encode_www_form'>encode_www_form</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_uri'>uri</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_redirect_base_url'>redirect_base_url</span><span class='embexpr_end'>}</span><span class='tstring_content'>?</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_params'>params</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -889,6 +1289,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
+<p>Returns true/false, depending if this instanciated object is valid</p>
+
 
   </div>
 </div>
@@ -904,6 +1306,11 @@
       
       
       
+        &mdash;
+        <div class='inline'>
+<p>true/false, depending if this instanciated object is valid</p>
+</div>
+      
     </li>
   
 </ul>
@@ -914,17 +1321,75 @@
       <pre class="lines">
 
 
-55
-56
-57
-58</pre>
+66
+67
+68
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 66</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_valid?'>valid?</span>
   <span class='id identifier rubyid_validator'>validator</span> <span class='op'>=</span> <span class='const'>PaymentValidator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
   <span class='id identifier rubyid_validator'>validator</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="validate_line_items-instance_method">
+  
+    - (<tt>Object</tt>) <strong>validate_line_items</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>In case there are any line_items, validate them all and raise an error for
+the first invalid LineItem</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/docdata/payment.rb', line 125</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_validate_line_items'>validate_line_items</span>
+  <span class='kw'>if</span> <span class='ivar'>@line_items</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span>
+    <span class='kw'>for</span> <span class='id identifier rubyid_line_item'>line_item</span> <span class='kw'>in</span> <span class='ivar'>@line_items</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_line_item'>line_item</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span>
+        <span class='comment'># do nothing, this line_item seems okay
+</span>      <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='const'>DocdataError</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_line_item'>line_item</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_line_item'>line_item</span><span class='period'>.</span><span class='id identifier rubyid_error_message'>error_message</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -936,7 +1401,7 @@
 </div>
 
     <div id="footer">
-  Generated on Thu Jul 31 13:53:21 2014 by
+  Generated on Fri Aug  1 14:58:29 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.0.0).
 </div>

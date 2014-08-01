@@ -2,8 +2,6 @@ module Docdata
   
   # Creates a validator
   class ShopperValidator
-      require 'veto'
-      include Veto.validator
 
       # validates :amount, presence: true, integer: true
       # validates :currency, presence: true, format: /[A-Z]{3}/
@@ -30,29 +28,29 @@ module Docdata
   #     :last_name => "Sixpack"
   #     :id => "MC123"
   #   })
+  # @param format [String] The shopper ID
+  # @param format [String] Shopper first name
+  # @param format [String] Shopper last name
+  # @param format [String] Shopper street address
+  # @param format [String] Shopper house number
+  # @param format [String] Shopper postal code
+  # @param format [String] Shopper city
+  # @param format [String] Shopper email
+  # @param format [String] ISO country code (us, nl, de, uk)
+  # @param format [String] ISO language code (en, nl, de)
   class Shopper
 
     # @return [Array] Errors
     attr_accessor :errors
-    # @param [String] The shopper ID
     attr_accessor :id
-    # @param [String] Shopper first name
     attr_accessor :first_name
-    # @param [String] Shopper last name
     attr_accessor :last_name
-    # @param [String] Shopper street address
     attr_accessor :street
-    # @param [String] Shopper house number
     attr_accessor :house_number
-    # @param [String] Shopper postal code
     attr_accessor :postal_code
-    # @param [String] Shopper city
     attr_accessor :city
-    # @param [String] Shopper email
     attr_accessor :email
-    # @param [String] ISO country code (us, nl, de, uk)
     attr_accessor :country_code
-    # @param [String] ISO language code (en, nl, de)
     attr_accessor :language_code
 
 

@@ -2,9 +2,6 @@ module Docdata
 
   # Creates a validator
   class PaymentValidator
-      require 'veto'
-      include Veto.validator
-
       validates :amount, presence: true, integer: true
       validates :profile, presence: true
       validates :currency, presence: true, format: /[A-Z]{3}/
@@ -24,30 +21,30 @@ module Docdata
   #     :profile => "MyProfile"
   #     :shopper => @shopper
   #   })
+  # 
+  # @return [Array] Errors
+  # @param :amount [Integer] The total price in cents
+  # @param :currency [String] ISO currency code (USD, EUR, GBP, etc.)
+  # @param :order_reference [String] A unique order reference
+  # @param :profile [String] The DocData payment profile (e.g. 'MyProfile')
+  # @param :shopper [Docdata::Shopper] A shopper object (instance of Docdata::Shopper)
+  # @param :bank_id [String] (optional) in case you want to redirect the consumer
+  # directly to the bank page (iDeal), you can set the bank id ('0031' for ABN AMRO for example.)
+  # @param :prefered_payment_method [String] (optional) set a prefered payment method.
+  # any of: [IDEAL, AMAX, VISA, etc.]
+  # @param :line_items [Array] (optional) Array of objects of type Docdata::LineItem
+  # 
   class Payment
-
-    # @return [Array] Errors
     attr_accessor :errors
-    # @param [Integer] The total price in cents
     attr_accessor :amount
     @@amount = "?"
-    # @param [String] ISO currency code (USD, EUR, GBP, etc.)
     attr_accessor :currency
-    # @param [String] A unique order reference
     attr_accessor :order_reference
-    # @param [String] The DocData payment profile (e.g. 'MyProfile')
     attr_accessor :profile
-    # @param [Shopper] A shopper object (instance of Docdata::Shopper)
     attr_accessor :shopper
-    # @param [String] (optional) in case you want to redirect the consumer
-    # directly to the bank page (iDeal), you can set the bank id ('0031' for ABN AMRO for example.)
     attr_accessor :bank_id
-    # @param [String] (optional) set a prefered payment method.
-    # any of: [IDEAL, AMAX, VISA, etc.]
     attr_accessor :prefered_payment_method
-    # @param [Array] (optional) Array of objects of type Docdata::LineItem
     attr_accessor :line_items
-    # @retun [String] The Docdata Payment key returned after #create
     attr_accessor :key
 
 

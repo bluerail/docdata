@@ -6,6 +6,8 @@ require 'active_support/dependencies'
 require 'active_support'
 require 'open-uri'
 require 'nokogiri'
+require 'veto'
+
 
 #  Files
 require "docdata/version"
@@ -18,6 +20,8 @@ require "docdata/ideal"
 require "docdata/bank"
 
 include Savon
+include Veto.validator
+
 # 
 # Docdata Module
 # 

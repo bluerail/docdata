@@ -80,7 +80,7 @@
   
     <dt class="r1 last">Defined in:</dt>
     <dd class="r1 last">lib/docdata.rb<span class="defines">,<br />
-  lib/docdata/payment.rb,<br /> lib/docdata/version.rb,<br /> lib/docdata/shopper.rb,<br /> lib/docdata/response.rb</span>
+  lib/docdata/bank.rb,<br /> lib/docdata/ideal.rb,<br /> lib/docdata/engine.rb,<br /> lib/docdata/payment.rb,<br /> lib/docdata/version.rb,<br /> lib/docdata/shopper.rb,<br /> lib/docdata/response.rb,<br /> lib/docdata/line_item.rb</span>
 </dd>
   
 </dl>
@@ -105,7 +105,7 @@
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Docdata/Payment.html" title="Docdata::Payment (class)">Payment</a></span>, <span class='object_link'><a href="Docdata/PaymentValidator.html" title="Docdata::PaymentValidator (class)">PaymentValidator</a></span>, <span class='object_link'><a href="Docdata/Response.html" title="Docdata::Response (class)">Response</a></span>, <span class='object_link'><a href="Docdata/Shopper.html" title="Docdata::Shopper (class)">Shopper</a></span>, <span class='object_link'><a href="Docdata/ShopperValidator.html" title="Docdata::ShopperValidator (class)">ShopperValidator</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Docdata/Bank.html" title="Docdata::Bank (class)">Bank</a></span>, <span class='object_link'><a href="Docdata/Engine.html" title="Docdata::Engine (class)">Engine</a></span>, <span class='object_link'><a href="Docdata/Ideal.html" title="Docdata::Ideal (class)">Ideal</a></span>, <span class='object_link'><a href="Docdata/LineItem.html" title="Docdata::LineItem (class)">LineItem</a></span>, <span class='object_link'><a href="Docdata/LineItemValidator.html" title="Docdata::LineItemValidator (class)">LineItemValidator</a></span>, <span class='object_link'><a href="Docdata/Payment.html" title="Docdata::Payment (class)">Payment</a></span>, <span class='object_link'><a href="Docdata/PaymentValidator.html" title="Docdata::PaymentValidator (class)">PaymentValidator</a></span>, <span class='object_link'><a href="Docdata/Response.html" title="Docdata::Response (class)">Response</a></span>, <span class='object_link'><a href="Docdata/Shopper.html" title="Docdata::Shopper (class)">Shopper</a></span>, <span class='object_link'><a href="Docdata/ShopperValidator.html" title="Docdata::ShopperValidator (class)">ShopperValidator</a></span>
     
   
 </p>
@@ -122,7 +122,7 @@
         <dt id="VERSION-constant" class="">VERSION =
           
         </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0.0.1</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0.0.2</span><span class='tstring_end'>&quot;</span></span></pre></dd>
       
         <dt id="username-classvariable" class="">@@username =
           
@@ -138,6 +138,11 @@
           
         </dt>
         <dd><pre class="code"><span class='kw'>true</span></pre></dd>
+      
+        <dt id="return_url-classvariable" class="">@@return_url =
+          
+        </dt>
+        <dd><pre class="code"><span class='kw'>nil</span></pre></dd>
       
     </dl>
   
@@ -378,12 +383,12 @@ variables to make the tests pass with your test credentials.</p>
       <pre class="lines">
 
 
-62
-63
-64</pre>
+75
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/docdata.rb', line 75</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_client'>client</span>
   <span class='const'>Savon</span><span class='period'>.</span><span class='id identifier rubyid_client'>client</span><span class='lparen'>(</span><span class='label'>wsdl:</span> <span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
@@ -420,17 +425,19 @@ variables to make the tests pass with your test credentials.</p>
       <pre class="lines">
 
 
-57
-58
-59
-60</pre>
+69
+70
+71
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'lib/docdata.rb', line 69</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set_credentials_from_environment'>set_credentials_from_environment</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_password'>password</span> <span class='op'>=</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DOCDATA_PASSWORD</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_username'>username</span> <span class='op'>=</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DOCDATA_USERNAME</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_password'>password</span>   <span class='op'>=</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DOCDATA_PASSWORD</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_username'>username</span>   <span class='op'>=</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DOCDATA_USERNAME</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_return_url'>return_url</span> <span class='op'>=</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DOCDATA_RETURN_URL</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -496,12 +503,12 @@ variables to make the tests pass with your test credentials.</p>
       <pre class="lines">
 
 
-42
-43
-44</pre>
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'lib/docdata.rb', line 54</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_setup'>setup</span>
   <span class='kw'>yield</span> <span class='kw'>self</span>
@@ -526,16 +533,16 @@ variables to make the tests pass with your test credentials.</p>
       <pre class="lines">
 
 
-46
-47
-48
-49
-50
-51
-52</pre>
+58
+59
+60
+61
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/docdata.rb', line 58</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_test_mode'>test_mode</span>
@@ -575,12 +582,12 @@ variables to make the tests pass with your test credentials.</p>
       <pre class="lines">
 
 
-37
-38
-39</pre>
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'lib/docdata.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_version'>version</span>
   <span class='const'>VERSION</span>
@@ -640,10 +647,10 @@ variables to make the tests pass with your test credentials.</p>
       <pre class="lines">
 
 
-28</pre>
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'lib/docdata.rb', line 37</span>
 
 <span class='id identifier rubyid_mattr_accessor'>mattr_accessor</span> <span class='symbol'>:password</span></pre>
     </td>
@@ -695,10 +702,10 @@ variables to make the tests pass with your test credentials.</p>
       <pre class="lines">
 
 
-32</pre>
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'lib/docdata.rb', line 41</span>
 
 <span class='id identifier rubyid_mattr_accessor'>mattr_accessor</span> <span class='symbol'>:test_mode</span></pre>
     </td>
@@ -758,10 +765,10 @@ variables to make the tests pass with your test credentials.</p>
       <pre class="lines">
 
 
-24</pre>
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/docdata.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/docdata.rb', line 33</span>
 
 <span class='id identifier rubyid_mattr_accessor'>mattr_accessor</span> <span class='symbol'>:username</span></pre>
     </td>
@@ -774,7 +781,7 @@ variables to make the tests pass with your test credentials.</p>
 </div>
 
     <div id="footer">
-  Generated on Thu Jul 31 13:53:21 2014 by
+  Generated on Fri Aug  1 14:58:29 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.0.0).
 </div>

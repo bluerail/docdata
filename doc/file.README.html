@@ -84,83 +84,169 @@
 <pre class="code ruby"><code class="ruby">$ gem install docdata
 </code></pre>
 
-<h2>Lay of the land</h2>
+<h2>Workflow</h2>
 
-<p>Each transaction consists of 2 parts:</p>
+<p>Each transaction consists of 2 - optionally 3 - parts:</p>
 
 <ul>
-<li>Shopper (details about the shopper: name, email, etc.)</li>
-<li>Payment (details about the payment: currency, gross amount, etc.) </li>
+<li><code>Docdata::Shopper</code> (details about the shopper: name, email, etc.)</li>
+<li><code>Docdata::Payment</code> (details about the payment: currency, gross amount, etc.) </li>
+<li><code>Docdata::LineItem</code> (optionally list the products of this payment)</li>
 </ul>
 
-<h3>Parameters</h3>
+<p>The general workflow is as follows:</p>
+
+<ol>
+<li>Set up a <code>Docdata::Shopper</code> object with the details of your shopper: <code>@shopper = Docdata::Shopper.new</code> </li>
+<li>Set up a <code>Docdata::Payment</code> object with the details of your order: <code>@payment = Docdata::Payment.new(shopper: @shopper)</code></li>
+<li>Call the <code>create</code> method (<code>@payment.create</code>)</li>
+<li>On success, store the payment key and use <code>@payment.redirect_url</code> to redirect the consumer to the transaction page.</li>
+</ol>
+
+<h2>Parameters</h2>
 
 <p>All the payment details that Docdata Payments requires, are - obviously - also required to make payments via this gem.</p>
 
-<h4>Shopper</h4>
+<h4>Docdata::Shopper:</h4>
 
-<p>| Name | Type | Required |
-|-----------|------------|---------|
-| id | String (ID for own reference) | Yes
-| first_name | String | Yes |
-|   last_name | String | Yes |
-| street | String | Yes |
-| house_number | String | Yes |
-| postal_code | String | Yes |
-| city | String | Yes |
-| country_code | String (ISO country code) | Yes |
-| email | String | Yes |</p>
+<p>| Name | Type | Required | Defaults to |
+|-----------|------------|---------|----|
+| id | String (ID for own reference) | Yes | |
+| first_name | String | Yes | First Name |
+|   last_name | String | Yes | Last Name |
+| street | String | Yes | Main Street |
+| house_number | String | Yes | 123 |
+| postal_code | String | Yes | 2244 |
+| city | String | Yes | City |
+| country_code | String (ISO country code) | Yes | NL |
+| language_code | String (ISO language code) | Yes | nl |
+| email | String | Yes | <a href="mailto:random@example.com">random@example.com</a> |</p>
 
-<h4>Payment</h4>
+<h4>Docdata::Payment:</h4>
 
 <p>| Name | Type | Required |
 |-----------|------------|---------|
 | amount | Integer (amount in cents) | Yes |
 | currency | String (ISO currency code) | Yes |
-| order_reference | String (your own reference) | Yes |
-| profile | Integer (Docdata Payment profile)| Yes |
-| shopper | Docdata::Shopper | Yes |</p>
+| order_reference | String (your own unique reference) | Yes |
+| profile | String (name of your Docdata Payment profile)| Yes |
+| shopper | Docdata::Shopper | Yes |
+| line_items | Array (of Docdata::LineItem objects) | No |
+| bank_id | String | No |
+| prefered_payment_method | String | No |
+| key | String (is availabel after successful &#39;create&#39; action) | No (readonly)</p>
 
-<h2>Example in Rails application</h2>
+<h4>Docdata::LineItem (optional):</h4>
 
-<p>The example below assumes you have your application set up with a Order model, which contains the information needed for this transaction (amount, name, etc.).
-```ruby</p>
+<p>| Name | Type | Required |
+|-----------|------------|---------|
+| name | String | Yes |
+| quantity | Integer | Yes |
+| unit_of_measure | String (&#39;Books&#39;, &#39;Tickets&#39;) | Yes |
+| description | String | Yes |
+| image | String (URI to image) | No |
+| price_per_unit | Integer (price in cents) | Yes |</p>
 
-<h1>orders_controller.rb</h1>
+<h2>Default values</h2>
 
-<p>def start_transaction
-    # find the order from your database
-    @order = Order.find(params[:id])</p>
+<p>A quick warning about the default values for the Shopper object: <strong>For some payment methods, Docdata Payments needs the actual information in order for the payment to take place.</strong></p>
 
-<pre class="code ruby"><code class="ruby"><span class='comment'># initialize a shopper, use details from your order
-</span><span class='id identifier rubyid_shopper'>shopper</span> <span class='op'>=</span> <span class='const'>Docdata</span><span class='op'>::</span><span class='const'>Shopper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>first_name:</span> <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='comma'>,</span> <span class='label'>last_name:</span> <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_last_name'>last_name</span><span class='rparen'>)</span>
+<p>If you use <code>GIROPAY</code>, <code>SEPA</code> and <code>AFTERPAY</code> this is the case. (Maybe also in other payment methods, please let me know!)</p>
 
-<span class='comment'># set up a payment
-</span><span class='ivar'>@payment</span> <span class='op'>=</span> <span class='const'>Docdata</span><span class='op'>::</span><span class='const'>Payment</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
-    <span class='label'>amount:</span> <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_total'>total</span><span class='comma'>,</span> 
-    <span class='label'>currency:</span> <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span><span class='comma'>,</span> 
-    <span class='label'>shopper:</span> <span class='id identifier rubyid_shopper'>shopper</span>
-<span class='rparen'>)</span>
+<h2>Example usage in Rails application</h2>
 
-<span class='comment'># create the payment via the docdata api and collect the result
-</span><span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='ivar'>@payment</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span>
+<p>The example below assumes you have your application set up with a Order model, which contains the information needed for this transaction (amount, name, etc.).</p>
 
-<span class='kw'>if</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_success'>success</span>
-    <span class='comment'># Set the transaction key for future reference
-</span>    <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_update_column'>update_column</span> <span class='symbol'>:docdata_key</span><span class='comma'>,</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span>
-<span class='kw'>else</span>
-    <span class='comment'># TODO: Display the error and warn the user that something went wrong.
-</span><span class='kw'>end</span>
+<pre class="code ruby"><code class="ruby"><span class='comment'># orders_controller.rb
+</span><span class='kw'>def</span> <span class='id identifier rubyid_start_transaction'>start_transaction</span>
+    <span class='comment'># find the order from your database
+</span>    <span class='ivar'>@order</span> <span class='op'>=</span> <span class='const'>Order</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+
+    <span class='comment'># initialize a shopper, use details from your order
+</span>    <span class='id identifier rubyid_shopper'>shopper</span> <span class='op'>=</span> <span class='const'>Docdata</span><span class='op'>::</span><span class='const'>Shopper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>first_name:</span> <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='comma'>,</span> <span class='label'>last_name:</span> <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_last_name'>last_name</span><span class='rparen'>)</span>
+
+    <span class='comment'># set up a payment
+</span>    <span class='ivar'>@payment</span> <span class='op'>=</span> <span class='const'>Docdata</span><span class='op'>::</span><span class='const'>Payment</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
+        <span class='label'>amount:</span> <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_total'>total</span><span class='comma'>,</span> 
+        <span class='label'>currency:</span> <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span><span class='comma'>,</span> 
+        <span class='label'>shopper:</span> <span class='id identifier rubyid_shopper'>shopper</span><span class='comma'>,</span>
+        <span class='label'>profile:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>My Default Profile</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+        <span class='label'>order_reference:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>order #</span><span class='embexpr_beg'>#{</span><span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='rparen'>)</span>
+
+    <span class='comment'># create the payment via the docdata api and collect the result
+</span>    <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='ivar'>@payment</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span>
+
+    <span class='kw'>if</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_success?'>success?</span>
+        <span class='comment'># Set the transaction key for future reference
+</span>        <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_update_column'>update_column</span> <span class='symbol'>:docdata_key</span><span class='comma'>,</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span>
+    <span class='kw'>else</span>
+        <span class='comment'># TODO: Display the error and warn the user that something went wrong.
+</span>    <span class='kw'>end</span>
+<span class='kw'>end</span>
 </code></pre>
 
-<p>end
-```</p>
+<h2>Ideal</h2>
+
+<p>For transactions in the Netherlands, iDeal is the most common option. To redirect a user directly to the bank page (skipping the Docdata web menu page), you can ask your user to choose a bank from any of the banks listed in the <code>Docdata::Ideal.banks</code> method.</p>
+
+<p>In <code>Docdata::Payment</code> you can set <code>bank_id</code> to any value. If you do, the redirect URI will redirect your user directly to the bank page.</p>
+
+<p>Example code:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># orders_controller.rb
+</span><span class='kw'>def</span> <span class='id identifier rubyid_ideal_checkout'>ideal_checkout</span>
+    <span class='ivar'>@order</span> <span class='op'>=</span> <span class='const'>Order</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:order_id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='ivar'>@banks</span> <span class='op'>=</span> <span class='const'>Docdata</span><span class='op'>::</span><span class='const'>Ideal</span><span class='period'>.</span><span class='id identifier rubyid_banks'>banks</span>
+<span class='kw'>end</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_start_ideal_transaction'>start_ideal_transaction</span>
+    <span class='ivar'>@order</span> <span class='op'>=</span> <span class='const'>Order</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:order_id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+
+    <span class='comment'># initialize a shopper, use details from your order
+</span>    <span class='id identifier rubyid_shopper'>shopper</span> <span class='op'>=</span> <span class='const'>Docdata</span><span class='op'>::</span><span class='const'>Shopper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>first_name:</span> <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='comma'>,</span> <span class='label'>last_name:</span> <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_last_name'>last_name</span><span class='rparen'>)</span>
+
+    <span class='comment'># set up a payment
+</span>    <span class='ivar'>@payment</span> <span class='op'>=</span> <span class='const'>Docdata</span><span class='op'>::</span><span class='const'>Payment</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
+        <span class='label'>amount:</span> <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_total'>total</span><span class='comma'>,</span> 
+        <span class='label'>currency:</span> <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span><span class='comma'>,</span> 
+        <span class='label'>shopper:</span> <span class='id identifier rubyid_shopper'>shopper</span><span class='comma'>,</span>
+        <span class='label'>profile:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>My Default Profile</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+        <span class='label'>order_reference:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>order #</span><span class='embexpr_beg'>#{</span><span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+        <span class='label'>bank_id:</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:bank_id</span><span class='rbracket'>]</span>
+    <span class='rparen'>)</span>
+
+    <span class='comment'># create the payment via the docdata api and collect the result
+</span>    <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='ivar'>@payment</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span>
+
+    <span class='kw'>if</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_success?'>success?</span>
+        <span class='comment'># Set the transaction key for future reference
+</span>        <span class='ivar'>@order</span><span class='period'>.</span><span class='id identifier rubyid_update_column'>update_column</span> <span class='symbol'>:docdata_key</span><span class='comma'>,</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span>
+        <span class='comment'># redirect the user to the bank page
+</span>        <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='ivar'>@payment</span><span class='period'>.</span><span class='id identifier rubyid_redirect_url'>redirect_url</span>
+    <span class='kw'>else</span>
+        <span class='comment'># TODO: Display the error and warn the user that something went wrong.
+</span>    <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>View template (ideal_checkout.html.erb):</p>
+
+<pre class="code ruby"><code class="ruby">&lt;h2&gt;Choose your bank&lt;/h2&gt;
+&lt;%= form_tag start_ideal_transaction_path, method: :post, target: &quot;_blank&quot; do %&gt;
+  &lt;%= select_tag &quot;bank_id&quot;, options_from_collection_for_select(@banks, &quot;id&quot;, &quot;name&quot;) %&gt;
+    &lt;%= hidden_field_tag :order_id, @order.id %&gt;
+  &lt;%= submit_tag &quot;Proceed to checkout&quot; %&gt;
+&lt;% end %&gt;
+</code></pre>
 
 <h2>Contributing</h2>
 
 <ol>
 <li>Fork it</li>
 <li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Make changes, document them and add tests (rspec)</li>
+<li>Run the entire test suite and make sure all tests pass</li>
 <li>Commit your changes (<code>git commit -am &#39;Add some feature&#39;</code>)</li>
 <li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
 <li>Create new Pull Request</li>
@@ -168,7 +254,7 @@
 </div></div>
 
     <div id="footer">
-  Generated on Thu Jul 31 13:53:19 2014 by
+  Generated on Fri Aug  1 14:58:27 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.0.0).
 </div>
