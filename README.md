@@ -63,15 +63,6 @@ All the payment details that Docdata Payments requires, are - obviously - also r
 | prefered_payment_method | String | No |
 | key | String (is availabel after successful 'create' action) | No (readonly)
 
-#### Docdata::LineItem (optional):
-| Name | Type | Required |
-|-----------|------------|---------|
-| name | String | Yes |
-| quantity | Integer | Yes |
-| unit_of_measure | String ('Books', 'Tickets') | Yes |
-| description | String | Yes |
-| image | String (URI to image) | No |
-| price_per_unit | Integer (price in cents) | Yes |
 
 ## Default values
 A quick warning about the default values for the Shopper object: **For some payment methods, Docdata Payments needs the actual information in order for the payment to take place.**
