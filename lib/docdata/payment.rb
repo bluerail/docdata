@@ -89,6 +89,8 @@ module Docdata
       namespace       = OpenStruct.new(payment: self, shopper: shopper)
       xml             = ERB.new(template).result(namespace.instance_eval { binding })
 
+      # puts
+
       # make the SOAP API call
       response        = Docdata.client.call(:create, xml: xml)
       response_object = Docdata::Response.parse(:create, response)

@@ -31,6 +31,7 @@ Gem::Specification.new do |spec|
 
   # spec.add_runtime_dependency 'savon', git: 'savonrb/savon'
   spec.add_dependency 'savon', '~> 2.0'
+  spec.add_dependency 'nori'
   spec.add_dependency 'veto'
   spec.add_dependency 'nokogiri'
   spec.add_dependency("railties")

@@ -73,7 +73,7 @@ describe Docdata::Payment do
       Docdata.set_credentials_from_environment
       VCR.use_cassette("payments-successful-create") do
         @payment.create
-        # puts @payment.redirect_url
+        puts @payment.redirect_url
         expect(@payment.redirect_url).to include("https://test.docdatapayments.com/ps/menu?command=show_payment_cluster")
 
       end

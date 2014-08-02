@@ -49,7 +49,17 @@ module Docdata
     # @param [String] method_name (name of the method: create, start, cancel, etc.)
     # @param [Hash] response
     def self.parse(method_name, response)
-      body = response.body.to_hash
+      if response.is_a?(File)
+        parser = Nori.new(:convert_tags_to => lambda { |tag| tag.snakecase.to_sym })
+        xml = response.read 
+        # puts xml
+        puts parser.parse(xml)
+        body = parser.parse(xml).first.last.first.last
+
+      else
+        body = response.body.to_hash
+      end
+      
       # puts body
       if body["#{method_name}_response".to_sym] && body["#{method_name}_response".to_sym]["#{method_name}_error".to_sym]
         raise DocdataError.new(response), body["#{method_name}_response".to_sym]["#{method_name}_error".to_sym][:error]
