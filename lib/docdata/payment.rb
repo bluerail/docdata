@@ -83,12 +83,6 @@ module Docdata
       # if there are any line items, they should all be valid.
       validate_line_items
 
-      # read the xml template
-      xml_file        = "#{File.dirname(__FILE__)}/xml/create.xml.erb"
-      template        = File.read(xml_file)      
-      namespace       = OpenStruct.new(payment: self, shopper: shopper)
-      xml             = ERB.new(template).result(namespace.instance_eval { binding })
-
       # puts
 
       # make the SOAP API call
@@ -100,7 +94,13 @@ module Docdata
       return response_object
     end
 
-
+    # @return [String] the xml to send in the SOAP API
+    def xml
+      xml_file        = "#{File.dirname(__FILE__)}/xml/create.xml.erb"
+      template        = File.read(xml_file)      
+      namespace       = OpenStruct.new(payment: self, shopper: shopper)
+      xml             = ERB.new(template).result(namespace.instance_eval { binding })
+    end
 
     # Initialize a Payment object with the key set
     def self.find(api_key)

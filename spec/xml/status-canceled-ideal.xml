@@ -1,0 +1,29 @@
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+   <S:Body>
+      <statusResponse xmlns="http://www.docdatapayments.com/services/paymentservice/1_1/">
+         <statusSuccess>
+            <success code="SUCCESS">Operation successful.</success>
+            <report>
+               <approximateTotals exchangeRateDate="2014-08-04 15:24:14" exchangedTo="EUR">
+                  <totalRegistered>500</totalRegistered>
+                  <totalShopperPending>0</totalShopperPending>
+                  <totalAcquirerPending>0</totalAcquirerPending>
+                  <totalAcquirerApproved>0</totalAcquirerApproved>
+                  <totalCaptured>0</totalCaptured>
+                  <totalRefunded>0</totalRefunded>
+                  <totalChargedback>0</totalChargedback>
+               </approximateTotals>
+               <payment>
+                  <id>4907176931</id>
+                  <paymentMethod>IDEAL</paymentMethod>
+                  <authorization>
+                     <status>CANCELED</status>
+                     <amount currency="EUR">500</amount>
+                     <confidenceLevel/>
+                  </authorization>
+               </payment>
+            </report>
+         </statusSuccess>
+      </statusResponse>
+   </S:Body>
+</S:Envelope>

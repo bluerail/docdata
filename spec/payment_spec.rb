@@ -50,11 +50,19 @@ describe Docdata::Payment do
   describe "#create" do
 
     it "raises error when credentials are wrong" do
+      # puts @payment.xml
+      Docdata.password = "1234"
       VCR.use_cassette("payments-xml-create-without-credentials") do
         expect { @payment.create }.to raise_error(DocdataError, "Login failed.")
       end
     end
 
+    it "raises error when password is blank" do
+      Docdata.password = ""
+      VCR.use_cassette("payments-xml-create-without-password") do
+        expect { @payment.create }.to raise_error(DocdataError, /The value '' of attribute 'password' on element '_1:merchant' is not valid with respect to its type/)
+      end
+    end
 
     it "raises error when blank xml is sent" do
       Docdata.set_credentials_from_environment
@@ -73,7 +81,7 @@ describe Docdata::Payment do
       Docdata.set_credentials_from_environment
       VCR.use_cassette("payments-successful-create") do
         @payment.create
-        puts @payment.redirect_url
+        # puts @payment.redirect_url
         expect(@payment.redirect_url).to include("https://test.docdatapayments.com/ps/menu?command=show_payment_cluster")
 
       end

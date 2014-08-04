@@ -1,4 +1,5 @@
 # Docdata
+[![Build Status](https://secure.travis-ci.org/henkm/docdata.png)](http://travis-ci.org/henkm/docdata)
 
 Docdata is a Ruby binder for Docdata Payments. Current status: **in progress, not stable**. 
 
@@ -95,6 +96,8 @@ The example below assumes you have your application set up with a Order model, w
 		if result.success?
 			# Set the transaction key for future reference
 			@order.update_column :docdata_key, result.key
+			# redirect the user to the docdata payment page
+			redirect_to @payment.redirect_url
 		else
 			# TODO: Display the error and warn the user that something went wrong.
 		end
