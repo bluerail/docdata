@@ -1,3 +1,6 @@
+require "bundler"
+Bundler.setup(:default, :development)
+
 require 'simplecov'
 require 'coveralls'
 
@@ -28,4 +31,6 @@ VCR.configure do |c|
   end
 end
 
-RSpec.configure
+RSpec.configure do |config|
+  config.order = "random"
+end

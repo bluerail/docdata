@@ -1,5 +1,10 @@
-language: "ruby"
-script: "bundle exec rspec ."
+language: ruby
+script: bundle exec rake --trace
 rvm:
-  - 1.9.2
-  - 2.0
+- '2.0'
+env:
+  global:
+  - secure: TIDimYgwlRDIMSeNUDsc3Bwb1dCSdfyF89clBbGssrolmxDSOMCWEkKg+XVeiR8ZTaprule80X35rw8xqoNqpYuZedH0Z6owu1JQ6C3XkUW9TXVhcIQ3WF7KF8YVXwSLYTf9W4F9j8KNW8azb2PmmuLbDqmqAhBxMsG+i1hgPaw=
+  - secure: ZrkG1/8uInY6xiP8xD7HhjDxgxmvbxRHdmzveN/qh9CIsOjCAESfgjd9WjiP8IiW2/G5tYRkVeqYijDLnTkWuyn2lsiWRjE+CflwqTo8XHQCKLCKGbLJzR13i+ulos5ByjUV7OVPTZ241Lxaaw7JBgUgFP3BUqA0127pX8mxpm0=
+  - secure: MQLynyivQIoClPKv3mA62S3E3SVR1ho/8rQ3xs43fsT4PNClwftOO+fRiH0djkmZ4dzJSAD5H70ikcAJoOQ3dAul2+xA5uPAt4AUBk0sindcT2PeEnjPIH9rt/AxLYG67MWZihTr2xcQ38xh6nNJZslyFSglntCTFPmyBy3D0KM=
+  - secure: FrWAE8ZvvBnI6+VwxdBZIHQwQPQKOqFMP9g3XVMyJOPCF4HWlzBor1e5MZ9UquVYaL+/2OL0aDxhgN33y0YsX3/2c5Z25cPGglzE3VsPzRdzDqarwPEz/tEzTYG/bKKPIEI9q+cKQNnSBuMtk4EELBmOJ9iA8jPD0OCNgRedlRw=
