@@ -27,7 +27,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "simplecov"
   spec.add_development_dependency "yard"
   spec.add_development_dependency "rubyntlm"
-  
 
   # spec.add_runtime_dependency 'savon', git: 'savonrb/savon'
   spec.add_dependency 'savon', '~> 2.0'
