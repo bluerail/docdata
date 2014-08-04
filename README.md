@@ -1,5 +1,7 @@
 # Docdata
 [![Build Status](https://secure.travis-ci.org/henkm/docdata.png)](http://travis-ci.org/henkm/docdata)
+[![Gem Version](https://badge.fury.io/rb/docdata.svg)](http://badge.fury.io/rb/docdata)
+[![Code Climate](https://codeclimate.com/github/henkm/docdata/badges/gpa.svg)](https://codeclimate.com/github/henkm/docdata)
 [![Coverage Status](https://coveralls.io/repos/henkm/docdata/badge.png?branch=master)](https://coveralls.io/r/henkm/docdata)
 
 Docdata is a Ruby binder for Docdata Payments. Current status: **in progress, not stable**. 
