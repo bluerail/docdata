@@ -106,11 +106,14 @@ module Docdata
     def paid
       if payment_method
         case payment_method
+        # ideal
         when "IDEAL"
           (total_registered == total_captured) && (capture_status == "CAPTURED")
-
-          # fallback: if total_registered equals total_caputured,
-          # we can assume that this order is paid. No 100% guarantee.
+        # creditcard
+        when "MASTERCARD", "VISA", "AMEX"
+          (total_registered == total_acquirer_approved)
+        # fallback: if total_registered equals total_caputured,
+        # we can assume that this order is paid. No 100% guarantee.
         else
           total_registered == total_captured
         end
@@ -128,7 +131,7 @@ module Docdata
 
     # @return [Boolean]
     def canceled
-      payment_status == "CANCELED"
+      payment_status == "CANCELED" || capture_status == "CANCELED"
     end
     alias_method :canceled?, :canceled
 
