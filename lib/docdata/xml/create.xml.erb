@@ -2,7 +2,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <_1:createRequest version="1.1">
-         <_1:merchant name="<%= Docdata.username %>" password="<%= Docdata.password %>"/>
+         <_1:merchant name="<%= Docdata::Config.username %>" password="<%= Docdata::Config.password %>"/>
          <_1:merchantOrderReference><%= payment.order_reference %></_1:merchantOrderReference>
          <_1:paymentPreferences>
             <_1:profile><%= payment.profile %></_1:profile>
@@ -16,7 +16,7 @@
             </_1:name>
             <_1:email><%= shopper.email %></_1:email>
             <_1:language code="<%= shopper.language_code %>"/>
-            <_1:gender>M</_1:gender>
+            <_1:gender><%= shopper.gender.upcase %></_1:gender>
             
          </_1:shopper>
          <_1:totalGrossAmount currency="<%= payment.currency %>"><%= payment.amount %></_1:totalGrossAmount>

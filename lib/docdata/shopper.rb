@@ -29,6 +29,7 @@ module Docdata
   # @param format [String] The shopper ID
   # @param format [String] Shopper first name
   # @param format [String] Shopper last name
+  # @param format [String] Gender ['M','F']
   # @param format [String] Shopper street address
   # @param format [String] Shopper house number
   # @param format [String] Shopper postal code
@@ -43,6 +44,7 @@ module Docdata
     attr_accessor :id
     attr_accessor :first_name
     attr_accessor :last_name
+    attr_accessor :gender
     attr_accessor :street
     attr_accessor :house_number
     attr_accessor :postal_code
@@ -87,6 +89,7 @@ module Docdata
       @city          = "City"
       @country_code  = "NL"
       @language_code = "nl"
+      @gender        = "M"
       @email         = "random@example.com"
     end
 

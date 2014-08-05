@@ -1,12 +1,15 @@
 # Docdata
 [![Build Status](https://secure.travis-ci.org/henkm/docdata.png)](http://travis-ci.org/henkm/docdata)
 [![Gem Version](https://badge.fury.io/rb/docdata.svg)](http://badge.fury.io/rb/docdata)
+[![Dependency Status](https://gemnasium.com/henkm/docdata.svg)](https://gemnasium.com/henkm/docdata)
 [![Code Climate](https://codeclimate.com/github/henkm/docdata/badges/gpa.svg)](https://codeclimate.com/github/henkm/docdata)
 [![Coverage Status](https://coveralls.io/repos/henkm/docdata/badge.png?branch=master)](https://coveralls.io/r/henkm/docdata)
 
-Docdata is a Ruby binder for Docdata Payments. Current status: **in progress, not stable**. 
+Docdata is a Ruby implementation for using Docdata Payments.
 
-This gem relies on the awesom Savon gem to communicate with Docdata Payments' SOAP API.
+Here you can find the [Documentation](http://rdoc.info/gems/docdata)
+
+This gem relies on the awesom [Savon](http://savonrb.com/) gem to communicate with Docdata Payments' SOAP API.
 
 ## Installation
 

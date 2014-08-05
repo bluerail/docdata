@@ -11,6 +11,8 @@ require 'veto'
 
 #  Files
 require "docdata/version"
+require "docdata/config"
+require "docdata/engine" if defined?(Rails) && Rails::VERSION::MAJOR.to_i >= 3
 require "docdata/docdata_error"
 require "docdata/shopper"
 require "docdata/payment"
@@ -27,22 +29,22 @@ include Savon
 module Docdata
   API_VERSION = 1
 
-  # @return [String] Your DocData username
-  # @note The is a required parameter.
-  mattr_accessor :username
-  @@username = nil
+  # # @return [String] Your DocData username
+  # # @note The is a required parameter.
+  # mattr_accessor :username
+  # @@username = nil
 
-  # @return [String] Your DocData password
-  mattr_accessor :password
-  @@password = nil
+  # # @return [String] Your DocData password
+  # mattr_accessor :password
+  # @@password = nil
 
-  # @return [Boolean] Test mode switch
-  mattr_accessor :test_mode
-  @@test_mode = true
+  # # @return [Boolean] Test mode switch
+  # mattr_accessor :test_mode
+  # @@test_mode = true
 
-  # @param [String] Set the url of your website where docdata can send messages to
-  mattr_accessor :return_url
-  @@return_url = nil
+  # # @param [String] Set the url of your website where docdata can send messages to
+  # mattr_accessor :return_url
+  # @@return_url = nil
 
   # returns the version number
   def self.version
@@ -55,7 +57,7 @@ module Docdata
   end
 
   def self.url
-    if test_mode
+    if Docdata::Config.test_mode
       "https://test.docdatapayments.com/ps/services/paymentservice/1_1?wsdl"
     else
       "https://www.docdatapayments.com/ps/services/paymentservice/1_1?wsdl"
@@ -66,9 +68,9 @@ module Docdata
   # in environment variables to make the tests pass with your test
   # credentials.
   def self.set_credentials_from_environment
-    self.password   = ENV["DOCDATA_PASSWORD"]
-    self.username   = ENV["DOCDATA_USERNAME"]
-    self.return_url = ENV["DOCDATA_RETURN_URL"]
+    Docdata::Config.password   = ENV["DOCDATA_PASSWORD"]
+    Docdata::Config.username   = ENV["DOCDATA_USERNAME"]
+    Docdata::Config.return_url = ENV["DOCDATA_RETURN_URL"]
   end
 
   def self.client

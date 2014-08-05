@@ -135,15 +135,15 @@ module Docdata
     def redirect_url
       url = {}
       
-      base_url = Docdata.return_url
-      if Docdata.test_mode
+      base_url = Docdata::Config.return_url
+      if Docdata::Config.test_mode
         redirect_base_url = 'https://test.docdatapayments.com/ps/menu'
       else
         redirect_base_url = 'https://secure.docdatapayments.com/ps/menu'
       end
       url[:command]             = "show_payment_cluster"
       url[:payment_cluster_key] = key
-      url[:merchant_name]       = Docdata.username
+      url[:merchant_name]       = Docdata::Config.username
       # only include return URL if present
       if base_url.present?
         url[:return_url_success]  = "#{base_url}/success?key=#{url[:payment_cluster_key]}"

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Docdata do
   before(:each) do
-  	Docdata.test_mode = true
+  	Docdata::Config.test_mode = true
   end
 
   it "returns correct version number" do
@@ -11,30 +11,30 @@ describe Docdata do
 
   context "settings" do
 	  it "is in test mode by default" do
-	  	expect(Docdata.test_mode).to eq(true)
+	  	expect(Docdata::Config.test_mode).to eq(true)
 	  end
 	 
 	  # it "should have the correct default values" do
-	  #   expect(Docdata.test_mode).to be_truthy
-	  #   expect(Docdata.username).to be_nil
-	  #   expect(Docdata.password).to be_nil
+	  #   expect(Docdata::Config.test_mode).to be_truthy
+	  #   expect(Docdata::Config.username).to be_nil
+	  #   expect(Docdata::Config.password).to be_nil
 	  # end
 
 	  it "is able to update and set settings" do
-	    Docdata.test_mode = false
-	    Docdata.username = "abcd"
-	    Docdata.password = "321zyx12"
+	    Docdata::Config.test_mode = false
+	    Docdata::Config.username = "abcd"
+	    Docdata::Config.password = "321zyx12"
 
-	    expect(Docdata.test_mode).to be_falsey
-	    expect(Docdata.username).to match "abcd"
-	    expect(Docdata.password).to match "321zyx12"
+	    expect(Docdata::Config.test_mode).to be_falsey
+	    expect(Docdata::Config.username).to match "abcd"
+	    expect(Docdata::Config.password).to match "321zyx12"
 	  end
 	end
 
 	context "SOAP configuration" do
 
     it "should have the proper test URL" do
-      expect(Docdata.test_mode).to eq(true)
+      expect(Docdata::Config.test_mode).to eq(true)
       expect(Docdata.url).to eq("https://test.docdatapayments.com/ps/services/paymentservice/1_1?wsdl")
     end
 

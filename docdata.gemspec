@@ -28,11 +28,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "yard"
   spec.add_development_dependency "redcarpet", "~> 1" # for documentation
   spec.add_development_dependency "github-markup"
-  spec.add_development_dependency "rubyntlm"
 
   spec.add_dependency 'savon', '~> 2.0'
   spec.add_dependency 'nori'
   spec.add_dependency 'veto'
+  spec.add_dependency 'rubyntlm'
   spec.add_dependency 'nokogiri'
-  spec.add_dependency("railties")
+  spec.add_dependency 'railties'
 end

@@ -5,9 +5,11 @@ module Docdata
   #
   # @example default
   #   # /config/environments/development.rb
-  #   config.ideal_mollie.partner_id = 123456
+  # config.docata.username  = "myapp_com"
+  # config.docata.password  = "pa55w0rd"
+  # config.docata.test_mode = "true"
   #
   class Engine < Rails::Engine
-    config.docdata = Docdata
+    config.docdata = Docdata::Config
   end
 end

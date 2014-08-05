@@ -51,14 +51,14 @@ describe Docdata::Payment do
 
     it "raises error when credentials are wrong" do
       # puts @payment.xml
-      Docdata.password = "1234"
+      Docdata::Config.password = "1234"
       VCR.use_cassette("payments-xml-create-without-credentials") do
         expect { @payment.create }.to raise_error(DocdataError, "Login failed.")
       end
     end
 
     it "raises error when password is blank" do
-      Docdata.password = ""
+      Docdata::Config.password = ""
       VCR.use_cassette("payments-xml-create-without-password") do
         expect { @payment.create }.to raise_error(DocdataError, /The value '' of attribute 'password' on element '_1:merchant' is not valid with respect to its type/)
       end

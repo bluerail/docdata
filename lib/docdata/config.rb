@@ -10,15 +10,18 @@ module Docdata::Config
     attr_accessor :password
     # @return [Boolean] Test mode switch
     attr_accessor :test_mode
+    # @return [String] Base return URL
+    attr_accessor :return_url
 
 
     # Set's the default value's to nil and false
     # @return [Hash] configuration options
     def init!
       @defaults = {
-        :@username => nil,
-        :@password => nil,
-        :@test_mode => true
+        :@username   => nil,
+        :@password   => nil,
+        :@test_mode  => true,
+        :@return_url => nil
       }
     end
 
