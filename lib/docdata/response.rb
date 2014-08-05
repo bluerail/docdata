@@ -49,15 +49,15 @@ module Docdata
     # @param [String] method_name (name of the method: create, start, cancel, etc.)
     # @param [Hash] response
     def self.parse(method_name, response)
-      body, xml = self.response_body(response)      
+      body, xml = self.response_body(response)
       if body["#{method_name}_response".to_sym] && body["#{method_name}_response".to_sym]["#{method_name}_error".to_sym]
         raise DocdataError.new(response), body["#{method_name}_response".to_sym]["#{method_name}_error".to_sym][:error]
       else
         m = body["#{method_name}_response".to_sym]["#{method_name}_success".to_sym]
         r = self.new(key: m[:key], message: m[:success], success: true)
+        r.xml    = xml #save the raw xml
         if m[:report]
           r.report = m[:report]
-          r.xml    = xml #save the raw xml
         end
         return r
       end
@@ -108,11 +108,14 @@ module Docdata
     def paid
       if payment_method
         case payment_method
-        # ideal
-        when "IDEAL"
+        # ideal (dutch)
+        when "IDEAL" 
           (total_registered == total_captured) && (capture_status == "CAPTURED")
         # creditcard
         when "MASTERCARD", "VISA", "AMEX"
+          (total_registered == total_acquirer_approved)
+        # sofort überweisung (german)
+        when "SOFORT_UEBERWEISUNG"
           (total_registered == total_acquirer_approved)
         # fallback: if total_registered equals total_caputured,
         # we can assume that this order is paid. No 100% guarantee.
@@ -147,12 +150,24 @@ module Docdata
       report[:payment][:authorization][:amount].to_i
     end
     
-    # @return [String] the caputred amount in cents
-    # @note TODO, this method is not implemented yet
+    # @return [String] the currency if this transaction
     def currency
-      # report[:payment][:authorization][:@exchanged_to]
+      status_xml.xpath("//amount").first.attributes["currency"].value
     end
 
+    # @return [Nokogiri::XML::Document] object
+    def doc
+      # remove returns and whitespaces between tags
+      xml_string = xml.gsub("\n", "").gsub(/>\s+</, "><")
+      # return Nokogiri::XML::Document
+      @doc ||= Nokogiri.XML(xml_string)
+    end
+
+    # @return [Nokogiri::XML::Document] object, containing only the status section
+    # @note This is a fix for Nokogiri's trouble finding xpath elements after 'xlmns' attribute in a node.
+    def status_xml
+      @status_xml ||= Nokogiri.XML(doc.xpath("//S:Body").first.children.first.children.first.to_xml)
+    end
 
   end
 end

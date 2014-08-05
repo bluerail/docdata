@@ -11,6 +11,10 @@ describe Docdata::Response do
     it "is not paid" do
       expect(@response).to be_success
     end
+
+    it "has xml attribute with raw data" do
+      expect(@response.xml).to be_present
+    end
   end
 
   describe "different payment methods" do
@@ -40,6 +44,13 @@ describe Docdata::Response do
       it "is paid" do
         expect(@response).to be_success
         expect(@response).to be_paid
+      end
+
+
+
+      it "has currency EUR" do
+        expect(@response.xml).to be_present
+        expect(@response.currency).to eq("EUR")
       end
 
       it "is NOT canceled" do
@@ -157,7 +168,7 @@ describe Docdata::Response do
         expect(@response.payment_method).to eq("SOFORT_UEBERWEISUNG")
       end
 
-      xit "is paid" do
+      it "is paid" do
         expect(@response).to be_success
         expect(@response).to be_paid
       end

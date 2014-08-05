@@ -36,6 +36,7 @@ The general workflow is as follows:
 2. Set up a `Docdata::Payment` object with the details of your order: `@payment = Docdata::Payment.new(shopper: @shopper)`
 3. Call the `create` method (`@payment.create`)
 4. On success, store the payment key and use `@payment.redirect_url` to redirect the consumer to the transaction page.
+5. When the consumer gets back to your application, use the `Docdata::Payment.find("PA1M3NTK3Y").status.paid` to check if the order was paid for.
 
 ## Parameters
 All the payment details that Docdata Payments requires, are - obviously - also required to make payments via this gem.
@@ -75,37 +76,37 @@ If you use `GIROPAY`, `SEPA` and `AFTERPAY` this is the case. (Maybe also in oth
 
 ## Example usage in Rails application
 The example below assumes you have your application set up with a Order model, which contains the information needed for this transaction (amount, name, etc.).
+```ruby
+# orders_controller.rb
+def start_transaction
+	# find the order from your database
+	@order = Order.find(params[:id])
+	
+	# initialize a shopper, use details from your order
+	shopper = Docdata::Shopper.new(first_name: @order.first_name, last_name: @order.last_name)
 
-	# orders_controller.rb
-	def start_transaction
-		# find the order from your database
-		@order = Order.find(params[:id])
-		
-		# initialize a shopper, use details from your order
-		shopper = Docdata::Shopper.new(first_name: @order.first_name, last_name: @order.last_name)
+	# set up a payment
+	@payment = Docdata::Payment.new(
+		amount: @order.total, 
+		currency: @order.currency, 
+		shopper: shopper,
+		profile: "My Default Profile",
+		order_reference: "order ##{@order.id}"
+	)
+	
+	# create the payment via the docdata api and collect the result
+	result = @payment.create
 
-		# set up a payment
-		@payment = Docdata::Payment.new(
-			amount: @order.total, 
-			currency: @order.currency, 
-			shopper: shopper,
-			profile: "My Default Profile",
-			order_reference: "order ##{@order.id}"
-		)
-		
-		# create the payment via the docdata api and collect the result
-		result = @payment.create
-
-		if result.success?
-			# Set the transaction key for future reference
-			@order.update_column :docdata_key, result.key
-			# redirect the user to the docdata payment page
-			redirect_to @payment.redirect_url
-		else
-			# TODO: Display the error and warn the user that something went wrong.
-		end
+	if result.success?
+		# Set the transaction key for future reference
+		@order.update_column :docdata_key, result.key
+		# redirect the user to the docdata payment page
+		redirect_to @payment.redirect_url
+	else
+		# TODO: Display the error and warn the user that something went wrong.
 	end
-
+end
+```
 
 ## Ideal
 
@@ -134,7 +135,8 @@ def start_ideal_transaction
 		shopper: shopper,
 		profile: "My Default Profile",
 		order_reference: "order ##{@order.id}",
-		bank_id: params[:bank_id]
+		bank_id: params[:bank_id],
+		default_act: true # redirect directly to the bank, skipping the Docdata web menu
 	)
 
 	# create the payment via the docdata api and collect the result
@@ -164,9 +166,23 @@ View template (ideal_checkout.html.erb):
 
 ## Tips and samples
 
-TODO: Write some sample code here about:
 #### Redirect directly to bank page (skip Docdata web menu)
-#### 
+When making a new `Docdata::Payment`, use the `default_act` parameter to redirect consumers directly to the acquirers website. Example:
+
+```ruby
+	@payment = Docdata::Payment.new(
+		amount: @order.total, 
+		currency: @order.currency, 
+		shopper: shopper,
+		profile: "My Default Profile",
+		order_reference: "order ##{@order.id}",
+		bank_id: params[:bank_id],
+		default_act: true # redirect directly to the bank, skipping the Docdata web menu
+	)
+```
+
+#### Retrieve a list of iDeal banks to show
+`Docata::Ideal.banks` returns an Array.
 
 ## Contributing
 

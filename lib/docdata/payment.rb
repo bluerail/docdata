@@ -36,6 +36,7 @@ module Docdata
   # @param :prefered_payment_method [String] (optional) set a prefered payment method.
   # any of: [IDEAL, AMAX, VISA, etc.]
   # @param :line_items [Array] (optional) Array of objects of type Docdata::LineItem
+  # @param :default_act [Boolean] (optional) Should the redirect URL contain a default_act=true parameter?
   # 
   class Payment
     attr_accessor :errors
@@ -51,7 +52,7 @@ module Docdata
     attr_accessor :prefered_payment_method
     attr_accessor :line_items
     attr_accessor :key
-
+    attr_accessor :default_act
 
 
 
@@ -143,13 +144,18 @@ module Docdata
       url[:command]             = "show_payment_cluster"
       url[:payment_cluster_key] = key
       url[:merchant_name]       = Docdata.username
-      url[:return_url_success]  = "#{base_url}/success?key=#{url[:payment_cluster_key]}"
-      url[:return_url_pending]  = "#{base_url}/pending?key=#{url[:payment_cluster_key]}"
-      url[:return_url_canceled] = "#{base_url}/canceled?key=#{url[:payment_cluster_key]}"
-      url[:return_url_error]    = "#{base_url}/error?key=#{url[:payment_cluster_key]}"
-      url[:client_language]     = shopper.language_code
-      if bank_id.present?
+      # only include return URL if present
+      if base_url.present?
+        url[:return_url_success]  = "#{base_url}/success?key=#{url[:payment_cluster_key]}"
+        url[:return_url_pending]  = "#{base_url}/pending?key=#{url[:payment_cluster_key]}"
+        url[:return_url_canceled] = "#{base_url}/canceled?key=#{url[:payment_cluster_key]}"
+        url[:return_url_error]    = "#{base_url}/error?key=#{url[:payment_cluster_key]}"
+      end
+      url[:client_language]      = shopper.language_code
+      if default_act
         url[:default_act]     = true
+      end
+      if bank_id.present?
         url[:ideal_issuer_id] = bank_id
         url[:default_pm]      = "IDEAL"
       end
