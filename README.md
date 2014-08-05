@@ -76,8 +76,9 @@ If you use `GIROPAY`, `SEPA` and `AFTERPAY` this is the case. (Maybe also in oth
 
 ## Example usage in Rails application
 The example below assumes you have your application set up with a Order model, which contains the information needed for this transaction (amount, name, etc.).
+
 ```ruby
-# orders_controller.rb
+
 def start_transaction
 	# find the order from your database
 	@order = Order.find(params[:id])
@@ -106,6 +107,7 @@ def start_transaction
 		# TODO: Display the error and warn the user that something went wrong.
 	end
 end
+
 ```
 
 ## Ideal
@@ -115,8 +117,9 @@ For transactions in the Netherlands, iDeal is the most common option. To redirec
 In `Docdata::Payment` you can set `bank_id` to any value. If you do, the redirect URI will redirect your user directly to the bank page.
 
 Example code:
+
 ```ruby
-# orders_controller.rb
+
 def ideal_checkout
 	@order = Order.find(params[:order_id])
 	@banks = Docdata::Ideal.banks
@@ -151,17 +154,20 @@ def start_ideal_transaction
 		# TODO: Display the error and warn the user that something went wrong.
 	end
 end
+
 ```
 
 View template (ideal_checkout.html.erb):
 
-```erb
+```html
+
 <h2>Choose your bank</h2>
 <%= form_tag start_ideal_transaction_path, method: :post, target: "_blank" do %>
 <%= select_tag "bank_id", options_from_collection_for_select(@banks, "id", "name") %>
 <%= hidden_field_tag :order_id, @order.id %>
 <%= submit_tag "Proceed to checkout" %>
 <% end %>
+
 ```
 
 ## Tips and samples
@@ -170,26 +176,30 @@ View template (ideal_checkout.html.erb):
 When making a new `Docdata::Payment`, use the `default_act` parameter to redirect consumers directly to the acquirers website. Example:
 
 ```ruby
-	@payment = Docdata::Payment.new(
-		amount: @order.total, 
-		currency: @order.currency, 
-		shopper: shopper,
-		profile: "My Default Profile",
-		order_reference: "order ##{@order.id}",
-		bank_id: params[:bank_id],
-		default_act: true # redirect directly to the bank, skipping the Docdata web menu
-	)
+
+@payment = Docdata::Payment.new(
+	amount: @order.total, 
+	currency: @order.currency, 
+	shopper: shopper,
+	profile: "My Default Profile",
+	order_reference: "order ##{@order.id}",
+	bank_id: params[:bank_id],
+	default_act: true # redirect directly to the bank, skipping the Docdata web menu
+)
+
 ```
 
 #### Retrieve a list of iDeal banks to show
 `Docata::Ideal.banks` returns an Array.
 
 ## Contributing
+Want to contribute? Greate!
+
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Make changes, document them and add tests (rspec)
-4. Run the entire test suite and make sure all tests pass
+4. Run the entire test suite and make sure all tests pass (`rake`)
 5. Commit your changes (`git commit -am 'Add some feature'`)
 6. Push to the branch (`git push origin my-new-feature`)
 7. Create new Pull Request

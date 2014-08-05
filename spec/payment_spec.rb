@@ -6,7 +6,7 @@ describe Docdata::Payment do
     @payment = Docdata::Payment.new
     @payment.amount          = 500
     @payment.profile         = ENV["DOCDATA_PAYMENT_PROFILE"]
-    @payment.order_reference = rand(500)
+    @payment.order_reference = rand(500) + Time.now.to_i
     @payment.currency        = "EUR"
     @payment.description     = "Description of my order"
     @payment.shopper         = @shopper
