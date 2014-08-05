@@ -49,18 +49,7 @@ module Docdata
     # @param [String] method_name (name of the method: create, start, cancel, etc.)
     # @param [Hash] response
     def self.parse(method_name, response)
-      # for testing purpose
-      if response.is_a?(File)
-        parser = Nori.new(:convert_tags_to => lambda { |tag| tag.snakecase.to_sym })
-        xml = response.read 
-        # puts xml
-        body = parser.parse(xml).first.last.first.last
-      else
-        body = response.body.to_hash
-        xml = response.xml
-      end
-      
-      # puts body
+      body = self.response_body(response)      
       if body["#{method_name}_response".to_sym] && body["#{method_name}_response".to_sym]["#{method_name}_error".to_sym]
         raise DocdataError.new(response), body["#{method_name}_response".to_sym]["#{method_name}_error".to_sym][:error]
       else
@@ -74,6 +63,18 @@ module Docdata
       end
     end
 
+    # @return [Hash] the body of the response. In the test environment, this uses
+    # plain XML files, in normal use, it uses a `Savon::Response`
+    def self.response_body(response)
+      if response.is_a?(File)
+        parser = Nori.new(:convert_tags_to => lambda { |tag| tag.snakecase.to_sym })
+        xml = response.read 
+        body = parser.parse(xml).first.last.first.last
+      else
+        body = response.body.to_hash
+        xml = response.xml
+      end
+    end
 
     methods = [:total_registered, :total_shopper_pending, :total_acquier_pending, :total_acquirer_approved, :total_captured, :total_refunded, :total_chargedback]
     methods.each do |method|
