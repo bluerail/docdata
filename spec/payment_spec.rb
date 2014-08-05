@@ -124,6 +124,7 @@ describe Docdata::Payment do
 
     it "raises error if order is not found" do
       VCR.use_cassette("perform-invalid-status-call") do
+        Docdata.set_credentials_from_environment
         expect { @new_payment = Docdata::Payment.find("THISWILLPRODUC3AN3RROR") }.
           to raise_error(DocdataError, "Order could not be found with the given key.")
       end

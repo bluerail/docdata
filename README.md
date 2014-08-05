@@ -115,40 +115,40 @@ In `Docdata::Payment` you can set `bank_id` to any value. If you do, the redirec
 
 Example code:
 ```ruby
-	# orders_controller.rb
-	def ideal_checkout
-		@order = Order.find(params[:order_id])
-		@banks = Docdata::Ideal.banks
+# orders_controller.rb
+def ideal_checkout
+	@order = Order.find(params[:order_id])
+	@banks = Docdata::Ideal.banks
+end
+
+def start_ideal_transaction
+	@order = Order.find(params[:order_id])
+
+	# initialize a shopper, use details from your order
+	shopper = Docdata::Shopper.new(first_name: @order.first_name, last_name: @order.last_name)
+
+	# set up a payment
+	@payment = Docdata::Payment.new(
+		amount: @order.total, 
+		currency: @order.currency, 
+		shopper: shopper,
+		profile: "My Default Profile",
+		order_reference: "order ##{@order.id}",
+		bank_id: params[:bank_id]
+	)
+
+	# create the payment via the docdata api and collect the result
+	result = @payment.create
+
+	if result.success?
+		# Set the transaction key for future reference
+		@order.update_column :docdata_key, result.key
+		# redirect the user to the bank page
+		redirect_to @payment.redirect_url
+	else
+		# TODO: Display the error and warn the user that something went wrong.
 	end
-
-	def start_ideal_transaction
-		@order = Order.find(params[:order_id])
-
-		# initialize a shopper, use details from your order
-		shopper = Docdata::Shopper.new(first_name: @order.first_name, last_name: @order.last_name)
-
-		# set up a payment
-		@payment = Docdata::Payment.new(
-			amount: @order.total, 
-			currency: @order.currency, 
-			shopper: shopper,
-			profile: "My Default Profile",
-			order_reference: "order ##{@order.id}",
-			bank_id: params[:bank_id]
-		)
-
-		# create the payment via the docdata api and collect the result
-		result = @payment.create
-
-		if result.success?
-			# Set the transaction key for future reference
-			@order.update_column :docdata_key, result.key
-			# redirect the user to the bank page
-			redirect_to @payment.redirect_url
-		else
-			# TODO: Display the error and warn the user that something went wrong.
-		end
-	end
+end
 ```
 
 View template (ideal_checkout.html.erb):
