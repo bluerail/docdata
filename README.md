@@ -114,7 +114,7 @@ For transactions in the Netherlands, iDeal is the most common option. To redirec
 In `Docdata::Payment` you can set `bank_id` to any value. If you do, the redirect URI will redirect your user directly to the bank page.
 
 Example code:
-
+```ruby
 	# orders_controller.rb
 	def ideal_checkout
 		@order = Order.find(params[:order_id])
@@ -149,16 +149,24 @@ Example code:
 			# TODO: Display the error and warn the user that something went wrong.
 		end
 	end
-
+```
 
 View template (ideal_checkout.html.erb):
 
-	<h2>Choose your bank</h2>
-	<%= form_tag start_ideal_transaction_path, method: :post, target: "_blank" do %>
-	  <%= select_tag "bank_id", options_from_collection_for_select(@banks, "id", "name") %>
-		<%= hidden_field_tag :order_id, @order.id %>
-	  <%= submit_tag "Proceed to checkout" %>
-	<% end %>
+```erb
+<h2>Choose your bank</h2>
+<%= form_tag start_ideal_transaction_path, method: :post, target: "_blank" do %>
+<%= select_tag "bank_id", options_from_collection_for_select(@banks, "id", "name") %>
+<%= hidden_field_tag :order_id, @order.id %>
+<%= submit_tag "Proceed to checkout" %>
+<% end %>
+```
+
+## Tips and samples
+
+TODO: Write some sample code here about:
+#### Redirect directly to bank page (skip Docdata web menu)
+#### 
 
 ## Contributing
 

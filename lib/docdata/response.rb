@@ -49,7 +49,7 @@ module Docdata
     # @param [String] method_name (name of the method: create, start, cancel, etc.)
     # @param [Hash] response
     def self.parse(method_name, response)
-      body = self.response_body(response)      
+      body, xml = self.response_body(response)      
       if body["#{method_name}_response".to_sym] && body["#{method_name}_response".to_sym]["#{method_name}_error".to_sym]
         raise DocdataError.new(response), body["#{method_name}_response".to_sym]["#{method_name}_error".to_sym][:error]
       else
@@ -74,6 +74,7 @@ module Docdata
         body = response.body.to_hash
         xml = response.xml
       end
+      return body, xml
     end
 
     methods = [:total_registered, :total_shopper_pending, :total_acquier_pending, :total_acquirer_approved, :total_captured, :total_refunded, :total_chargedback]
