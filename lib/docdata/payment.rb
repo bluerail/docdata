@@ -156,7 +156,7 @@ module Docdata
       end
       url[:client_language]      = shopper.language_code
       if default_act
-        url[:default_act]     = true
+        url[:default_act]     = "yes"
       end
       if bank_id.present?
         url[:ideal_issuer_id] = bank_id

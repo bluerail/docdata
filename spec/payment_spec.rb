@@ -115,7 +115,7 @@ describe Docdata::Payment do
       VCR.use_cassette("payments-successful-create") do
         @payment.create
         # puts @payment.redirect_url
-        expect(@payment.redirect_url).to include("&default_act=true&ideal_issuer_id=0031&default_pm=IDEAL")
+        expect(@payment.redirect_url).to include("&default_act=yes&ideal_issuer_id=0031&default_pm=IDEAL")
       end      
     end
 
