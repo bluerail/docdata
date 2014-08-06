@@ -40,6 +40,12 @@ module Docdata
     # @return [String] Currency ("EUR", "GBP", "USD", etc.)
     attr_accessor :currency
 
+    # @return [Docdata::Payment] object 
+    attr_accessor :payment
+
+    # @return [String] the return URL
+    attr_accessor :url
+
     #
     # Initializer to transform a +Hash+ into an Response object
     #

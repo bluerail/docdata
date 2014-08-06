@@ -84,14 +84,17 @@ module Docdata
       # if there are any line items, they should all be valid.
       validate_line_items
 
-      # puts
-
       # make the SOAP API call
       response        = Docdata.client.call(:create, xml: xml)
       response_object = Docdata::Response.parse(:create, response)
       if response_object.success?
         self.key = response_object.key
       end
+
+      # set `self` as the value of the `payment` attribute in the response object
+      response_object.payment = self
+      response_object.url     = redirect_url
+
       return response_object
     end
 
@@ -162,6 +165,7 @@ module Docdata
       params = URI.encode_www_form(url)
       uri = "#{redirect_base_url}?#{params}"
     end
+    alias_method :url, :redirect_url
 
 
     private

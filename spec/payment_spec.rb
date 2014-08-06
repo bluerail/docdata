@@ -45,6 +45,7 @@ describe Docdata::Payment do
       expect(@payment.shopper).to be_kind_of(Docdata::Shopper)
       expect(@payment.shopper.first_name).to eq("John")
     end
+
   end
 
   describe "#create" do
@@ -85,6 +86,26 @@ describe Docdata::Payment do
         expect(@payment.redirect_url).to include("https://test.docdatapayments.com/ps/menu?command=show_payment_cluster")
 
       end
+    end
+
+    it "has a payment" do
+      Docdata.set_credentials_from_environment
+      VCR.use_cassette("payments-successful-create") do
+        @response = @payment.create
+      end
+      expect(@response.payment).to be_kind_of(Docdata::Payment)
+    end
+
+    it "has a `url` property" do
+      Docdata.set_credentials_from_environment
+      VCR.use_cassette("payments-successful-create") do
+        @response = @payment.create
+      end
+      # puts @payment.redirect_url
+      # puts @payment.inspect
+      # puts @response.payment.inspect
+      # puts @response.url
+      expect(@response.url).to be_present
     end
 
     it "redirect directly to the bank if bank_id && default_act is given" do

@@ -71,7 +71,8 @@ All the payment details that Docdata Payments requires, are - obviously - also r
 | bank_id | String | No |
 | prefered_payment_method | String | No |
 | default_act | Boolean (should consumer skip docdata page?) | No |
-| key | String (is availabel after successful 'create' action) | No (readonly)
+| key | String (is available after successful 'create') | readonly |
+| url | String (redirect URI is available after 'create') | readonly |
 
 
 ## Default values
