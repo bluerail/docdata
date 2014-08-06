@@ -26,6 +26,7 @@ describe Docdata::Response do
       end
 
       it "has 'total_registered' method" do
+        # puts @response.inspect
         expect(@response.total_registered).to eq(500)
       end
 

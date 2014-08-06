@@ -28,6 +28,17 @@ module Docdata
     # @return [String] The raw XML returned by the API
     attr_accessor :xml
 
+    # @return [Boolean]
+    attr_accessor :paid
+
+    # @return [Integer] the captured amount in cents
+    attr_accessor :amount
+    
+    # @return [String] the status of this response (capture response)
+    attr_accessor :status
+
+    # @return [String] Currency ("EUR", "GBP", "USD", etc.)
+    attr_accessor :currency
 
     #
     # Initializer to transform a +Hash+ into an Response object
@@ -41,6 +52,13 @@ module Docdata
       end
     end
 
+    # Set the attributes based on the API response
+    def set_attributes
+      self.paid     = is_paid?
+      self.amount   = report[:payment][:authorization][:amount].to_i if report && report[:payment] && report[:payment][:authorization]
+      self.status   = capture_status if capture_status
+      self.currency = currency_to_set
+    end
 
     # 
     # Parses the returned response hash and turns it
@@ -59,6 +77,7 @@ module Docdata
         if m[:report]
           r.report = m[:report]
         end
+        r.set_attributes
         return r
       end
     end
@@ -105,7 +124,7 @@ module Docdata
     # a different 'paid'.
     # @note This method is never 100% reliable. If you need to finetune this, please implement your own method, using
     # the available data (total_captured, total_registered, etc.)
-    def paid
+    def is_paid?
       if payment_method
         case payment_method
         # ideal (dutch)
@@ -142,17 +161,21 @@ module Docdata
 
     # @return [String] the status of the capture, if exists
     def capture_status
-      report[:payment][:authorization][:capture][:status]
+      if report && report[:payment] && report[:payment][:authorization] && report[:payment][:authorization][:capture]
+        report[:payment][:authorization][:capture][:status]
+      else
+        nil
+      end
     end
 
-    # @return [Integer] the caputred amount in cents
-    def amount
-      report[:payment][:authorization][:amount].to_i
-    end
     
     # @return [String] the currency if this transaction
-    def currency
-      status_xml.xpath("//amount").first.attributes["currency"].value
+    def currency_to_set
+      if status_xml &&  status_xml.xpath("//amount").any?
+        status_xml.xpath("//amount").first.attributes["currency"].value
+      else
+        nil
+      end
     end
 
     # @return [Nokogiri::XML::Document] object

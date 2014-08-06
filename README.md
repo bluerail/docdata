@@ -64,11 +64,13 @@ All the payment details that Docdata Payments requires, are - obviously - also r
 | amount | Integer (amount in cents) | Yes |
 | currency | String (ISO currency code) | Yes |
 | order_reference | String (your own unique reference) | Yes |
+| description | String | No |
 | profile | String (name of your Docdata Payment profile)| Yes |
 | shopper | Docdata::Shopper | Yes |
 | line_items | Array (of Docdata::LineItem objects) | No |
 | bank_id | String | No |
 | prefered_payment_method | String | No |
+| default_act | Boolean (should consumer skip docdata page?) | No |
 | key | String (is availabel after successful 'create' action) | No (readonly)
 
 
