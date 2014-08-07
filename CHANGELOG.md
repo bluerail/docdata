@@ -1,3 +1,9 @@
+## v0.0.6
+
+* minor bug fixes
+* added default_pm option
+* set key and Docdata::Payment object in status response object
+
 ## v0.0.2 - v0.0.5
 
 Version 0.0.5 is used in production environmints and works.

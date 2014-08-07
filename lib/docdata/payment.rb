@@ -147,8 +147,12 @@ module Docdata
       response        = Docdata.client.call(:status, xml: xml)
       response_object = Docdata::Response.parse(:status, response)
 
+      response_object.key     = key
+      response_object.payment = self
+
       return response_object # Docdata::Response
     end
+    alias_method :check, :status
 
     # @return [String] The URI where the consumer can be redirected to in order to pay
     def redirect_url
