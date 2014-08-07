@@ -180,6 +180,9 @@ module Docdata
         url[:ideal_issuer_id] = bank_id
         url[:default_pm]      = "IDEAL"
       end
+      if prefered_payment_method.present?
+        url[:default_pm]      = prefered_payment_method
+      end
       params = URI.encode_www_form(url)
       uri = "#{redirect_base_url}?#{params}"
     end

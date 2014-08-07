@@ -198,6 +198,14 @@ When making a new `Docdata::Payment`, use the `default_act` parameter to redirec
 #### Retrieve a list of iDeal banks to show
 `Docata::Ideal.banks` returns an Array.
 
+#### Find a payment
+`Docdata::Payment.find("PAYMENTORDERKEYHERE")` returns either a `Docdata::Payment` object or a 'not found' error.
+
+#### Cancel a payment
+To cancel an existing Payment, you can do one of the following:
+`payment = Docdata::Payment.find("KEY"); payment.cancel` or `Docdata::Payment.cancel("KEY")`
+
+
 ## Contributing
 Want to contribute? Greate!
 
