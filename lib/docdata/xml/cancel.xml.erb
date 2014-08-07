@@ -2,7 +2,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <_1:cancelRequest version="1.1">
-         <_1:merchant name="<%=Docdata.username%>" password="Docdata.password"/>
+         <_1:merchant name="<%=Docdata::Config.username%>" password="<%= Docdata::Config.password%>"/>
          <_1:paymentOrderKey><%= payment.key %></_1:paymentOrderKey>
       </_1:cancelRequest>
    </soapenv:Body>

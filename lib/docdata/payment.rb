@@ -53,7 +53,7 @@ module Docdata
     attr_accessor :line_items
     attr_accessor :key
     attr_accessor :default_act
-
+    attr_accessor :canceled
 
 
     #
@@ -85,7 +85,7 @@ module Docdata
       validate_line_items
 
       # make the SOAP API call
-      response        = Docdata.client.call(:create, xml: xml)
+      response        = Docdata.client.call(:create, xml: create_xml)
       response_object = Docdata::Response.parse(:create, response)
       if response_object.success?
         self.key = response_object.key
@@ -98,12 +98,28 @@ module Docdata
       return response_object
     end
 
-    # @return [String] the xml to send in the SOAP API
-    def xml
-      xml_file        = "#{File.dirname(__FILE__)}/xml/create.xml.erb"
-      template        = File.read(xml_file)      
-      namespace       = OpenStruct.new(payment: self, shopper: shopper)
-      xml             = ERB.new(template).result(namespace.instance_eval { binding })
+    # 
+    # This calls the 'cancel' method of the SOAP API
+    # It cancels the payment and returns a Docdata::Response object
+    def cancel
+      # make the SOAP API call
+      response        = Docdata.client.call(:cancel, xml: cancel_xml)
+      response_object = Docdata::Response.parse(:cancel, response)
+      if response_object.success?
+        self.key = response_object.key
+      end
+
+      # set `self` as the value of the `payment` attribute in the response object
+      response_object.payment = self
+      self.canceled = true
+      return true
+    end
+
+    # This method makes it possible to find and cancel a payment with only the key
+    # It combines 
+    def self.cancel(api_key)
+      p = self.find(api_key)
+      p.cancel
     end
 
     # Initialize a Payment object with the key set
@@ -154,7 +170,9 @@ module Docdata
         url[:return_url_canceled] = "#{base_url}/canceled?key=#{url[:payment_cluster_key]}"
         url[:return_url_error]    = "#{base_url}/error?key=#{url[:payment_cluster_key]}"
       end
-      url[:client_language]      = shopper.language_code
+      if shopper && shopper.language_code
+        url[:client_language]      = shopper.language_code
+      end
       if default_act
         url[:default_act]     = "yes"
       end
@@ -169,6 +187,25 @@ module Docdata
 
 
     private
+
+
+    # @return [String] the xml to send in the SOAP API
+    def create_xml
+      xml_file        = "#{File.dirname(__FILE__)}/xml/create.xml.erb"
+      template        = File.read(xml_file)      
+      namespace       = OpenStruct.new(payment: self, shopper: shopper)
+      xml             = ERB.new(template).result(namespace.instance_eval { binding })
+    end
+
+
+    # @return [String] the xml to send in the SOAP API
+    def cancel_xml
+      xml_file        = "#{File.dirname(__FILE__)}/xml/cancel.xml.erb"
+      template        = File.read(xml_file)      
+      namespace       = OpenStruct.new(payment: self)
+      xml             = ERB.new(template).result(namespace.instance_eval { binding })
+    end
+
 
     # In case there are any line_items, validate them all and
     # raise an error for the first invalid LineItem

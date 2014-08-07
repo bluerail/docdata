@@ -120,7 +120,11 @@ module Docdata
 
     # @return [String] the status string provided by the API. One of [AUTHORIZED, CANCELED]
     def payment_status
-      report[:payment][:authorization][:status]
+      if report[:payment]
+        report[:payment][:authorization][:status]
+      else
+        nil
+      end
     end
 
     # @return [Boolean] true/false, depending wether this payment is considered paid.
@@ -161,7 +165,8 @@ module Docdata
 
     # @return [Boolean]
     def canceled
-      payment_status == "CANCELED" || capture_status == "CANCELED"
+      (payment_status && payment_status == "CANCELED") || 
+        (capture_status && capture_status == "CANCELED")
     end
     alias_method :canceled?, :canceled
 

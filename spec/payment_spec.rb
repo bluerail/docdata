@@ -180,4 +180,34 @@ describe Docdata::Payment do
       expect(@payment).to be_kind_of(Docdata::Payment)
     end
   end
+
+  describe "#cancel" do
+    before(:each) do
+      Docdata.set_credentials_from_environment
+      VCR.use_cassette("payments-successful-create") do
+        @payment.create
+      end
+    end
+
+    it "returns a response object" do
+      VCR.use_cassette("payments-successful-cancel") do
+        @response = @payment.cancel
+      end
+      expect(@response).to be(true)
+    end
+
+    it "has attribute 'canceled' to true" do
+      VCR.use_cassette("payments-successful-cancel") do
+        @response = @payment.cancel
+      end
+      expect(@payment.canceled).to eq(true)
+    end
+
+    it "combines find and cancel in one call" do
+
+        VCR.use_cassette("payments-find-and-cancel") do
+        @payment = Docdata::Payment.cancel(@payment.key)
+      end
+    end
+  end
 end
