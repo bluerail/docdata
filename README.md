@@ -64,7 +64,7 @@ All the payment details that Docdata Payments requires, are - obviously - also r
 | amount | Integer (amount in cents) | Yes |
 | currency | String (ISO currency code) | Yes |
 | order_reference | String (your own unique reference) | Yes |
-| description | String | No |
+| description | String (max. 50 char.)| No |
 | profile | String (name of your Docdata Payment profile)| Yes |
 | shopper | Docdata::Shopper | Yes |
 | line_items | Array (of Docdata::LineItem objects) | No |

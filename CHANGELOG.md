@@ -1,3 +1,6 @@
+## v0.1.0
+* truncated description down to 50 characters in create xml
+
 ## v0.0.9
 * added configuration settings
 * updated documentation
