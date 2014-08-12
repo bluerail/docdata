@@ -80,6 +80,16 @@ A quick warning about the default values for the Shopper object: **For some paym
 
 If you use `GIROPAY`, `SEPA` and `AFTERPAY` this is the case. (Maybe also in other payment methods, please let me know!)
 
+
+## Configuration in Rails application
+Example usage. Use appropriate settings in `development.rb`, `production.rb` etc.
+```ruby
+config.docdata.username   = "my_app_com"
+config.docdata.password   = "HeJ35N"
+config.docdata.return_url = "http://localhost:3000/docdata" # gets appended by '/success', '/error', '/pending' depending on response
+config.test_mode          = true
+```
+
 ## Example usage in Rails application
 The example below assumes you have your application set up with a Order model, which contains the information needed for this transaction (amount, name, etc.).
 
@@ -201,9 +211,14 @@ When making a new `Docdata::Payment`, use the `default_act` parameter to redirec
 #### Find a payment
 `Docdata::Payment.find("PAYMENTORDERKEYHERE")` returns either a `Docdata::Payment` object or a 'not found' error.
 
+#### Check the status of a payment
+`payment = Docdata::Payment.find("KEY"); payment.status => <Payment::Status>`
+
+
 #### Cancel a payment
 To cancel an existing Payment, you can do one of the following:
 `payment = Docdata::Payment.find("KEY"); payment.cancel` or `Docdata::Payment.cancel("KEY")`
+
 
 
 ## Contributing

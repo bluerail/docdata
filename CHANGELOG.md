@@ -1,3 +1,7 @@
+## v0.0.9
+* added configuration settings
+* updated documentation
+
 ## v0.0.6
 
 * minor bug fixes

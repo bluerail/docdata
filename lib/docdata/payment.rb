@@ -193,9 +193,6 @@ module Docdata
     alias_method :url, :redirect_url
 
 
-    private
-
-
     # @return [String] the xml to send in the SOAP API
     def create_xml
       xml_file        = "#{File.dirname(__FILE__)}/xml/create.xml.erb"
@@ -213,6 +210,7 @@ module Docdata
       xml             = ERB.new(template).result(namespace.instance_eval { binding })
     end
 
+    private
 
     # In case there are any line_items, validate them all and
     # raise an error for the first invalid LineItem
