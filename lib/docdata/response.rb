@@ -61,7 +61,7 @@ module Docdata
     # Set the attributes based on the API response
     def set_attributes
       self.paid     = is_paid?
-      self.amount   = report[:payment][:authorization][:amount].to_i if report && report[:payment] && report[:payment][:authorization] && report[:payment][:authorization][:amount]
+      self.amount   = report[:payment][:authorization][:amount].to_i if (report && report[:payment] && report[:payment][:authorization] && report[:payment][:authorization][:amount].present?)
       self.status   = capture_status if capture_status
       self.currency = currency_to_set
     end
