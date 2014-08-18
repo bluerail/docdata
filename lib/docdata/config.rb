@@ -20,7 +20,7 @@ module Docdata::Config
       @defaults = {
         :@username   => nil,
         :@password   => nil,
-        :@test_mode  => true,
+        :@test_mode  => false,
         :@return_url => nil
       }
     end
