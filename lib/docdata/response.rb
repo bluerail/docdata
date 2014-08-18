@@ -111,7 +111,7 @@ module Docdata
 
     # @return [String] the payment method of this transaction
     def payment_method
-      if report[:payment]
+      if report[:payment] && report[:payment][:payment_method]
         report[:payment][:payment_method]
       else
         nil
@@ -120,7 +120,7 @@ module Docdata
 
     # @return [String] the status string provided by the API. One of [AUTHORIZED, CANCELED]
     def payment_status
-      if report[:payment]
+      if report[:payment] && report[:payment][:authorization]
         report[:payment][:authorization][:status]
       else
         nil
