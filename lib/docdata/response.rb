@@ -61,7 +61,7 @@ module Docdata
     # Set the attributes based on the API response
     def set_attributes
       self.paid     = is_paid?
-      self.amount   = report[:payment][:authorization][:amount].to_i if report && report[:payment] && report[:payment][:authorization]
+      self.amount   = report[:payment][:authorization][:amount].to_i if report && report[:payment] && report[:payment][:authorization] && report[:payment][:authorization][:amount]
       self.status   = capture_status if capture_status
       self.currency = currency_to_set
     end
@@ -112,7 +112,7 @@ module Docdata
     # @return [String] the payment method of this transaction
     def payment_method
       begin
-        if report[:payment].present? && report[:payment][:payment_method].present?
+        if report && report[:payment].present? && report[:payment][:payment_method].present?
           report[:payment][:payment_method].to_s
         else
           nil
@@ -124,7 +124,7 @@ module Docdata
 
     # @return [String] the status string provided by the API. One of [AUTHORIZED, CANCELED]
     def payment_status
-      if report[:payment] && report[:payment][:authorization]
+      if report && report[:payment] && report[:payment][:authorization]
         report[:payment][:authorization][:status]
       else
         nil
