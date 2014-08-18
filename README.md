@@ -87,7 +87,7 @@ Example usage. Use appropriate settings in `development.rb`, `production.rb` etc
 config.docdata.username   = "my_app_com"
 config.docdata.password   = "HeJ35N"
 config.docdata.return_url = "http://localhost:3000/docdata" # gets appended by '/success', '/error', '/pending' depending on response
-config.test_mode          = true
+config.docdata.test_mode  = true
 ```
 
 ## Example usage in Rails application
