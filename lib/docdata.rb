@@ -57,7 +57,7 @@ module Docdata
   end
 
   def self.url
-    if Docdata::Config.test_mode
+    if Config.test_mode
       "https://test.docdatapayments.com/ps/services/paymentservice/1_1?wsdl"
     else
       "https://www.docdatapayments.com/ps/services/paymentservice/1_1?wsdl"
@@ -68,9 +68,9 @@ module Docdata
   # in environment variables to make the tests pass with your test
   # credentials.
   def self.set_credentials_from_environment
-    Docdata::Config.password   = ENV["DOCDATA_PASSWORD"]
-    Docdata::Config.username   = ENV["DOCDATA_USERNAME"]
-    Docdata::Config.return_url = ENV["DOCDATA_RETURN_URL"]
+    Config.password   = ENV["DOCDATA_PASSWORD"]
+    Config.username   = ENV["DOCDATA_USERNAME"]
+    Config.return_url = ENV["DOCDATA_RETURN_URL"]
   end
 
   def self.client
