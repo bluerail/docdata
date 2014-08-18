@@ -60,7 +60,8 @@ module Docdata
     if Config.test_mode
       "https://test.docdatapayments.com/ps/services/paymentservice/1_1?wsdl"
     else
-      "https://www.docdatapayments.com/ps/services/paymentservice/1_1?wsdl"
+      # "https://www.docdatapayments.com/ps/services/paymentservice/1_1?wsdl"
+      "https://secure.docdatapayments.com/ps/services/paymentservice/1_0?wsdl"
     end
   end
 
