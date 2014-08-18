@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Docdata::Payment do
   before(:each) do
+    Docdata::Config.test_mode = true
     @shopper = Docdata::Shopper.create_valid_shopper
     @payment = Docdata::Payment.new
     @payment.amount          = 500
@@ -183,6 +184,7 @@ describe Docdata::Payment do
 
   describe "#cancel" do
     before(:each) do
+      Docdata::Config.test_mode = true
       Docdata.set_credentials_from_environment
       VCR.use_cassette("payments-successful-create") do
         @payment.create
