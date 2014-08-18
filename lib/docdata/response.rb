@@ -111,8 +111,8 @@ module Docdata
 
     # @return [String] the payment method of this transaction
     def payment_method
-      if report[:payment] && report[:payment][:payment_method]
-        report[:payment][:payment_method]
+      if report[:payment].present? && report[:payment][:payment_method].present?
+        report[:payment][:payment_method].to_s
       else
         nil
       end
