@@ -134,7 +134,7 @@ After a payment is completed, Docdata Payments will do two things:
 ```ruby
 def check_transaction
 	# find the order from your database
-	# https://www.example.com/docdata/update?id=12345
+  # https://www.example.com/docdata/update?id=12345
 	@order = Order.find_by_order_reference(params[:id])
 
 	# Find this payment via the Docdata API,
@@ -251,7 +251,7 @@ To cancel an existing Payment, you can do one of the following:
 
 
 ## Contributing
-Want to contribute? Greate!
+Want to contribute? Great!
 
 
 1. Fork it
