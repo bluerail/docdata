@@ -126,6 +126,35 @@ end
 
 ```
 
+After a payment is completed, Docdata Payments will do two things:
+
+1. Sends a GET request to your 'Update URL' (you can set this in the back office) with an 'id' parameter, containing your order_reference. This allows you to check the status of the transaction, before the user gets redirected back to your website.
+2. Redirects the consumer back to the `return_url`.
+
+```ruby
+def check_transaction
+	# find the order from your database
+	# https://www.example.com/docdata/update?id=12345
+	@order = Order.find_by_order_reference(params[:id])
+
+	# Find this payment via the Docdata API,
+	# using the previously set 'docdata_key' attribute.
+  payment = Docdata::Payment.find(@order.docdata_key)
+  response = payment.status
+  if response.paid
+    # use your own methods to handle a paid order
+    # for example:
+    @order.mark_as_paid(response.payment_method)
+  else
+  	# TODO: create logic to handle failed payments
+  end
+
+  # This action doesn't need a view template. It only needs to have a status 200 (OK)
+	render :nothing => true, :status => 200, :content_type => 'text/html'
+end
+
+```
+
 ## Ideal
 
 For transactions in the Netherlands, iDeal is the most common option. To redirect a user directly to the bank page (skipping the Docdata web menu page), you can ask your user to choose a bank from any of the banks listed in the `Docdata::Ideal.banks` method.
