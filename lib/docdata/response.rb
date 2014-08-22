@@ -61,7 +61,7 @@ module Docdata
     # Set the attributes based on the API response
     def set_attributes
       self.paid     = is_paid?
-      self.amount   = report[:payment][:authorization][:amount].to_i if (report && report[:payment] && report[:payment][:authorization] && report[:payment][:authorization][:amount].present?)
+      self.amount   = Response.payment_node(report)[:authorization][:amount].to_i if (report && Response.payment_node(report) && Response.payment_node(report)[:authorization] && Response.payment_node(report)[:authorization][:amount].present?)
       self.status   = capture_status if capture_status
       self.currency = currency_to_set
     end
@@ -80,6 +80,7 @@ module Docdata
         m = body["#{method_name}_response".to_sym]["#{method_name}_success".to_sym]
         r = self.new(key: m[:key], message: m[:success], success: true)
         r.xml    = xml #save the raw xml
+        # puts m[:report]
         if m[:report]
           r.report = m[:report]
         end
@@ -112,8 +113,8 @@ module Docdata
     # @return [String] the payment method of this transaction
     def payment_method
       begin
-        if report && report[:payment].present? && report[:payment][:payment_method].present?
-          report[:payment][:payment_method].to_s
+        if report && Response.payment_node(report).present? && Response.payment_node(report)[:payment_method].present?
+          Response.payment_node(report)[:payment_method].to_s
         else
           nil
         end
@@ -122,10 +123,11 @@ module Docdata
       end
     end
 
+
     # @return [String] the status string provided by the API. One of [AUTHORIZED, CANCELED]
     def payment_status
-      if report && report[:payment] && report[:payment][:authorization]
-        report[:payment][:authorization][:status]
+      if report && Response.payment_node(report) && Response.payment_node(report)[:authorization]
+        Response.payment_node(report)[:authorization][:status]
       else
         nil
       end
@@ -176,8 +178,8 @@ module Docdata
 
     # @return [String] the status of the capture, if exists
     def capture_status
-      if report && report[:payment] && report[:payment][:authorization] && report[:payment][:authorization][:capture]
-        report[:payment][:authorization][:capture][:status]
+      if report && Response.payment_node(report) && Response.payment_node(report)[:authorization] && Response.payment_node(report)[:authorization][:capture]
+        Response.payment_node(report)[:authorization][:capture][:status]
       else
         nil
       end
@@ -205,6 +207,20 @@ module Docdata
     # @note This is a fix for Nokogiri's trouble finding xpath elements after 'xlmns' attribute in a node.
     def status_xml
       @status_xml ||= Nokogiri.XML(doc.xpath("//S:Body").first.children.first.children.first.to_xml)
+    end
+
+    private
+
+    # Sometimes a single response has multiple payment nodes. When a payment fails first and 
+    # succeeds later, for example. In that case, always use the last (== newest) node.
+    def self.payment_node(hash)
+      if hash[:payment] && hash[:payment].is_a?(Hash)
+        hash[:payment]
+      elsif hash[:payment] && hash[:payment].is_a?(Array)
+        hash[:payment].last
+      else
+        false
+      end
     end
 
   end

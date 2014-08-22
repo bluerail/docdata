@@ -1,3 +1,6 @@
+## v0.1.5
+* Fixed a bug that occured when docdata reponded with multiple 'payment' nodes in the return object.
+
 ## v0.1.0
 * truncated description down to 50 characters in create xml
 
