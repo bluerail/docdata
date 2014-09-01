@@ -35,7 +35,7 @@
          </_1:billTo>
 
          <% if payment.description.present? %>
-         <_1:description><%= payment.description[0..49] %></_1:description>
+         <_1:description><%= payment.cleaned_up_description %></_1:description>
          <% end %>
          <% if payment.receipt_text.present? %>
          <_1:receiptText><%= payment.receipt_text %></_1:receiptText>
@@ -89,7 +89,7 @@
                </_1:address>
             </_1:shipTo>
             <!--Optional:-->
-            <_1:additionalDescription>sdf</_1:additionalDescription>
+            <_1:additionalDescription></_1:additionalDescription>
          </_1:invoice>
          <% end %>
 

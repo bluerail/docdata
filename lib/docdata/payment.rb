@@ -69,6 +69,12 @@ module Docdata
     end
 
 
+    # @return [String] a cleaned up version of the description string
+    # where forbidden characters are filtered out and limit is 50 chars.
+    def cleaned_up_description
+      description.gsub("&", "and")[0..49]
+    end
+
     # @return [Boolean] true/false, depending if this instanciated object is valid
     def valid?
       validator = PaymentValidator.new

@@ -97,6 +97,12 @@ describe Docdata::Payment do
       expect(@response.payment).to be_kind_of(Docdata::Payment)
     end
 
+    it "replaces & for 'and'" do
+      @payment.description = "Pete & Friends"
+      expect(@payment.cleaned_up_description) == "Pete and Friends"
+      expect(@payment.create_xml).to include("Pete and Friends")
+    end
+
     it "has a `url` property" do
       Docdata.set_credentials_from_environment
       VCR.use_cassette("payments-successful-create") do

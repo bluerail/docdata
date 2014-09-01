@@ -1,3 +1,6 @@
+## v0.1.6
+* Bug fixed where a description contained an illegal character (& in this case)
+
 ## v0.1.5
 * Fixed a bug that occured when docdata reponded with multiple 'payment' nodes in the return object.
 
