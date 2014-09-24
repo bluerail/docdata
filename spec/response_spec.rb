@@ -17,7 +17,7 @@ describe Docdata::Response do
     end
   end
 
-  describe "response with multiple payment nodes" do
+  describe "response with multiple payment nodes (canceled first, paid later)" do
     before(:each) do
       file = "#{File.dirname(__FILE__)}/xml/status-paid-ideal-multiple.xml"
       @xml = open(file)
@@ -32,6 +32,23 @@ describe Docdata::Response do
       expect(@response.paid).to eq(true)
     end
   end
+
+  describe "response with multiple payment nodes (paid first, canceled later)" do
+    before(:each) do
+      file = "#{File.dirname(__FILE__)}/xml/status-paid-canceled-ideal-multiple.xml"
+      @xml = open(file)
+      @response = Docdata::Response.parse(:status, @xml)
+    end    
+
+    it "returs a response object" do
+      expect(@response).to be_kind_of(Docdata::Response)
+    end
+
+    it "is paid" do
+      expect(@response.paid).to eq(true)
+    end
+  end
+
 
   describe "different payment methods" do
     context ":status, paid iDeal" do

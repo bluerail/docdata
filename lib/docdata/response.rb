@@ -212,12 +212,14 @@ module Docdata
     private
 
     # Sometimes a single response has multiple payment nodes. When a payment fails first and 
-    # succeeds later, for example. In that case, always use the last (== newest) node.
+    # succeeds later, for example. In that case, always use the newest (== highest id) node.
     def self.payment_node(hash)
       if hash[:payment] && hash[:payment].is_a?(Hash)
         hash[:payment]
       elsif hash[:payment] && hash[:payment].is_a?(Array)
-        hash[:payment].last
+        # use the node with the highest ID, for it is the newest
+        list = hash[:payment].sort_by { |k| k[:id] }
+        return list.last
       else
         false
       end
