@@ -49,6 +49,28 @@ module Docdata
       validator.valid?(self)
     end
 
+    # 
+    # This calls the 'refund' method of the SOAP API
+    # It refunds (part of) the payment and returns a Docdata::Response object
+    def perform_refund
+      # make the SOAP API call
+      response        = Docdata.client.call(:refund, xml: refund_xml)
+      response_object = Docdata::Response.parse(:refund, response)
+      if response_object.success?
+        return true
+      else
+        return false
+      end
+    end
+
+    # @return [String] the xml to send in the SOAP API
+    def refund_xml
+      xml_file        = "#{File.dirname(__FILE__)}/xml/refund.xml.erb"
+      template        = File.read(xml_file)      
+      namespace       = OpenStruct.new(refund: self, payment: self.payment)
+      xml             = ERB.new(template).result(namespace.instance_eval { binding })
+    end
+
 
   end
 

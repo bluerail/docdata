@@ -82,7 +82,7 @@ If you use `GIROPAY`, `SEPA` and `AFTERPAY` this is the case. (Maybe also in oth
 
 
 ## Configuration in Rails application
-Example usage. Use appropriate settings in `development.rb`, `production.rb` etc.
+Example usage. Use appropriate settings in `development.rb`, `production.rb` etc. 
 ```ruby
 config.docdata.username   = "my_app_com"
 config.docdata.password   = "HeJ35N"
@@ -249,10 +249,17 @@ To cancel an existing Payment, you can do one of the following:
 `payment = Docdata::Payment.find("KEY"); payment.cancel` or `Docdata::Payment.cancel("KEY")`
 
 
+## Test credentials
+In order tot test this gem, you'll need to set the following environment variables to make it work. With other words: you can't test this gem without valid test credentials and you can't use my test credentials. Tip: set the environment variables in your .bash_profile file.
+```
+ENV["DOCDATA_PASSWORD"] = "your_password"
+ENV["DOCDATA_USERNAME"] = "your_docdata_username"
+ENV["DOCDATA_RETURN_URL"] = "http://return-url-here"
+```    
+
 
 ## Contributing
 Want to contribute? Great!
-
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)

@@ -1,12 +1,6 @@
 require 'spec_helper'
 
 describe Docdata::Refund do
-  before(:each) do
-    Docdata::Config.test_mode = true
-    @shopper = Docdata::Shopper.create_valid_shopper
-    @payment = Docdata::Payment.new
-
-  end
 
   context "validation" do
     it "has validation" do
@@ -19,6 +13,35 @@ describe Docdata::Refund do
       expect(refund).not_to be_valid
       expect(refund.errors.full_messages).to eq(["amount is not present", "amount is not a number", "currency is not present", "currency is not valid", "payment is not present"])
     end
+  end
+
+  context "valid refund" do
+    before(:each) do
+      Docdata.set_credentials_from_environment
+      Docdata::Config.test_mode = true
+      VCR.use_cassette("find-payment-by-key") do
+        @payment = Docdata::Payment.find("2BAFAEB26EF760458B9343DEA4950D91")
+        # puts @payment.inspect
+      end
+    end
+
+    it "has a currency" do
+      expect(@payment.currency).to be_present
+      expect(@payment.currency).to eq("EUR")
+    end
+
+    it "performs refund" do
+      VCR.use_cassette("refund-amount") do
+        expect(@payment.refund(100)).to eq(true)
+      end
+    end
+
+    it "performs refund with description" do
+      VCR.use_cassette("refund-amount-with-description") do
+        expect(@payment.refund(100, "user wanted to cancel...")).to eq(true)
+      end
+    end
+
   end
 
   context "successfull response" do

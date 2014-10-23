@@ -54,6 +54,7 @@ module Docdata
     attr_accessor :key
     attr_accessor :default_act
     attr_accessor :canceled
+    attr_accessor :id
 
 
     #
@@ -121,12 +122,41 @@ module Docdata
       return true
     end
 
+    # 
+    # This calls the 'refund' method of the SOAP API
+    # It refunds (part of) the amount paid
+    def refund(amount_to_refund, refund_description="")
+      p = Docdata::Payment.new(key: key)
+      p = p.status.payment
+      refund_object = Docdata::Refund.new(
+        currency: p.currency,
+        amount: amount_to_refund,
+        description: refund_description,
+        payment: p
+      )
+      if refund_object.valid?
+        refund_object.perform_refund
+      else
+        raise DocdataError.new(refund_object), refund_object.errors.full_messages.join(", ")
+      end
+    end
+
+
+
     # This method makes it possible to find and cancel a payment with only the key
     # It combines 
     def self.cancel(api_key)
       p = self.find(api_key)
       p.cancel
     end
+
+    # This method makes it possible to find and refund a payment with only the key
+    # exmaple usage: Docdata::Payment.refund("APIT0K3N", 250)
+    def self.refund(api_key, amount_to_refund, refund_description="")
+      p = self.find(api_key)
+      p.refund(amount_to_refund, refund_description)
+    end
+
 
     # Initialize a Payment object with the key set
     def self.find(api_key)
@@ -153,9 +183,12 @@ module Docdata
       response        = Docdata.client.call(:status, xml: xml)
       response_object = Docdata::Response.parse(:status, response)
 
+      response_object.set_attributes
+
+      self.id                 = response_object.pid
+      self.currency           = response_object.currency
       response_object.key     = key
       response_object.payment = self
-
       return response_object # Docdata::Response
     end
     alias_method :check, :status
@@ -215,6 +248,7 @@ module Docdata
       namespace       = OpenStruct.new(payment: self)
       xml             = ERB.new(template).result(namespace.instance_eval { binding })
     end
+
 
     private
 

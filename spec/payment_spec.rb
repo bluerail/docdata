@@ -141,6 +141,18 @@ describe Docdata::Payment do
       expect(@new_payment).to be_kind_of(Docdata::Payment)
     end
 
+    it "returns a pid" do
+      file = "#{File.dirname(__FILE__)}/xml/status-paid-ideal.xml"
+      @xml = open(file)
+      @response = Docdata::Response.parse(:status, @xml)
+
+      @payment = @response.payment
+      expect(@response.is_paid?).to eq(true)
+      # expect(@payment).to be_kind_of(Docdata::Payment)
+      expect(@response.pid).to match /[0-9]{10}/
+
+    end
+
     it "raises error if order is not found" do
       VCR.use_cassette("perform-invalid-status-call") do
         Docdata.set_credentials_from_environment

@@ -2,28 +2,14 @@
    <soapenv:Header/>
    <soapenv:Body>
       <_1:refundRequest version="1.1">
-         <_1:merchant name="<%= Docdata.username %>" password="<%= Docdata.password %>"/>
-         <_1:paymentId><%= payment.pid %></_1:paymentId>
+         <_1:merchant name="<%= Docdata::Config.username %>" password="<%= Docdata::Config.password %>"/>
+         <_1:paymentId><%= payment.id %></_1:paymentId>
          <!--Optional:-->
-         <_1:merchantRefundReference><%= refund.reference %></_1:merchantRefundReference>
+         <% if refund.description.present? %>
+         <_1:merchantRefundReference><%= refund.description %></_1:merchantRefundReference>
+         <% end %>
          <!--Optional:-->
          <_1:amount currency="<%= refund.currency %>"><%= refund.amount %></_1:amount>
-         <!--Optional:-->
-         <_1:itemCode>?</_1:itemCode>
-         <!--Optional:-->
-         <_1:description>?</_1:description>
-         <!--Optional:-->
-         <_1:cancelReserved>?</_1:cancelReserved>
-         <!--Optional:-->
-         <_1:requiredRefundDate>?</_1:requiredRefundDate>
-         <!--Optional:-->
-         <_1:refundBankAccount>
-            <_1:holderName>?</_1:holderName>
-            <_1:holderCity>?</_1:holderCity>
-            <_1:holderCountry code="?"/>
-            <_1:bic>?</_1:bic>
-            <_1:iban>?</_1:iban>
-         </_1:refundBankAccount>
       </_1:refundRequest>
    </soapenv:Body>
 </soapenv:Envelope>

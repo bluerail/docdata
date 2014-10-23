@@ -133,6 +133,15 @@ module Docdata
       end
     end
 
+    # @return [String] the PID of the transaction
+    def pid
+      if report && Response.payment_node(report) && Response.payment_node(report)[:id]
+        Response.payment_node(report)[:id]
+      else
+        nil
+      end      
+    end
+
     # @return [Boolean] true/false, depending wether this payment is considered paid.
     # @note Docdata doesn't explicitly say 'paid' or 'not paid', this is a little bit a gray area.
     # There are several approaches to determine if a payment is paid, some slow and safe, other quick and unreliable.

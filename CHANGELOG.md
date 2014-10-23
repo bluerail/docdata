@@ -1,3 +1,7 @@
+## v0.1.8
+* You can now make refunds. See documentation.
+* Updated README
+
 ## v0.1.7
 * Bug fixed where the gem didn't handle docdata XML response with multiple 'payment' nodes well. The gem assumed that the nodes where in chronological order, but they aren't.
 
