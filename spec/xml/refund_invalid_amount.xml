@@ -1,0 +1,9 @@
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+   <S:Body>
+      <refundResponse xmlns="http://www.docdatapayments.com/services/paymentservice/1_1/">
+         <refundError>
+            <error code="REQUEST_DATA_INCORRECT">Invalid amount.</error>
+         </refundError>
+      </refundResponse>
+   </S:Body>
+</S:Envelope>

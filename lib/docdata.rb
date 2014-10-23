@@ -16,6 +16,7 @@ require "docdata/engine" if defined?(Rails) && Rails::VERSION::MAJOR.to_i >= 3
 require "docdata/docdata_error"
 require "docdata/shopper"
 require "docdata/payment"
+require "docdata/refund"
 require "docdata/line_item"
 require "docdata/response"
 require "docdata/ideal"
