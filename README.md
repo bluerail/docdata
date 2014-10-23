@@ -249,7 +249,8 @@ To cancel an existing Payment, you can do one of the following:
 
 #### Make refunds
 You can make a refund for a payment. In fact: each payment can have multiple refunds. Each refund has an amount (`Integer` type - cents) and as long as the refund amount doesn't exceed the total Payment amount, you can make as many partial refunds as you whish. Keep in mind that Docdata will charge you for each refund.
-```
+
+```ruby
 payment = Docdata::Payment.find("KEY") # find the payment
 payment.refund(500) # => true or false
 ```
