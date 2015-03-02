@@ -1,3 +1,6 @@
+## v0.1.9
+* Bug fixed where 'paid?' returned false if respons status had both 'paid' and 'canceled' node in response XML.
+
 ## v0.1.8
 * You can now make refunds. See documentation.
 * Updated README
