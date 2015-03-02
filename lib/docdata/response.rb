@@ -149,12 +149,31 @@ module Docdata
     # a different 'paid'.
     # @note This method is never 100% reliable. If you need to finetune this, please implement your own method, using
     # the available data (total_captured, total_registered, etc.)
+    ## from the Docs:
+    ### Safe route: 
+    # The safest route to check whether all payments were made is for the merchants
+    # to refer to the “Total captured” amount to see whether this equals the “Total registered
+    # amount”. While this may be the safest indicator, the downside is that it can sometimes take a
+    # long time for acquirers or shoppers to actually have the money transferred and it can be
+    # captured.
+    ### Quick route: 
+    # Another option is to see whether the sum of “total shopper pending”, “total
+    # acquirer pending” and “total acquirer authorized” matches the “total registered sum”. This
+    # implies that everyone responsible has indicated that they are going to make the payment and
+    # that the merchant is trusting that everyone will indeed make this. While this route will be
+    # faster, it does also have the risk that some payments will actually not have been made.
+    ### Balanced route: 
+    # Depending on the merchant's situation, it can be a good option to only refer
+    # to certain totals. For instance, if the merchant only makes use of credit card payments it
+    # could be a good route to only look at “Total acquirer approved”, since this will be rather safe
+    # but quicker than looking at the captures.
     def is_paid?
+
       if payment_method
         case payment_method
         # ideal (dutch)
         when "IDEAL" 
-          (total_registered == total_captured) && (capture_status == "CAPTURED")
+          (total_registered == total_captured) ## && (capture_status == "CAPTURED")
         # creditcard
         when "MASTERCARD", "VISA", "AMEX"
           (total_registered == total_acquirer_approved)
@@ -222,6 +241,8 @@ module Docdata
 
     # Sometimes a single response has multiple payment nodes. When a payment fails first and 
     # succeeds later, for example. In that case, always use the newest (== highest id) node.
+    # UPDATE (2/3/2015) this is not always the case: a payment can receive a 'canceled' payment 
+    # later on with a higher ID, but the order is still paid.
     def self.payment_node(hash)
       if hash[:payment] && hash[:payment].is_a?(Hash)
         hash[:payment]
