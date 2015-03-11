@@ -1,3 +1,6 @@
+## v0.2.0
+* We now assume a payment to be paid when total_registered == total_acquirer_approved
+
 ## v0.1.9
 * Bug fixed where 'paid?' returned false if respons status had both 'paid' and 'canceled' node in response XML.
 

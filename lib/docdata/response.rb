@@ -183,7 +183,7 @@ module Docdata
         # fallback: if total_registered equals total_caputured,
         # we can assume that this order is paid. No 100% guarantee.
         else
-          total_registered == total_captured
+          total_registered == total_acquirer_approved
         end
       else
         false
