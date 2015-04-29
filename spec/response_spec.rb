@@ -79,6 +79,27 @@ describe Docdata::Response do
   end
 
 
+  describe "response with multiple payment nodes (partial payments)" do
+    before(:each) do
+      file = "#{File.dirname(__FILE__)}/xml/status-multiple-.xml"
+      @xml = open(file)
+      @response = Docdata::Response.parse(:status, @xml)
+    end    
+
+    it "returs a response object" do
+      expect(@response).to be_kind_of(Docdata::Response)
+    end
+
+    it "is paid" do
+      expect(@response.paid).to eq(true)
+    end
+
+    it "is for 300 cents" do
+      expect(@reponse.amount).to eq(300)
+    end
+  end
+
+
   describe "different payment methods" do
     context ":status, paid iDeal" do
       before(:each) do
