@@ -58,10 +58,25 @@ module Docdata
       end
     end
 
+
+    # [Integer] the amount to set, calculated from the multiple payment nodes
+    def amount_to_set
+      #  if (report && Response.payment_node(report) && Response.payment_node(report)[:authorization] && Response.payment_node(report)[:authorization][:amount].present?)
+      if (report && Response.payment_node(report) && Response.payment_node(report)[:authorization] && Response.payment_node(report)[:authorization][:amount].present?)
+        if canceled
+          return Response.payment_node(report)[:authorization][:amount].to_i
+        else
+          return total_acquirer_pending + total_acquirer_approved
+        end
+      else
+        return false
+      end
+    end
+
     # Set the attributes based on the API response
     def set_attributes
       self.paid     = is_paid?
-      self.amount   = Response.payment_node(report)[:authorization][:amount].to_i if (report && Response.payment_node(report) && Response.payment_node(report)[:authorization] && Response.payment_node(report)[:authorization][:amount].present?)
+      self.amount   = amount_to_set if amount_to_set
       self.status   = capture_status if capture_status
       self.currency = currency_to_set
     end
@@ -103,7 +118,7 @@ module Docdata
       return body, xml
     end
 
-    methods = [:total_registered, :total_shopper_pending, :total_acquier_pending, :total_acquirer_approved, :total_captured, :total_refunded, :total_chargedback]
+    methods = [:total_registered, :total_shopper_pending, :total_acquirer_pending, :total_acquirer_approved, :total_captured, :total_refunded, :total_chargedback]
     methods.each do |method|
       define_method method do
         report[:approximate_totals][method].to_i

@@ -1,3 +1,6 @@
+## v0.2.3
+* Fixed amount calculation in case of multiple payments in one transaction (giftcard+ideal for example)
+
 ## v0.2.2
 * Minor bugfixes (dependency issues)
 

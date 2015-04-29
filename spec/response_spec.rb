@@ -81,7 +81,7 @@ describe Docdata::Response do
 
   describe "response with multiple payment nodes (partial payments)" do
     before(:each) do
-      file = "#{File.dirname(__FILE__)}/xml/status-multiple-.xml"
+      file = "#{File.dirname(__FILE__)}/xml/status-multiple-paid.xml"
       @xml = open(file)
       @response = Docdata::Response.parse(:status, @xml)
     end    
@@ -95,7 +95,7 @@ describe Docdata::Response do
     end
 
     it "is for 300 cents" do
-      expect(@reponse.amount).to eq(300)
+      expect(@response.amount).to eq(300)
     end
   end
 

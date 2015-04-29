@@ -1,0 +1,46 @@
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+   <S:Body>
+      <statusResponse xmlns="http://www.docdatapayments.com/services/paymentservice/1_1/">
+         <statusSuccess>
+            <success code="SUCCESS">Operation successful.</success>
+            <report>
+               <approximateTotals exchangedTo="EUR" exchangeRateDate="2015-04-29 14:48:58">
+                  <totalRegistered>300</totalRegistered>
+                  <totalShopperPending>0</totalShopperPending>
+                  <totalAcquirerPending>216</totalAcquirerPending>
+                  <totalAcquirerApproved>84</totalAcquirerApproved>
+                  <totalCaptured>300</totalCaptured>
+                  <totalRefunded>0</totalRefunded>
+                  <totalChargedback>0</totalChargedback>
+               </approximateTotals>
+               <payment>
+                  <id>2570795670</id>
+                  <paymentMethod>IDEAL</paymentMethod>
+                  <authorization>
+                     <status>AUTHORIZED</status>
+                     <amount currency="EUR">84</amount>
+                     <confidenceLevel>ACQUIRER_APPROVED</confidenceLevel>
+                     <capture>
+                        <status>CAPTURED</status>
+                        <amount currency="EUR">84</amount>
+                     </capture>
+                  </authorization>
+               </payment>
+               <payment>
+                  <id>2570795160</id>
+                  <paymentMethod>PODIUM_GIFTCARD</paymentMethod>
+                  <authorization>
+                     <status>AUTHORIZED</status>
+                     <amount currency="EUR">216</amount>
+                     <confidenceLevel>ACQUIRER_PENDING</confidenceLevel>
+                     <capture>
+                        <status>CAPTURED</status>
+                        <amount currency="EUR">216</amount>
+                     </capture>
+                  </authorization>
+               </payment>
+            </report>
+         </statusSuccess>
+      </statusResponse>
+   </S:Body>
+</S:Envelope>
