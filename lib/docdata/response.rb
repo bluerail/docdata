@@ -180,6 +180,9 @@ module Docdata
         # sofort überweisung (german)
         when "SOFORT_UEBERWEISUNG"
           (total_registered == total_acquirer_approved)
+        # podium giftcard (dutch)
+        when "PODIUM_GIFTCARD"
+          (total_registered == total_captured)
         # fallback: if total_registered equals total_caputured,
         # we can assume that this order is paid. No 100% guarantee.
         else

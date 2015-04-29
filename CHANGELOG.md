@@ -1,3 +1,6 @@
+## v0.2.1
+* We now assume a podium giftcard payment to be paid when total_registered == total_captured
+
 ## v0.2.0
 * We now assume a payment to be paid when total_registered == total_acquirer_approved
 
