@@ -1,3 +1,6 @@
+## v0.2.2
+* Minor bugfixes (dependency issues)
+
 ## v0.2.1
 * We now assume a podium giftcard payment to be paid when total_registered == total_captured
 
