@@ -9,7 +9,7 @@ Docdata is a Ruby implementation for using Docdata Payments.
 
 Here you can find the [Documentation](http://rdoc.info/gems/docdata)
 
-This gem relies on the awesom [Savon](http://savonrb.com/) gem to communicate with Docdata Payments' SOAP API.
+This gem relies on the awesome [Savon](http://savonrb.com/) gem to communicate with Docdata Payments' SOAP API.
 
 ## Installation
 
