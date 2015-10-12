@@ -3,8 +3,8 @@
 	
 		$key = $_GET['key'];
 		
-		//$url = "https://secure.docdatapayments.com/ps/services/paymentservice/1_1?wsdl"; // live url 
-		$url = "https://test.docdatapayments.com/ps/services/paymentservice/1_1?wsdl";
+		//$url = "https://secure.docdatapayments.com/ps/services/paymentservice/1_2?wsdl"; // live url 
+		$url = "https://test.docdatapayments.com/ps/services/paymentservice/1_2?wsdl";
 		
 		$client = new SoapClient( $url );
 		
@@ -12,7 +12,7 @@
 			
 		$parameters = array();
 		
-		$parameters['version'] = "1.1";
+		$parameters['version'] = "1.2";
 		
 		//	merchant
 		//$parameters['merchant']['name'] = $_POST['merchantname'];

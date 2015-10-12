@@ -35,7 +35,7 @@ describe Docdata do
 
     it "should have the proper test URL" do
       expect(Docdata::Config.test_mode).to eq(true)
-      expect(Docdata.url).to eq("https://test.docdatapayments.com/ps/services/paymentservice/1_1?wsdl")
+      expect(Docdata.url).to eq("https://test.docdatapayments.com/ps/services/paymentservice/1_2?wsdl")
     end
 
     it "should return a response" do

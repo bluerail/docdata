@@ -4,13 +4,13 @@ require 'savon'
 
 # require 'rubyntlm'
 
-url = "https://test.docdatapayments.com/ps/services/paymentservice/1_1?wsdl"
+url = "https://test.docdatapayments.com/ps/services/paymentservice/1_2?wsdl"
 # client = Savon.client(wsdl: url, strip_namespaces: false)
-# client.namespaces = { "xmlns:_1" => "http://www.docdatapayments.com/services/paymentservice/1_1/" }
+# client.namespaces = { "xmlns:_1" => "http://www.docdatapayments.com/services/paymentservice/1_2/" }
 
 # client.call(:create)
 xml = File.read("#{File.dirname(__FILE__)}/create.xml")
-client = Savon.client(wsdl: url, namespace: "http://www.docdatapayments.com/services/paymentservice/1_1/")
+client = Savon.client(wsdl: url, namespace: "http://www.docdatapayments.com/services/paymentservice/1_2/")
 
 response = client.call(:create, xml: xml.to_s)
 

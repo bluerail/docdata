@@ -1,7 +1,7 @@
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:_1="http://www.docdatapayments.com/services/paymentservice/1_1/">
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:_1="http://www.docdatapayments.com/services/paymentservice/1_2/">
    <soapenv:Header/>
    <soapenv:Body>
-      <_1:startRequest version="1.1">
+      <_1:startRequest version="1.2">
          <_1:merchant name="<%= Docdata.username %>" password="<%= Docdata.password %>"/>
          <_1:paymentOrderKey>?</_1:paymentOrderKey>
          <!--You have a CHOICE of the next 2 items at this level-->

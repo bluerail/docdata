@@ -15,13 +15,12 @@ describe Docdata::Refund do
     end
   end
 
-  context "valid refund" do
+  context "valid refund", pending: "We cannot test these until we have orders in our account, so pending for now." do
     before(:each) do
       Docdata.set_credentials_from_environment
       Docdata::Config.test_mode = true
       VCR.use_cassette("find-payment-by-key") do
         @payment = Docdata::Payment.find("2BAFAEB26EF760458B9343DEA4950D91")
-        # puts @payment.inspect
       end
     end
 

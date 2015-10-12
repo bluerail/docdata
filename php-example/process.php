@@ -7,15 +7,15 @@
 	
 	print_r($_POST);
 
-	//$url = "https://secure.docdatapayments.com/ps/services/paymentservice/1_1?wsdl"; // live url 
-	$url 		= "https://test.docdatapayments.com/ps/services/paymentservice/1_1?wsdl";
+	//$url = "https://secure.docdatapayments.com/ps/services/paymentservice/1_2?wsdl"; // live url 
+	$url 		= "https://test.docdatapayments.com/ps/services/paymentservice/1_2?wsdl";
 	$base_url 	= 'http://localhost/docdatapayment/';								// only required for example
 	
 	$client = new SoapClient( $url );
 		
 	$parameters = array();
 	
-	$parameters['version'] = "1.1";
+	$parameters['version'] = "1.2";
 	
 	//	merchant information
 	$parameters['merchant']['name'] = $_POST['merchantname'];

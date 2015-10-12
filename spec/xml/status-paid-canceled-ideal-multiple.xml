@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 	<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
 		<S:Body>
-			<statusResponse xmlns="http://www.docdatapayments.com/services/paymentservice/1_1/"><statusSuccess>
+			<statusResponse xmlns="http://www.docdatapayments.com/services/paymentservice/1_2/"><statusSuccess>
 				<success code="SUCCESS">Operation successful.</success>
 				<report>
 					<approximateTotals exchangedTo="EUR" exchangeRateDate="2014-09-24 09:29:54">

@@ -59,11 +59,11 @@ module Docdata
 
   def self.url
     if Config.test_mode
-      "https://test.docdatapayments.com/ps/services/paymentservice/1_1?wsdl"
+      "https://test.docdatapayments.com/ps/services/paymentservice/1_2?wsdl"
     else
-      # "https://www.docdatapayments.com/ps/services/paymentservice/1_1?wsdl"
+      # "https://www.docdatapayments.com/ps/services/paymentservice/1_2?wsdl"
       # "https://secure.docdatapayments.com/ps/services/paymentservice/1_0?wsdl"
-      "https://secure.docdatapayments.com/ps/services/paymentservice/1_1?wsdl"
+      "https://secure.docdatapayments.com/ps/services/paymentservice/1_2?wsdl"
     end
   end
 
