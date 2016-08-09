@@ -50,7 +50,7 @@ module Docdata
   # returns the version number
   def self.version
     VERSION
-  end 
+  end
 
   # sets up configuration
   def self.setup

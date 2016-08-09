@@ -47,4 +47,19 @@ describe Docdata::Shopper do
     expect(@payment.shopper.first_name).to eq("John")
   end
 
+  context "xml entities" do
+    it "escapes invalid XML characters" do
+      shopper = Docdata::Shopper.new(first_name: "Foo<Bar&",
+                                     last_name: "Foo<Bar&",
+                                     street: "Foo<Bar&",
+                                     city: "Foo<Bar&")
+
+      expected = "Foo&lt;Bar&amp;"
+
+      expect(shopper.first_name).to eq expected
+      expect(shopper.last_name).to eq expected
+      expect(shopper.street).to eq expected
+      expect(shopper.city).to eq expected
+    end
+  end
 end

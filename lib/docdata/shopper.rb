@@ -42,19 +42,27 @@ module Docdata
     # @return [Array] Errors
     attr_accessor :errors
     attr_accessor :id
-    attr_accessor :first_name
-    attr_accessor :last_name
     attr_accessor :gender
-    attr_accessor :street
     attr_accessor :house_number
     attr_accessor :postal_code
-    attr_accessor :city
     attr_accessor :email
     attr_accessor :country_code
     attr_accessor :language_code
 
+    attr_writer :first_name
+    attr_writer :last_name
+    attr_writer :street
+    attr_writer :city
 
+    # The following need to have xml entities encoded.
+    %i(first_name last_name street city).each do |attr|
+      attr_writer attr
 
+      define_method attr do
+        instance_variable_get("@#{attr}")
+          .encode(xml: :text)
+      end
+    end
 
     #
     # Initializer to transform a +Hash+ into an Shopper object
