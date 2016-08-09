@@ -49,11 +49,6 @@ module Docdata
     attr_accessor :country_code
     attr_accessor :language_code
 
-    attr_writer :first_name
-    attr_writer :last_name
-    attr_writer :street
-    attr_writer :city
-
     # The following need to have xml entities encoded.
     %i(first_name last_name street city).each do |attr|
       attr_writer attr
