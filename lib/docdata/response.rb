@@ -187,7 +187,7 @@ module Docdata
       if payment_method
         case payment_method
         # ideal (dutch)
-        when "IDEAL" 
+        when "IDEAL", "BANK_TRANSFER"
           (total_registered == total_captured) ## && (capture_status == "CAPTURED")
         # creditcard
         when "MASTERCARD", "VISA", "AMEX"
@@ -198,7 +198,7 @@ module Docdata
         # podium giftcard (dutch)
         when "PODIUM_GIFTCARD"
           (total_registered == total_captured)
-        # fallback: if total_registered equals total_caputured,
+        # fallback: if total_registered equals total_captured,
         # we can assume that this order is paid. No 100% guarantee.
         else
           total_registered == total_acquirer_approved
